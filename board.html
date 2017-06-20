@@ -34,9 +34,8 @@
             #taskbar {
                 height:40px;
                 width: 100%;
-                background-color: black;
                 display: inline-block;
-                opacity: 0.3;
+                background: rgba(0,0,0, 0.3);
             }
             
             #taskbarlist {
@@ -49,9 +48,6 @@
                 margin: 5px;
                 display: inline-block;
                 color: pink;
-                background-color: rgb(0,0,255);
-                opacity: 1.0;
-                
             }
             
             #boards {
@@ -63,13 +59,21 @@
                 margin: 0;
             }
             
+            #card li{
+                height: 200px;
+                width:130px;
+                background-color: #FFFFFF;
+            }
+            
         </style>
     </head>
     <body>
         <div id="taskbar">
             
             <ul id="taskbarlist">
-                <li>Add</li>
+                <li>
+                    <button type="button">Add a Board</button>
+                </li>
                 <li>User</li>
             </ul>
             
@@ -79,7 +83,13 @@
             <p>Name of Board</p>
         
             <ul id="lol">
-                <li>a</li>
+                <li>
+                    <ul id="cards">
+                        <li>card 1</li>
+                        <li>card 2</li>
+                        <li>card 3</li>
+                    </ul>
+                </li>
                 <li>b</li>
                 <li>c</li>
                 <li>d</li>

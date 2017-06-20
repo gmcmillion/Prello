@@ -5,6 +5,7 @@
         <style type="text/css">
             
             h1 {
+                font-size: 36px;
                 color:#4D4D4D;
                 font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
             }
@@ -19,6 +20,57 @@
                 position: relative;
                 top: 15%;
                 left: 30%;
+            }
+            
+            label {
+                display: inline;
+                font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
+                color:#4D4D4D;
+            }
+            
+            input[type=text], input[type=email], input[type=password] {
+                height: 50px;
+                width: 400px;
+                padding: 10px;
+                background-color: #fafec5;
+                border-radius: 5px;
+                border: 1px solid #4D4D4D;
+                font-size: 20px;
+            }
+            
+            input[type=checkbox] {
+                display: inline;
+            }
+            
+            button {
+                margin: 10px 0;
+                width:100px;
+                height:50px;
+                background-color: 5cb75d;
+                color: white;
+                font-size:20px;
+                font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
+                border-radius: 5px;
+                border: 1px none #4D4D4D;
+                box-shadow: 0 3px #3e6e2f;
+                cursor: hand;
+            }
+            
+            button:hover {
+                background-color: #56a652;
+            }
+            
+            #createnew {
+                width: 200px;
+            }
+            
+            a {
+                color: blue;
+            }
+            
+            #forgotpass {
+                display: inline;
+                margin-left: 15px;
             }
             
         </style>
@@ -41,13 +93,13 @@
 
             <br /><br />
 
-            <button>Create New Account</button>
+            <button id="createnew">Create New Account</button>
         </div>
         
         <br />
         
         <div id="Login">
-            <h1>Login</h1>
+            <h1>Log in to Prello</h1>
             
             <forms>
             
@@ -57,11 +109,16 @@
                 <p>Password</p>
                 <input type="password" placeholder="e.g., *********">
                 
-                <p>Remember Me</p>
-                <input type="checkbox" >
-                
+                <br /><br />
+                <input type="checkbox" id="remem">
+                <label for="remem">Remember Me</label>
+                <br /><br />
             </forms>
-        
+            
+            <button>Log In</button><p id="forgotpass">Forgot your password? <a href="">Reset it.</a></p>
+            
+            
+            <br /><br /><br /><br /><br /><br /><br /><br />
         </div>
         
     </body>
