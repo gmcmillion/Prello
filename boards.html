@@ -22,40 +22,194 @@
             
             #mainbody {
                 height:500px;
-            }
-            
-            #mainbody p {
-                margin: 10px;
-            }
-            
-            #addbutton {
-                margin-top: 10px;
-                margin-right: 20px;
-                float:right;
+                margin:25px;
             }
             
             #logo {
                 padding: 0px;
-                float:left;
+                text-align: center;
+            }
+            
+            #leftTaskBarList {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+            
+            #leftTaskBarList li{
+                float: left;
+            }
+            
+            #rightTaskBarList {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
             }
         
+            #rightTaskBarList li {
+                float:right;
+            }
+            
+            li button {
+                display: inline;
+            }
+            
+            button {
+                height: 30px;
+                width: 30px;
+                margin: 4px;
+                padding: 1px;
+                background-color: #3a8db7;
+                color: #ffffff;
+                font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
+                font-size:14px;
+                font-weight: bold;
+                border: 1px none #3a8db7;
+                cursor: hand;
+                border-radius: 4px;                
+            }
+            
+            #firstButton {
+                background-color: #d6dadc;   
+                color: #4d4d4d;
+            }
+            
+            #boardTaskBar {
+                width: 85px;
+            }
+            
+            #boardTaskBar img{
+                float:left;
+                margin-left: 4px;
+            }
+            
+            #boardTaskBar p{
+                float: right;
+            }
+            
+            #searchTaskBar {
+                width: 180px;
+                background-color: #4c98be;
+            }
+            
+            #searchTaskBar img {
+                float: right;
+                margin-right: 5px;
+            }
+
+            button img{
+                height:20px;
+                width:20px;
+            }
+
+            p {
+                font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
+                font-size:14px;
+                font-weight: bold;
+                color: #4d4d4d;
+            }
+
+            #personalBoards {
+                width: 160px;
+            }
+            
+            #personalBoards p {
+                display:inline;
+                margin:0;
+                float:right;
+                font-size: 16px;
+            }
+            
+            #personalBoards img {
+                height:20px;
+                width:20px;
+                float:left;
+                margin-left: 5px;
+            }
+            
+            #boardsList {
+                clear:both;
+            }
+            
+            #boardsList ul {
+                padding-left: 0;
+            }
+            
+            #boardsList li {
+                list-style-type: none; 
+                display: inline;
+            }
+            
+            #boardsList button {
+                width:250px;
+                height:90px;
+                margin:10px 5px;
+            }
+            
+            #createNewTeam a{
+                color:#8c8c8c;
+                font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
+                font-size: 14px;
+            }
+            
+            #createNewTeam a:hover{
+                color:#4d4d4d;
+            }
+            
+            #firstBoard {
+                background-image: url(abstract-mosaic-background.png);
+                background-size:cover;
+            }
+            
+            #firstBoard:hover {
+                opacity: 0.7;
+            }
+            
+            #newBoard {
+                color: #8c8c8c;
+                background-color: #e2e4e6;
+            }
+            
+            #newBoard:hover {
+                color: #4d4d4d;
+                background-color: #d6dadc;
+            }
         </style>
         
     </head>
     <body>
         <div id="taskbar">
-            <div id="logo">
-                <p>Prello</p>
-            </div>
+            <ul id="leftTaskBarList">
+                <li><button type="button" id="boardTaskBar"><img src="images/boards.png">Boards</button></li>
+                <li><button type="button" id="searchTaskBar"><img src="images/magnifying-glass.png"></button></li>
+            </ul>
             
-            <div id="addbutton">
-                <button type="button">Add a Board</button>
-            </div>
+            <ul id="rightTaskBarList">
+                <li><button type="button" id="firstButton">GM</button></li>
+                <li><button type="button"><img src="images/bell.png"></button></li>
+                <li><button type="button"><img src="images/info.png"></button></li>
+                <li><button type="button"><img src="images/plus.png"></button></li>
+            </ul>
         </div>
         
         <div id="mainbody">
             <!-- List of boards -->
-            <p>List of Boards</p>
+            <div id="personalBoards">
+                <img src="images/personal.png">
+                <p>Personal Boards</p>
+            </div>
+            
+            <div id="boardsList">
+                <ul>
+                    <li><button type="button" id="firstBoard">Board 1</button></li>
+                    <li><button type="button" id="newBoard">Create new board...</button></li>
+                </ul>
+            </div>
+            
+            <div id="createNewTeam">
+                <a href="">Create a new team...</a>
+            </div>
+            
         </div>
     </body>
 </html>
