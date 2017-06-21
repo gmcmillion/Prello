@@ -11,52 +11,101 @@
                 white-space:nowrap;
                 background-image: url(abstract-mosaic-background.png);
                 background-repeat: no-repeat;
-                background-size: 100%;
-                
-            }
-            
-            #lol {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-            }
-            
-            #lol li {
-                height: 300px;
-                width:150px;
-                background-color: #E2E4E6;
-                padding: 10px;
-                margin: 10px 10px;
-                display: inline-block;
-                border-radius: 10px;
+                background-size: 100%; 
             }
             
             #taskbar {
                 height:40px;
                 width: 100%;
-                display: inline-block;
-                background: rgba(0,0,0, 0.3);
+                background-color: #026AA7;
             }
             
-            #taskbarlist {
-                margin: 6px;
+            #taskbar p {
+                margin: 10px;
+                float: center;
+            }
+            
+            #leftTaskBarList {
                 list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+            
+            #leftTaskBarList li{
+                float: left;
+            }
+            
+            #rightTaskBarList {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+        
+            #rightTaskBarList li {
+                float:right;
+            }
+            
+            li button {
+                display: inline;
+            }
+            
+            button {
+                height: 30px;
+                width: 30px;
+                margin: 4px;
+                padding: 1px;
+                background-color: #3a8db7;
+                color: #ffffff;
+                font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
+                font-size:14px;
+                font-weight: bold;
+                border: 1px none #3a8db7;
+                cursor: hand;
+                border-radius: 4px;                
+            }
+            
+            #firstButton {
+                background-color: #d6dadc;   
+                color: #4d4d4d;
+            }
+            
+            #boardTaskBar {
+                width: 85px;
+            }
+            
+            #boardTaskBar img{
+                float:left;
+                margin-left: 4px;
+            }
+            
+            #boardTaskBar p{
                 float: right;
             }
             
-            #taskbarlist li{
-                margin: 5px;
-                display: inline-block;
-                color: pink;
+            #searchTaskBar {
+                width: 180px;
+                background-color: #4c98be;
             }
             
+            #searchTaskBar img {
+                float: right;
+                margin-right: 5px;
+            }
+
+            button img{
+                height:20px;
+                width:20px;
+            }
+
             #boards {
-                padding: 10px;
+                margin: 25px;
             }
-            
-            #boards p {
-                color: #E2E4E6;
-                margin: 0;
+
+            #boardName p {
+                font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
+                font-size:18px;
+                font-weight: bold;
+                color: #ffffff;
             }
             
             #card li{
@@ -65,35 +114,207 @@
                 background-color: #FFFFFF;
             }
             
+            #firstList {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+            
+            #firstList ul {
+                padding: 0;
+            }
+            
+            #firstList li {
+                height: 500px;
+                width: 250px;
+                background-color: #E2E4E6;
+                padding-right: 10px;
+                margin-right: 10px;
+                display: inline-block;
+                border-radius: 4px;
+                float: left;
+            }
+            
+            .firstListHeader p {
+                margin: 7px 10px;
+                color: #4d4d4d;
+                font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
+                font-size:14px;
+                font-weight: bold;
+            }
+            
+            #firstList li li{
+                margin: 5px;
+                background-color: #ffffff;
+                height: 80px;
+                width: 240px;
+                font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
+                font-size:14px;
+                box-shadow: 0 1px #cccccc;
+                padding: 5px;
+            }
+            
+            #cards {
+                position:relative;
+                top:20px;
+                margin: 25px;
+                clear:both;
+            }
+            
+            #cardName p {
+                font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
+                font-size:18px;
+                font-weight: bold;
+                color: #ffffff;
+            }
+            
+            #cardDetails {
+                background-color: #edeff0;
+                height: 500px;
+                width: 500px;
+                border-radius: 4px;
+            }
+            
+            #cardDetails ul {
+                padding: 20px;
+            }
+            
+            #cardDetails li {
+                list-style-type: none;
+            }
+            
+            #cardDetails p {
+                font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
+                font-size:18px; 
+                font-weight: bold;
+                color: #4d4d4d;
+                margin:0;
+            }
+            
+            .details {
+                margin-bottom: 20px;
+            }
+            
+            .description {
+                margin-bottom: 20px;
+            }
+            
+            .description a {
+                font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
+                font-size:15px; 
+                color: #8c8c8c;
+                margin-left: 50px;
+            }
+            
+            .addComment {
+                margin-bottom: 20px;
+            }
+            
+            .addComment input {
+                margin-top: 5px;
+            }
+            
+            .addComment input[type=text] {
+                height: 50px;
+                width: 400px;
+                padding: 10px;
+                background-color: #ffffff;
+                border-radius: 5px;
+                border: none;
+                box-shadow: 0 1px #cccccc;
+                font-size: 15px;
+            }
+            
+            .addComment button {
+                display:block;
+                background-color: #e2e4e6;
+                width: 80px;
+                height: 40px;
+                margin: 10px 0;
+                color: #8c8c8c;
+            }
+            
+            .activity {
+                margin-bottom: 20px;
+            }
+            
+            .labels {
+                margin-bottom: 20px;
+            }
+            
+            .users {
+                margin-bottom: 20px;
+            }
+              
         </style>
     </head>
     <body>
         <div id="taskbar">
-            
-            <ul id="taskbarlist">
-                <li>
-                    <button type="button">Add a Board</button>
-                </li>
-                <li>User</li>
+            <ul id="leftTaskBarList">
+                <li><button type="button" id="boardTaskBar"><img src="images/boards.png">Boards</button></li>
+                <li><button type="button" id="searchTaskBar"><img src="images/magnifying-glass.png"></button></li>
             </ul>
             
+            <ul id="rightTaskBarList">
+                <li><button type="button" id="firstButton">GM</button></li>
+                <li><button type="button"><img src="images/bell.png"></button></li>
+                <li><button type="button"><img src="images/info.png"></button></li>
+                <li><button type="button"><img src="images/plus.png"></button></li>
+            </ul>
         </div>
         
         <div id="boards">
-            <p>Name of Board</p>
+            <div id="boardName">
+                <p>Board 1</p>
+            </div>
+            <div id="firstList">
+                <ul>
+                    <li>
+                        <div class="firstListHeader">
+                            <p>Stuff To Try (this is a list)</p>
+                        </div>
+                        <div class="firstListTask">
+                            <ul>
+                                <li>This is a card.</li>
+                                <li>This is another card.</li>
+                                <li>...another one!!</li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="firstListHeader">
+                            <p>Tried It (this is another list)</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>  
         
-            <ul id="lol">
-                <li>
-                    <ul id="cards">
-                        <li>card 1</li>
-                        <li>card 2</li>
-                        <li>card 3</li>
-                    </ul>
-                </li>
-                <li>b</li>
-                <li>c</li>
-                <li>d</li>
-            </ul>
-        </div>        
+        <div id="cards">
+            <div id="cardName">
+                <p>Card 1</p>
+            </div>
+            <div id="cardDetails">
+                <ul>
+                    <li class="details">
+                        <p>This is a card. It will be draggable soon enough</p>
+                    </li>
+                    <li class="description">
+                        <a href="">Edit the description...</a>
+                    </li>
+                    <li class="addComment">
+                        <p>Add Comment</p>
+                        <input type="text" placeholder="Write a comment...">
+                        <button>Send</button>
+                    </li>
+                    <li class="labels">
+                        <p>Labels</p>
+                    </li>
+                    <li class="users">
+                        <p>Users</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </body>
 </html>
