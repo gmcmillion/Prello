@@ -8,10 +8,10 @@
                 width: 100%;
                 height: 100%;
                 margin: 0;
-                white-space:nowrap;
                 background-image: url(abstract-mosaic-background.png);
                 background-repeat: no-repeat;
-                background-size: 100%; 
+                background-size: cover;
+                font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
             }
             
             #taskbar {
@@ -20,21 +20,12 @@
                 background-color: #026AA7;
             }
             
-            #taskbar p {
-                margin: 10px;
-                float: center;
-            }
-            
-            #leftTaskBarList {
-                list-style-type: none;
+            #leftTaskBar {
+                float: left;
                 margin: 0;
                 padding: 0;
             }
-            
-            #leftTaskBarList li{
-                float: left;
-            }
-            
+
             #rightTaskBarList {
                 list-style-type: none;
                 margin: 0;
@@ -49,14 +40,13 @@
                 display: inline;
             }
             
-            button {
+            #rightTaskBarList button { 
                 height: 30px;
                 width: 30px;
                 margin: 4px;
                 padding: 1px;
                 background-color: #3a8db7;
                 color: #ffffff;
-                font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
                 font-size:14px;
                 font-weight: bold;
                 border: 1px none #3a8db7;
@@ -65,8 +55,8 @@
             }
             
             #firstButton {
-                background-color: #d6dadc;   
-                color: #4d4d4d;
+                background-color: #d6dadc !important;   
+                color: #4d4d4d !important;
             }
             
             #boardTaskBar {
@@ -81,16 +71,6 @@
             #boardTaskBar p{
                 float: right;
             }
-            
-            #searchTaskBar {
-                width: 180px;
-                background-color: #4c98be;
-            }
-            
-            #searchTaskBar img {
-                float: right;
-                margin-right: 5px;
-            }
 
             button img{
                 height:20px;
@@ -102,10 +82,11 @@
             }
 
             #boardName p {
-                font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
                 font-size:18px;
                 font-weight: bold;
                 color: #ffffff;
+                float: left;
+                margin: 0;
             }
             
             #card li{
@@ -114,17 +95,21 @@
                 background-color: #FFFFFF;
             }
             
-            #firstList {
+            #List {
+                position: absolute;
+                top: 80px;
+                left: 25px;
                 list-style-type: none;
                 margin: 0;
                 padding: 0;
+                display: inline;
             }
             
-            #firstList ul {
+            #List ul {
                 padding: 0;
             }
             
-            #firstList li {
+            #List li {
                 height: 500px;
                 width: 250px;
                 background-color: #E2E4E6;
@@ -133,62 +118,24 @@
                 display: inline-block;
                 border-radius: 4px;
                 float: left;
+                color: #4d4d4d;
             }
             
-            .firstListHeader p {
+            .ListHeader p {
                 margin: 7px 10px;
                 color: #4d4d4d;
-                font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
                 font-size:14px;
                 font-weight: bold;
             }
             
-            #firstList li li{
+            #List li li{
                 margin: 5px;
                 background-color: #ffffff;
                 height: 80px;
                 width: 240px;
-                font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
                 font-size:14px;
                 box-shadow: 0 1px #cccccc;
                 padding: 5px;
-            }
-            
-            #cards {
-                position:relative;
-                top:20px;
-                margin: 25px;
-                clear:both;
-            }
-            
-            #cardName p {
-                font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
-                font-size:18px;
-                font-weight: bold;
-                color: #ffffff;
-            }
-            
-            #cardDetails {
-                background-color: #edeff0;
-                height: 500px;
-                width: 500px;
-                border-radius: 4px;
-            }
-            
-            #cardDetails ul {
-                padding: 20px;
-            }
-            
-            #cardDetails li {
-                list-style-type: none;
-            }
-            
-            #cardDetails p {
-                font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
-                font-size:18px; 
-                font-weight: bold;
-                color: #4d4d4d;
-                margin:0;
             }
             
             .details {
@@ -200,7 +147,6 @@
             }
             
             .description a {
-                font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
                 font-size:15px; 
                 color: #8c8c8c;
                 margin-left: 50px;
@@ -245,76 +191,273 @@
             .users {
                 margin-bottom: 20px;
             }
-              
+            
+            .dropbtn {
+                color: white;
+                padding: 16px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+            }
+
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f9f9f9;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+                font-size:18px;
+                color: #4d4d4d;
+            }
+
+            .dropdown-content a:hover {
+                background-color: #e2e4e6;
+            }
+
+            .dropdown button {
+                height: 30px;
+                width: 30px;
+                margin: 4px;
+                padding: 1px;
+                background-color: #3a8db7;
+                color: #ffffff;
+                font-size:14px;
+                font-weight: bold;
+                border: 1px none #3a8db7;
+                cursor: hand;
+                border-radius: 4px; 
+            }
+            
+            #send-button {
+                display:block;
+                background-color: #e2e4e6;
+                width: 80px;
+                height: 40px;
+                margin: 10px 0;
+                color: #8c8c8c;
+                font-size:14px;
+                border: 1px none #3a8db7;
+                cursor: hand;
+                border-radius: 4px; 
+            }
+            
+            .show {
+                display: block;
+            }
+            
+            .addNewCardbtn {
+                display:block;
+                background-color: #e2e4e6;
+                width: 100px;
+                height: 40px;
+                margin: 10px 6px;
+                color: #8c8c8c;
+                font-size:14px;
+                border: 1px none #3a8db7;
+                cursor: hand;
+                border-radius: 4px; 
+            }
+            
+            .addNewCardbtn:hover{
+                background-color: #cdd2d4;
+                text-decoration: underline;
+                color: #4d4d4d;
+            }
+                
+            .modal {
+                display: none; /*Hidden by default */
+                position: fixed; /* Stay in place */
+                z-index: 1; /* Sit on top */
+                padding-top: 100px; /* Location of the box */
+                left: 0;
+                top: 0;
+                width: 100%; /* Full width */
+                height: 100%; /* Full height */
+                overflow: auto; /* Enable scroll if needed */
+                background-color: rgb(0,0,0); /* Fallback color */
+                background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            }
+           
+            .modal-content {
+                background-color: #edeff0;
+                margin: auto;
+                padding: 15px;
+                border: 1px solid #888;
+                height: 500px;
+                width: 600px;
+                border-radius: 4px;
+            }
+            
+            .modal-content p {
+                font-size:18px; 
+                font-weight: bold;
+                color: #4d4d4d;
+                margin:0;
+                padding:0;
+            }
+
+            .close {
+                color: #aaaaaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            
+            #showMenu {
+                float:right;
+                display:inline;
+                background: transparent;
+                border: none !important;
+                cursor: hand;
+                font-size: 14px;
+                text-decoration: underline;
+                color: #4d4d4d;
+                box-shadow:none;
+            }
+            
+            #showMenu:hover {
+                box-shadow:inset 0 0 0 99999px rgba(255,255,255,0.2);
+                border-radius: 4px;
+            }
+            
+            .sidenav {
+                float:right;
+                height: 500px;
+                width: 0;
+                position:relative;
+                z-index: 1;
+                top: -25px;
+                left: 132px;
+                background-color: #edeff0;
+                overflow-x: hidden;
+                transition: 0.5s;
+            }
+
+            .sidenav a {
+                clear:both;
+                padding: 8px 8px 8px 32px;
+                text-decoration: none;
+                font-size: 25px;
+                color: #444444;
+                display: block;
+                transition: 0.3s;
+            }
+
+            .sidenav a:hover, .offcanvas a:focus{
+                color: #111111;
+                background-color: #d6dadc;
+            }
+
+            .closebtn {
+                padding:10px 15px !important;
+                float: right;
+            }
+            
         </style>
     </head>
     <body>
         <div id="taskbar">
-            <ul id="leftTaskBarList">
-                <li><button type="button" id="boardTaskBar"><img src="images/boards.png">Boards</button></li>
-                <li><button type="button" id="searchTaskBar"><img src="images/magnifying-glass.png"></button></li>
-            </ul>
-            
-            <ul id="rightTaskBarList">
-                <li><button type="button" id="firstButton">GM</button></li>
-                <li><button type="button"><img src="images/bell.png"></button></li>
-                <li><button type="button"><img src="images/info.png"></button></li>
-                <li><button type="button"><img src="images/plus.png"></button></li>
-            </ul>
-        </div>
-        
+            <div id="leftTaskBar">
+                <div class="dropdown">
+                    <button onclick="dropDownFunction()" class="dropbtn" type="button" id="boardTaskBar"><img src="images/boards.png">Boards</button>
+                    <div id="myDropdown" class="dropdown-content">
+                        <a href="#">Board 1</a>
+                        <a href="#">Board 2</a>
+                        <a href="#">Board 3</a>
+                    </div>
+                </div>
+            </div>
+            <div id="rightTaskBarList">
+                <ul>
+                    <li><button type="button" id="firstButton">GM</button></li>
+                    <li><button type="button"><img src="images/bell.png"></button></li>
+                    <li><button type="button"><img src="images/info.png"></button></li>
+                    <li><button type="button"><img src="images/plus.png"></button></li>
+                </ul>            
+            </div>
+        </div>     
         <div id="boards">
             <div id="boardName">
                 <p>Board 1</p>
             </div>
-            <div id="firstList">
-                <ul>
-                    <li>
-                        <div class="firstListHeader">
-                            <p>Stuff To Try (this is a list)</p>
-                        </div>
-                        <div class="firstListTask">
-                            <ul>
-                                <li>This is a card.</li>
-                                <li>This is another card.</li>
-                                <li>...another one!!</li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="firstListHeader">
-                            <p>Tried It (this is another list)</p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>  
-        
-        <div id="cards">
-            <div id="cardName">
-                <p>Card 1</p>
-            </div>
-            <div id="cardDetails">
-                <ul>
-                    <li class="details">
-                        <p>This is a card. It will be draggable soon enough</p>
-                    </li>
-                    <li class="description">
-                        <a href="">Edit the description...</a>
-                    </li>
-                    <li class="addComment">
-                        <p>Add Comment</p>
-                        <input type="text" placeholder="Write a comment...">
-                        <button>Send</button>
-                    </li>
-                    <li class="labels">
-                        <p>Labels</p>
-                    </li>
-                    <li class="users">
-                        <p>Users</p>
-                    </li>
-                </ul>
-            </div>
+            <button id="showMenu" type="button" onclick="openNav()">... Show Menu</button>
+            <div id="mySidenav" class="sidenav">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                <a href="">About</a>
+                <a href="">Services</a>
+                <a href="">Clients</a>
+                <a href="">Contact</a>
+            </div> 
         </div>
+        <div id="List">
+            <ul>
+                <li>
+                    <div class="ListHeader">
+                        <p>Stuff To Try (this is a list)</p>
+                    </div>
+                    <div class="ListTask">
+                        <ul>
+                            <li>This is a card.</li>
+                            <li>This is another card.</li>
+                            <li>...another one!!</li>
+                            <button class="addNewCardbtn" id="myBtn">Add a card...</button>
+
+                            <div id="myModal" class="modal">
+
+                                <div class="modal-content">
+                                    <span class="close">&times;</span>
+
+                                    <div class="details">
+                                        <p>This is a card. It will be draggable soon enough</p>
+                                    </div>
+                                    <div class="description">
+                                        <a href="">Edit the description...</a>
+                                    </div>
+                                    <div class="addComment">
+                                        <p>Add Comment</p>
+                                        <input type="text" placeholder="Write a comment...">
+                                        <button id="send-button">Send</button>
+                                    </div>
+                                    <div class="labels">
+                                        <p>Labels</p>
+                                    </div>
+                                    <div class="users">
+                                        <p>Users</p>
+                                    </div> 
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div class="ListHeader">
+                        <p>Tried It (this is another list)</p>
+                        <button class="addNewCardbtn" id="myBtn">Add a card...</button>
+                        
+                    </div>
+                </li>
+            </ul>
+        </div> 
+        <script src="board.js"></script>
     </body>
 </html>

@@ -43,7 +43,8 @@
             }
             
             button {
-                margin: 10px 0;
+                display: block;
+                margin: 15px 0;
                 width:100px;
                 height:50px;
                 background-color: 5cb75d;
@@ -60,7 +61,7 @@
                 background-color: #56a652;
             }
             
-            #createnew {
+            #register-btn {
                 width: 200px;
             }
             
@@ -68,7 +69,7 @@
                 color: blue;
             }
             
-            #forgotpass {
+            #forgotpass p{
                 display: inline;
                 margin-left: 15px;
             }
@@ -80,20 +81,22 @@
         <div id="createAccount">
             <h1>Create a Prello Account</h1>
 
-            <forms>
-                <p>Name </p>
-                <input type="text" placeholder="e.g., Peter Anteater">
+            <form id="register-form">
+                <p>Username </p>
+                <input type="text" id="username" name="username" placeholder="e.g., Peter Anteater" required>
 
                 <p>Email </p>
-                <input type="email" placeholder="e.g., anteater@uci.edu">
+                <input type="email" id="email" name="email" placeholder="e.g., anteater@uci.edu" required>
 
                 <p>Password </p>
-                <input type="password" placeholder="e.g., *********">
-            </forms>
+                <input type="password" id="password" name="password" placeholder="e.g., *********" required>
+            
+                <p>Confirm Password </p>
+                <input type="password" id="password-confirm" name="confirm password" placeholder="e.g., *********" required>
+            
+                <button id="register-btn" type="submit" value="Register">Create New Account</button>
+            </form>
 
-            <br /><br />
-
-            <button id="createnew">Create New Account</button>
         </div>
         
         <br />
@@ -101,19 +104,17 @@
         <div id="Login">
             <h1>Log in to Prello</h1>
             
-            <forms>
-            
+            <form>
                 <p>Username</p>
-                <input type="text" placeholder="e.g., Peter Anteater">
+                <input type="text" placeholder="e.g., Peter Anteater" name="username" required>
                 
                 <p>Password</p>
-                <input type="password" placeholder="e.g., *********">
+                <input type="password" placeholder="e.g., *********" name="password" required>
                 
                 <br /><br />
-                <input type="checkbox" id="remem">
+                <input type="checkbox" id="remem" name="checkbox">
                 <label for="remem">Remember Me</label>
-                <br /><br />
-            </forms>
+            </form>
             
             <button>Log In</button><p id="forgotpass">Forgot your password? <a href="">Reset it.</a></p>
             
@@ -121,5 +122,6 @@
             <br /><br /><br /><br /><br /><br /><br /><br />
         </div>
         
+        <script src="login.js"></script>
     </body>
 </html>
