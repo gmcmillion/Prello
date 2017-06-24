@@ -273,37 +273,68 @@
                 text-decoration: underline;
                 color: #4d4d4d;
             }
+            
+            .carddropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f9f9f9;
+                width: 260px;
+                overflow: auto;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+                border-radius: 4px;
+            }
 
-            
-            
-            
-            
-            
-            #card li{
-                height: 200px;
-                width:130px;
-                background-color: #FFFFFF;
+            .carddropdown-content input[type=text] {
+                height: 40px;
+                width: 250px;
+                padding: 5px;
+                margin:5px;
+                background-color: #fafec5;
+                border-radius: 4px;
+                border: 1px solid #4D4D4D;
+                font-size: 15px;
+            }
+
+            #submit-btn {
+                height: 35px;
+                width: 120px;
+                margin:5px;
+                background-color: #ffffff;
+                color: #4d4d4d;
+                font-size: 14px;
+                font-weight: bold;
+                float:right;
+                display:inline;
+                border: 1px none #8c8c8c;
+                border-radius: 4px;
+                box-shadow: 0 1px #cccccc;
+                cursor: hand;               
             }
             
-            .card-name {
-                margin-bottom: 20px;
+            #submit-btn:hover {
+                border-radius: 4px;                
+                color: #ffffff;
+                background-color: #2591c5;
+                box-shadow: 0 1px #006ca2;
             }
+            
+            
+            
+            
+    
             
             #description {
-                
                 font-size:15px; 
                 color: #8c8c8c;
                 margin: 20px;
             }
-
             .addComment {
                 margin-bottom: 20px;
             }
-            
             .addComment input {
                 margin-top: 5px;
             }
-            
             .addComment input[type=text] {
                 height: 50px;
                 width: 400px;
@@ -314,7 +345,6 @@
                 box-shadow: 0 1px #cccccc;
                 font-size: 15px;
             }
-            
             .addComment button {
                 display:block;
                 background-color: #e2e4e6;
@@ -323,19 +353,15 @@
                 margin: 10px 0;
                 color: #8c8c8c;
             }
-            
             .activity {
                 margin-bottom: 20px;
             }
- 
-            .labels {
+            #labels {
                 margin-bottom: 20px;
             }
-            
             .users {
                 margin-bottom: 20px;
             }
-            
             #send-button {
                 display:block;
                 background-color: #e2e4e6;
@@ -348,8 +374,7 @@
                 cursor: hand;
                 border-radius: 4px;
                 box-shadow: 0 1px #cccccc;
-            }
-                
+            }    
             .modal {
                 display: none; /*Hidden by default */
                 position: fixed; /* Stay in place */
@@ -363,7 +388,6 @@
                 background-color: rgb(0,0,0); /* Fallback color */
                 background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
             }
-           
             .modal-content {
                 background-color: #edeff0;
                 margin: auto;
@@ -373,7 +397,6 @@
                 width: 600px;
                 border-radius: 4px;
             }
-            
             .modal-content p {
                 font-size:18px; 
                 font-weight: bold;
@@ -381,21 +404,18 @@
                 margin:0;
                 padding:0;
             }
-
             .close {
                 color: #aaaaaa;
                 float: right;
                 font-size: 28px;
                 font-weight: bold;
             }
-
             .close:hover,
             .close:focus {
                 color: #000;
                 text-decoration: none;
                 cursor: pointer;
             }
-            
             #addNewListBtn {
                 height: 35px;
                 width: 120px;
@@ -410,23 +430,19 @@
                 box-shadow: 0 1px #cccccc;
                 cursor: hand;    
             }
-            
             #addNewListBtn:hover {
                 border-radius: 4px;                
                 color: #ffffff;
                 background-color: #2591c5;
                 box-shadow: 0 1px #006ca2;              
             }
-            
             .card-left-side {
                 float: left;
             }
-            
             .card-right-side {
                 float: right;
             }
-            
-            .crud-btns button {
+            #delete-card-btn {
                 display: block;
                 position: relative;
                 top: 40px;
@@ -443,89 +459,69 @@
                 box-shadow: 0 1px #cccccc;
             }
             
-            .crud-btns button:hover {
+            #delete-card-btn:hover {
                 color: #ffffff;
                 background-color: #2591c5;
                 box-shadow: 0 1px #006ca2;
             }
-
-            .carddropdown-content {
-                display: none;
-                position: absolute;
+            
+            #label-btn {
+                display: block;
+                position: relative;
+                top: 40px;
+                background-color: #ffffff;
+                width: 100px;
+                height: 35px;
+                margin: 10px 0;
+                color: #4d4d4d;
+                font-size:14px;
+                font-weight: bold;
+                border: 1px none #8c8c8c;
+                cursor: hand;
+                border-radius: 4px;
+                box-shadow: 0 1px #cccccc;
+            }
+            #label-btn:hover {
+                color: #ffffff;
+                background-color: #2591c5;
+                box-shadow: 0 1px #006ca2;
+            }
+            .label-dropdown-content {
+                position: relative;
+                top:30px;
+                width: 100px;  
+                height: 205px;
                 background-color: #f9f9f9;
-                width: 260px;
-                overflow: auto;
                 box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
                 z-index: 1;
                 border-radius: 4px;
             }
-
-            .carddropdown-content input[type=text] {
-                height: 50px;
-                width: 250px;
-                padding: 5px;
-                margin:5px;
-                background-color: #fafec5;
-                border-radius: 5px;
-                border: 1px solid #4D4D4D;
-                font-size: 15px;
-            }
-
-            .carddropdown-content button {
-                margin:5px;
-            }
-            
-            .add-card-show {
-                display:block;
-            }
-
-            .labeldropdown {
-                float: right;
-                position: relative;
-                display: inline-block;
-            }
-
-            .label-dropdown-content {
-                margin:0 !important;
-                display: none;
-                position: absolute;
-                background-color: #f9f9f9;
-                min-width: 160px;
-                overflow: auto;
-                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-                right: 0;
-                z-index: 1;
-            }
-
             .label-dropdown-content button {
-                color: black;
-                padding: 12px 16px;
-                text-decoration: none;
-                display: block;
+                width: 90px;
+                height: 30px;
+                margin:2px 5px;
+                display: inline-block;
+                border: 1px none #8c8c8c;
+                cursor: hand;
+                border-radius: 4px;
             }
-
-            .labeldropdown a:hover {
-                background-color: #f1f1f1
-            }
-
-            .labelshow {
-                display:block;
-            }
-            
-            #red {
-                background-color:red;
-            }
-            
-            #blue {
-                background-color:blue;
-            }
-            
-            #yellow {
-                background-color:yellow;
-            }
-            
             #green {
-                background-color:green;
+                background-color:#5ebc60;
+            }
+            #yellow {
+                background-color:#f2d44b;
+            }
+            #orange {
+                background-color:#ffa95d;
+            }
+            #red {
+                background-color:#ec594d;
+            }
+            #purple {
+                background-color:#c47ad9;
+            }
+            #blue {
+                background-color:#007bb9;
             }
             
         </style>
@@ -560,11 +556,6 @@
                 <a href="">Activity</a>
             </div> 
         </div>
-        
-        
-        
-        
-    
         <div id="Listdiv">
             <ul id="list">
                 <li>
@@ -582,9 +573,9 @@
                         <div class="carddropdown">
                         <button type="button" class="addNewCardbtn">Add a card...</button>     
                             <div id="addCardDropdown" class="carddropdown-content">
-                                <form id="submit-button-form">
+                                <form id="submit-btn-form">
                                     <input type="text" id="newCardInput" placeholder="Enter Description...">
-                                    <button type="submit" id="submitButton">Submit</button>
+                                    <button type="submit" id="submit-btn">Submit</button>
                                 </form>
                             </div>
                         </div>
@@ -593,10 +584,6 @@
                 <button id="addNewListBtn" type="button" onClick="addAnother()">Add New List</button>
             </ul>
         </div> 
-        
-        
-        
-        
         
         
         <!-- My Modal -->
@@ -615,7 +602,7 @@
                         <input type="text" placeholder="Write a comment...">
                         <button id="send-button">Send</button>
                     </div>
-                    <div class="labels">
+                    <div id="labels">
                         <p>Labels</p>
                     </div>
                     <div class="users">
@@ -625,19 +612,19 @@
                 <div class="card-right-side">
                     <span class="close">&times;</span>
 
-                    <div class="crud-btns">
-                        <button type="button" onclick="deleteCard()">Delete Card</button>
-                        
-                        
-                        <div class="labeldropdown">
-                            <button type="button" onclick="addLabel()">Labels</button>
-                            <div id="labelDropdown" class="label-dropdown-content">
-                                <button id="red">Red</button>
-                                <button id="blue">Blue</button>
-                                <button id="yellow">Yellow</button>
-                                <button id="green">Green</button>
-                            </div>
-                        </div>              
+                    <div>
+                        <button type="button" id="delete-card-btn">Delete Card</button>
+                        <button type="button" id="label-btn">Labels</button>
+
+                        <div id="labeldropdown" class="label-dropdown-content">
+                            <button id="green"></button>
+                            <button id="yellow"></button>
+                            <button id="orange"></button>
+                            <button id="red"></button>
+                            <button id="purple"></button>
+                            <button id="blue"></button>
+                        </div>
+             
                     </div>
                 </div>
             </div>
