@@ -1,7 +1,6 @@
 <html>
     <head>
-        <title>Board</title>
-        
+        <title>Board</title>        
         <style type="text/css">
             
             body {
@@ -21,23 +20,64 @@
             }
             
             #leftTaskBar {
+                position: relative;
+                display: inline-block;
                 float: left;
                 margin: 0;
                 padding: 0;
+
+            }
+            
+            #board-btn {
+                height: 30px;
+                width: 90px;
+                margin: 4px;
+                padding: 1px;
+                background-color: #3a8db7;
+                color: #ffffff;
+                font-size:14px;
+                font-weight: bold;
+                border: 1px none #3a8db7;
+                cursor: hand;
+                border-radius: 4px; 
+            }
+            
+            #board-btn img{
+                float:left;
+                margin-left: 4px;
+            }
+            
+            #board-btn-content {
+                display: none;
+                position: absolute;
+                top:40px;
+                background-color: #f9f9f9;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
             }
 
+            #board-btn-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+                font-size:18px;
+                color: #4d4d4d;
+            }
+
+            #board-btn-content a:hover {
+                background-color: #e2e4e6;
+            }
+        
             #rightTaskBarList {
                 list-style-type: none;
                 margin: 0;
                 padding: 0;
             }
-        
+            
             #rightTaskBarList li {
                 float:right;
-            }
-            
-            li button {
-                display: inline;
             }
             
             #rightTaskBarList button { 
@@ -59,25 +99,12 @@
                 color: #4d4d4d !important;
             }
             
-            #boardTaskBar {
-                width: 85px;
-            }
-            
-            #boardTaskBar img{
-                float:left;
-                margin-left: 4px;
-            }
-            
-            #boardTaskBar p{
-                float: right;
-            }
-
             button img{
                 height:20px;
                 width:20px;
             }
-
-            #boards {
+            
+            #board-header {
                 margin: 25px;
             }
 
@@ -89,10 +116,59 @@
                 margin: 0;
             }
             
-            #card li{
-                height: 200px;
-                width:130px;
-                background-color: #FFFFFF;
+            #show-menu-btn {
+                height: 35px;
+                width: 120px;
+                background-color: #ffffff;
+                color: #4d4d4d;
+                font-size: 14px;
+                font-weight: bold;
+                float:right;
+                display:inline;
+                border: 1px none #8c8c8c;
+                border-radius: 4px;
+                box-shadow: 0 1px #cccccc;
+                cursor: hand;
+            }
+            
+            #show-menu-btn:hover {
+                border-radius: 4px;                
+                color: #ffffff;
+                background-color: #2591c5;
+                box-shadow: 0 1px #006ca2;
+            }
+            
+            .sidenav {
+                float:right;
+                height: 500px;
+                width: 0;
+                position:relative;
+                z-index: 1;
+                top: -25px;
+                left: 145px;
+                background-color: #edeff0;
+                overflow-x: hidden;
+                transition: 0.5s;
+            }
+
+            .sidenav a {
+                clear:both;
+                padding: 8px 8px 8px 32px;
+                text-decoration: none;
+                font-size: 25px;
+                color: #444444;
+                display: block;
+                transition: 0.3s;
+            }
+
+            .sidenav a:hover, .offcanvas a:focus{
+                color: #111111;
+                background-color: #d6dadc;
+            }
+            
+            .close-btn {
+                padding:10px 15px !important;
+                float: right;
             }
             
             #Listdiv {
@@ -121,14 +197,6 @@
                 color: #4d4d4d;
             }
             
-            .ListHeader p {
-                float:left;
-                margin: 7px 10px;
-                color: #4d4d4d;
-                font-size:14px;
-                font-weight: bold;
-            }
-            
             #Listdiv li li{
                 margin: 5px;
                 background-color: #ffffff;
@@ -139,20 +207,95 @@
                 padding: 5px;
             }
             
-            .details {
+            .ListHeader p {
+                float:left;
+                margin: 7px 10px;
+                color: #4d4d4d;
+                font-size:14px;
+                font-weight: bold;
+            }
+            
+            .ListHeader-btn {
+                position: relative;
+                left:5px;
+                top: 2px;
+                float: right;
+                height: 30px;
+                width: 30px;
+                border-radius: 4px;
+                border-style: none;
+                font-size:20px;
+                color: #4d4d4d;
+                background-color: #ffffff;
+            }
+            
+            .ListHeader-btn:hover {
+                color: #ffffff;
+                background-color: #2591c5;
+                box-shadow: 0 1px #006ca2;           
+            }
+            
+            .cardBtn {
+                border: none;
+                height: 80px;
+                width: 240px;
+                background-color: #ffffff;
+                font-size:14px;
+                cursor: hand;
+            }
+            
+            .cardBtn p {
+                color: #4d4d4d;
+                overflow: scroll;
+                word-wrap: break-word;
+            }
+            
+            .carddropdown {
+                position: relative;
+                display: inline-block;
+            }
+            
+            .addNewCardbtn {
+                display:block;
+                background-color: #e2e4e6;
+                width: 100px;
+                height: 40px;
+                margin: 10px 6px;
+                color: #8c8c8c;
+                font-size:14px;
+                border: 1px none #3a8db7;
+                cursor: hand;
+                border-radius: 4px; 
+            }
+            
+            .addNewCardbtn:hover{
+                background-color: #cdd2d4;
+                text-decoration: underline;
+                color: #4d4d4d;
+            }
+
+            
+            
+            
+            
+            
+            #card li{
+                height: 200px;
+                width:130px;
+                background-color: #FFFFFF;
+            }
+            
+            .card-name {
                 margin-bottom: 20px;
             }
             
-            .description {
-                margin-bottom: 20px;
-            }
-            
-            .description a {
+            #description {
+                
                 font-size:15px; 
                 color: #8c8c8c;
-                margin-left: 50px;
+                margin: 20px;
             }
-            
+
             .addComment {
                 margin-bottom: 20px;
             }
@@ -192,55 +335,6 @@
             .users {
                 margin-bottom: 20px;
             }
-            /*
-            .dropbtn {
-                color: white;
-                padding: 16px;
-                font-size: 16px;
-                border: none;
-                cursor: pointer;
-            }
-            */
-            .dropdown {
-                position: relative;
-                display: inline-block;
-            }
-
-            .dropdown-content {
-                display: none;
-                position: absolute;
-                background-color: #f9f9f9;
-                min-width: 160px;
-                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-                z-index: 1;
-            }
-
-            .dropdown-content a {
-                color: black;
-                padding: 12px 16px;
-                text-decoration: none;
-                display: block;
-                font-size:18px;
-                color: #4d4d4d;
-            }
-
-            .dropdown-content a:hover {
-                background-color: #e2e4e6;
-            }
-
-            .dropdown button {
-                height: 30px;
-                width: 30px;
-                margin: 4px;
-                padding: 1px;
-                background-color: #3a8db7;
-                color: #ffffff;
-                font-size:14px;
-                font-weight: bold;
-                border: 1px none #3a8db7;
-                cursor: hand;
-                border-radius: 4px; 
-            }
             
             #send-button {
                 display:block;
@@ -254,29 +348,6 @@
                 cursor: hand;
                 border-radius: 4px;
                 box-shadow: 0 1px #cccccc;
-            }
-            
-            .show {
-                display: block;
-            }
-            
-            .addNewCardbtn {
-                display:block;
-                background-color: #e2e4e6;
-                width: 100px;
-                height: 40px;
-                margin: 10px 6px;
-                color: #8c8c8c;
-                font-size:14px;
-                border: 1px none #3a8db7;
-                cursor: hand;
-                border-radius: 4px; 
-            }
-            
-            .addNewCardbtn:hover{
-                background-color: #cdd2d4;
-                text-decoration: underline;
-                color: #4d4d4d;
             }
                 
             .modal {
@@ -325,28 +396,6 @@
                 cursor: pointer;
             }
             
-            #showMenu {
-                height: 35px;
-                width: 120px;
-                background-color: #ffffff;
-                color: #4d4d4d;
-                font-size: 14px;
-                font-weight: bold;
-                float:right;
-                display:inline;
-                border: 1px none #8c8c8c;
-                border-radius: 4px;
-                box-shadow: 0 1px #cccccc;
-                cursor: hand;
-            }
-            
-            #showMenu:hover {
-                border-radius: 4px;                
-                color: #ffffff;
-                background-color: #2591c5;
-                box-shadow: 0 1px #006ca2;
-            }
-            
             #addNewListBtn {
                 height: 35px;
                 width: 120px;
@@ -367,39 +416,6 @@
                 color: #ffffff;
                 background-color: #2591c5;
                 box-shadow: 0 1px #006ca2;              
-            }
-            
-            .sidenav {
-                float:right;
-                height: 500px;
-                width: 0;
-                position:relative;
-                z-index: 1;
-                top: -25px;
-                left: 145px;
-                background-color: #edeff0;
-                overflow-x: hidden;
-                transition: 0.5s;
-            }
-
-            .sidenav a {
-                clear:both;
-                padding: 8px 8px 8px 32px;
-                text-decoration: none;
-                font-size: 25px;
-                color: #444444;
-                display: block;
-                transition: 0.3s;
-            }
-
-            .sidenav a:hover, .offcanvas a:focus{
-                color: #111111;
-                background-color: #d6dadc;
-            }
-
-            .closebtn {
-                padding:10px 15px !important;
-                float: right;
             }
             
             .card-left-side {
@@ -433,58 +449,6 @@
                 box-shadow: 0 1px #006ca2;
             }
 
-            .cardBtn {
-                border: none;
-                height: 80px;
-                width: 240px;
-                background-color: #ffffff;
-                font-size:14px;
-                cursor: hand;
-            }
-            
-            .cardBtn p {
-                color: #4d4d4d;
-                overflow: scroll;
-                word-wrap: break-word;
-            }
-            
-            .ListHeader-btn {
-                position: relative;
-                left:5px;
-                top: 2px;
-                float: right;
-                height: 30px;
-                width: 30px;
-                border-radius: 4px;
-                border-style: none;
-                font-size:20px;
-                color: #4d4d4d;
-                background-color: #ffffff;
-            }
-            
-            .ListHeader-btn:hover {
-                color: #ffffff;
-                background-color: #2591c5;
-                box-shadow: 0 1px #006ca2;           
-            }
-            
-            .carddropbtn {
-                background-color: #4CAF50;
-                color: white;
-                padding: 16px;
-                font-size: 16px;
-                border: none;
-                cursor: pointer;
-            }
-
-            .carddropbtn:hover, .dropbtn:focus {
-                background-color: #3e8e41;
-            }
-
-            .carddropdown {
-                position: relative;
-                display: inline-block;
-            }
             .carddropdown-content {
                 display: none;
                 position: absolute;
@@ -514,19 +478,66 @@
             .add-card-show {
                 display:block;
             }
+
+            .labeldropdown {
+                float: right;
+                position: relative;
+                display: inline-block;
+            }
+
+            .label-dropdown-content {
+                margin:0 !important;
+                display: none;
+                position: absolute;
+                background-color: #f9f9f9;
+                min-width: 160px;
+                overflow: auto;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                right: 0;
+                z-index: 1;
+            }
+
+            .label-dropdown-content button {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            .labeldropdown a:hover {
+                background-color: #f1f1f1
+            }
+
+            .labelshow {
+                display:block;
+            }
+            
+            #red {
+                background-color:red;
+            }
+            
+            #blue {
+                background-color:blue;
+            }
+            
+            #yellow {
+                background-color:yellow;
+            }
+            
+            #green {
+                background-color:green;
+            }
             
         </style>
     </head>
     <body>
         <div id="taskbar">
             <div id="leftTaskBar">
-                <div class="dropdown">
-                    <button onclick="dropDownFunction()" type="button" id="boardTaskBar"><img src="images/boards.png">Boards</button>
-                    <div id="myDropdown" class="dropdown-content">
-                        <a href="#">Board 1</a>
-                        <a href="#">Board 2</a>
-                        <a href="#">Board 3</a>
-                    </div>
+                <button type="button" id="board-btn"><img src="images/boards.png">Boards</button>
+                <div id="board-btn-content">
+                    <a href="#">Board 1</a>
+                    <a href="#">Board 2</a>
+                    <a href="#">Board 3</a>
                 </div>
             </div>
             <div id="rightTaskBarList">
@@ -537,44 +548,45 @@
                     <li><button type="button"><img src="images/plus.png"></button></li>
                 </ul>            
             </div>
-        </div>     
-        <div id="boards">
+        </div>  
+        <div id="board-header">
             <div id="boardName">
                 <p>Board 1</p>
             </div>
-            <button id="showMenu" type="button" onclick="openNav()">Show Menu</button>
+            <button type="button" id="show-menu-btn">Show Menu</button>
             <div id="mySidenav" class="sidenav">
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">&times;</a>
                 <a href="">Members</a>
                 <a href="">Activity</a>
             </div> 
         </div>
+        
+        
+        
+        
+    
         <div id="Listdiv">
             <ul id="list">
-                <li id="element1">
+                <li>
                     <div class="ListHeader">
                         <p>This is a list w/ Dummy Data</p>
-                        
                         <button onclick="deleteList(item0)" type="button" class="ListHeader-btn">&times;</button>                             
                     </div>
-                    <div class="ListTask">
-                        <ul id="inner-list">
-                            <li><button id="myBtn1" class="cardBtn"><p id="testCard1">Desc</p></button></li>
-                            <li><button id="myBtn2" class="cardBtn"><p id="testCard2">Desc</p></button></li>
+                    <div>
+                        <ul class="inner-list">
+                            <li><button class="cardBtn"><p id="testCard1">Desc</p>
+                            </button></li>
+                            <li><button class="cardBtn"><p id="testCard2">Desc</p>
+                            </button></li>
                         </ul>
                         <div class="carddropdown">
-                            <button class="addNewCardbtn" onClick="addCardFunction()" class="carddropbtn">Add a card...</button>
-
+                        <button type="button" class="addNewCardbtn">Add a card...</button>     
                             <div id="addCardDropdown" class="carddropdown-content">
                                 <form id="submit-button-form">
-
-                                    <input type="text" id="newCardInput" placeholder="Enter Description">
-
+                                    <input type="text" id="newCardInput" placeholder="Enter Description...">
                                     <button type="submit" id="submitButton">Submit</button>
-
                                 </form>
                             </div>
-
                         </div>
                     </div>
                 </li>
@@ -582,16 +594,21 @@
             </ul>
         </div> 
         
+        
+        
+        
+        
+        
         <!-- My Modal -->
         <div id="myModal" class="modal">
 
             <div class="modal-content">
                 <div class="card-left-side">
-                    <div class="details">
-                        <p>This is a card. It will be draggable soon enough</p>
+                    <div id="card-name">
+                        <p>This is the card name (make editable)</p>
                     </div>
-                    <div class="description">
-                        <a href="">Edit the description...</a>
+                    <div>
+                        <p id="description">Edit the description...</p>
                     </div>
                     <div class="addComment">
                         <p>Add Comment</p>
@@ -609,14 +626,23 @@
                     <span class="close">&times;</span>
 
                     <div class="crud-btns">
-                        <button type="button">Add Card</button>
-                        <button type="button">Delete Card</button>
-                        <button type="button">Labels</button>
+                        <button type="button" onclick="deleteCard()">Delete Card</button>
+                        
+                        
+                        <div class="labeldropdown">
+                            <button type="button" onclick="addLabel()">Labels</button>
+                            <div id="labelDropdown" class="label-dropdown-content">
+                                <button id="red">Red</button>
+                                <button id="blue">Blue</button>
+                                <button id="yellow">Yellow</button>
+                                <button id="green">Green</button>
+                            </div>
+                        </div>              
                     </div>
                 </div>
             </div>
         </div>
-    
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="board.js"></script>
     </body>
 </html>
