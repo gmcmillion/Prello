@@ -215,11 +215,10 @@
                 font-weight: bold;
             }
             
-            .ListHeader-btn {
+            .xbtn {
                 position: relative;
                 left:5px;
                 top: 2px;
-                float: right;
                 height: 30px;
                 width: 30px;
                 border-radius: 4px;
@@ -227,9 +226,10 @@
                 font-size:20px;
                 color: #4d4d4d;
                 background-color: #ffffff;
+                cursor:hand;
             }
             
-            .ListHeader-btn:hover {
+            .xbtn:hover {
                 color: #ffffff;
                 background-color: #2591c5;
                 box-shadow: 0 1px #006ca2;           
@@ -412,6 +412,7 @@
                 cursor: pointer;
             }
             #addNewListBtn {
+                margin: 15px;
                 height: 35px;
                 width: 120px;
                 background-color: #ffffff;
@@ -419,7 +420,7 @@
                 font-size: 14px;
                 font-weight: bold;
                 float:right;
-                display:inline;
+                /*display:inline;*/
                 border: 1px none #8c8c8c;
                 border-radius: 4px;
                 box-shadow: 0 1px #cccccc;
@@ -518,15 +519,11 @@
             #blue {
                 background-color:#007bb9;
             }
-            
-            .listdropdown {
-                display: inline;
-            }
-            
+
             .list-dropdown-content {
-                position:absolute;
-                top: 52px;
-                display:inline;
+                position:relative;
+                top: 50px;
+                left: 745px;
                 background-color: #f9f9f9;
                 width: 250px;
                 overflow: auto;
@@ -591,24 +588,27 @@
             </div>
         </div>  
         <div id="board-header">
-
             <p id="boardName">Board 1</p>
+            
             <button type="button" id="show-menu-btn">Show Menu</button>
-
-
             <div id="mySidenav" class="sidenav">
                 <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">&times;</a>
                 <a href="">Members</a>
                 <a href="">Activity</a>
             </div> 
+            
+            <button type="button" id="addNewListBtn">Add New List</button>
+            <div id="add-list-dropdown" class="list-dropdown-content">
+                <form id="list-submit-btn-form">
+                    <input type="text" id="newListInput" placeholder="Add a list...">
+                    <button type="submit" id="list-submit-btn">Submit</button>
+                </form>
+            </div>
         </div>
         <div id="Listdiv">
             <ul id="list">
-                <!-- LISTS GO HERE -->
+                <!-- LISTS GO HERE -->                
             </ul>
-
-            
-            
         </div> 
         
         <!-- My Modal -->
@@ -670,56 +670,3 @@
         <script src="board.js"></script>
     </body>
 </html>
-
-<!--
-<div class="carddropdown">
-<button type="button" class="addNewCardbtn">Add a card...</button>
-    <div class="addCardDropdown carddropdown-content">
-        <form class="submit-btn-form">
-            <input type="text" class="newCardInput" placeholder="Enter Description...">
-            <button type="submit" class="submit-btn">Submit</button>
-        </form>
-    </div>
-</div>
--->
-
-<!--
-<ul id="list">
-    <li>
-        <div class="outer-li">
-            <div class="ListHeader">
-                <p>This is a list w/ Dummy Data</p>
-
-                <button type="button" class="ListHeader-btn">x</button>
-
-            </div>
-            <div>
-                <ul class="inner-list">
-                                            cards go here
-                </ul>
-
-                <div class="carddropdown">
-                <button type="button" class="addNewCardbtn">Add a card...</button>
-                    <div class="addCardDropdown carddropdown-content">
-                        <form class="submit-btn-form">
-                            <input type="text" class="newCardInput" placeholder="Enter Description...">
-                            <button type="submit" class="submit-btn">Submit</button>
-                        </form>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </li>
-
-    <div class="listdropdown">
-        <button type="button" id="addNewListBtn">Add New List</button>
-        <div id="add-list-dropdown" class="list-dropdown-content">
-            <form id="list-submit-btn-form">
-                <input type="text" id="newListInput" placeholder="Add a list...">
-                <button type="submit" id="list-submit-btn">Submit</button>
-            </form>
-        </div>                
-    </div>
-</ul>
--->

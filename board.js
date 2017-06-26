@@ -14,14 +14,14 @@ var listCards = [
         { id: '10', name: "Card 4", description: "This is a my 4th card!", label: ['red', 'blue'] },
         { id: '11', name: "Card 5", description: "This is a my 5th card!", label: ['red', 'purple', 'green'] }
     ]
-    }/*,
+    },
     {
     title: 'Third List',
     arrayOfCards: [
         { id: '10', name: "Card 6", description: "This is a my 6th card!", label: ['red', 'blue'] },
         { id: '11', name: "Card 7", description: "This is a my 7th card!", label: ['red', 'purple', 'green'] }
     ]
-    }*/
+    }
 ];
 
 
@@ -122,8 +122,10 @@ function main() {
     {    
         //Create new list contents
         var p = $('</p>').text(listCards[i].title);
+        var xbtn = $('<button/>').attr('type', 'button').attr('class', 'xbtn').text('x');
         var newDiv = $('<div/>').attr('class', 'ListHeader');
         newDiv.append(p);
+        newDiv.append(xbtn);
         
         var newUL = $('<ul/>').attr('class', 'inner-list');
         var newDiv2 = $('<div/>');
@@ -204,10 +206,16 @@ function main() {
         p.append(p);
         
         var len = listCards[col].arrayOfCards[row].label.length;  //Get length of label array
+        
         listCards[col].arrayOfCards[row].label[len] = 'green';    //Store in memory
     
-        //Put on color on actual card
+        //Put on color on actual html card
         $('#'+col+""+row).append(colorMaker('green'));
+        
+        //alert('col: ' + col + ' row: ' + row);
+        
+        //var tcol = $('.inner-list:eq('+col+')')
+        //var trow = $('.inner-list li:eq('+row+')').append(colorMaker('green'));
 
         openModal(col, row);            //re-open modal
         $('#labeldropdown').hide();
@@ -293,9 +301,8 @@ function main() {
         
     //When you click on any li within the inner list, open modal
     $('#list').on('click', '.inner-list li', function() {
-        //Get the index of the list that was clicked
+
         temp = $(this).index();
-        //col = $(this).parent().index();
         col = $(this).parent().parent().parent().parent().index();
         row = $(this).index();
     
@@ -305,12 +312,10 @@ function main() {
     
     //On click, show "Add a card" input box
     $('.addCardDropdown').hide();
-    $('.addNewCardbtn').on('click', function() {
+    $('#list').on('click', '.addNewCardbtn' ,function() {
         //Store col & row globally
         col = $(this).parent().parent().parent().parent().index();
         row = listCards[col].arrayOfCards.length;
-        
-        //alert('col: ' + col + ' row: ' + row + ' temp: ' + temp);
         
         $('.addCardDropdown').toggle();  
     });
@@ -340,7 +345,7 @@ function main() {
         //Append litag to '.inner-list'
         $('.inner-list:eq('+col+')').append(litag);
         
-        //Create new card object & add new card to array ***************** check if correct for 2d array
+        //Create new card object & add new card to array 
         var card = {name:"Add Card Name...", description:$('.newCardInput').val(), label:[]};
         
         //arrayOfCards[arrayOfCards.length] = card;
@@ -354,85 +359,65 @@ function main() {
     //Add new list function
     $('#add-list-dropdown').hide();
     $('#addNewListBtn').on('click', function() {
-        $(this).next().toggle();  
+        $(this).next().toggle(); 
+        
+        //Update global col info
+        col = listCards.length;
     });
     
+    //Create a new list on submit
     $('#list-submit-btn').on('click', function(e) {
         e.preventDefault();                     //Prevent refresh
         var post = $('#newListInput').val();    //Get input value
         
         var p = $('</p>').text(post);
         
-        var btn = $('<button/>').attr('type', 'button').attr('class', 'ListHeader-btn').text('x');
+        var xbtn = $('<button/>').attr('type', 'button').attr('class', 'xbtn').text('x');
         var newDiv = $('<div/>').attr('class', 'ListHeader');
-        
         newDiv.append(p);
-        newDiv.append(btn);
+        newDiv.append(xbtn);
         
         var newUL = $('<ul/>').attr('class', 'inner-list');
         
-        //Create a clone of the div containing list contents
-        //var $dup = $('.outer-li:last-child').clone();
-        var $dup = $('.carddropdown').clone();
+        var newbtn = $('<button/>').attr('type', 'button').attr('class', 'addNewCardbtn').text('Add a card...');
         
-        //For card 
+        var newDiv2 = $('<div/>').attr('class', 'carddropdown');
+        newDiv2.append(newbtn);
         
-        
-        
-        
-        newDiv2 = $('<div/>');
-        newDiv2.append(newUL);
-        newDiv2.append($dup);
-        
-        newDiv3 = $('<div/>').attr('class', 'outer-li');
-        newDiv3.append(newDiv);
+        newDiv3 = $('<div/>');
+        newDiv3.append(newUL);
         newDiv3.append(newDiv2);
         
-        //Create a new child li
-        //$('<li>').appendTo('#list');
+        newDiv4 = $('<div/>').attr('class', 'outer-li');
+        newDiv4.append(newDiv);
+        newDiv4.append(newDiv3);    
         
-        
-        var liEle = $('<li/>').append(newDiv3);
+        var liEle = $('<li/>').append(newDiv4);
         
         //Store the clone in new li, which is the last child
         $('#list:last-child').append(liEle);
         
-        
-        
         //Add list to data structure
-        
+        var newList = {title: post, arrayOfCards:[]};
+        listCards[col] = newList;
         
         //Hide input after submit, and reset form
         $('#add-list-dropdown').hide();
         $('#list-submit-btn-form')[0].reset();
     });
+
+    //When xbtn is clicked, delete list
+    $('#list').on('click', '.xbtn', function() {
+        //Get column that called this function
+        col = $(this).parent().parent().parent().index();
+
+        //Delete list from html
+        $(this).parent().parent().parent().remove();
+        
+        //Delete list from data structure
+        listCards.splice(col, 1);
+    });
 }
 
 //Will call function main when HTML & CSS are done loading
 $(document).ready(main);
-
-/*
-for(var i = 0; i < arrayOfCards.length; i++)
-{
-    //Create new p element
-    var pElem = $('</p>').text(arrayOfCards[i].description);
-
-    //Create another p element for label colors
-    var temp2 = $('<div/>').attr('class', 'lab-colors').attr('id', '0'+i);
-    for(var j = 0; j < arrayOfCards[i].label.length; j++)
-    {
-        temp2.append(colorMaker(arrayOfCards[i].label[j]));
-    }
-
-    //Create new button
-    var btnElem = $('<button/>').attr('class', 'cardBtn');
-    btnElem.append(pElem);
-    btnElem.append(temp2);
-
-    //Create new li
-    var liElem = $('<li/>').append(btnElem);
-
-    //Append to ul "inner-list"
-    $('.inner-list').append(liElem);
-}
-*/
