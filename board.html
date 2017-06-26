@@ -25,7 +25,6 @@
                 float: left;
                 margin: 0;
                 padding: 0;
-
             }
             
             #board-btn {
@@ -106,17 +105,19 @@
             
             #board-header {
                 margin: 25px;
+                display:inline;
             }
 
-            #boardName p {
+            #boardName {
+                margin: 15px; 
                 font-size:18px;
                 font-weight: bold;
                 color: #ffffff;
                 float: left;
-                margin: 0;
             }
-            
+
             #show-menu-btn {
+                margin:15px;
                 height: 35px;
                 width: 120px;
                 background-color: #ffffff;
@@ -144,8 +145,7 @@
                 width: 0;
                 position:relative;
                 z-index: 1;
-                top: -25px;
-                left: 145px;
+                left: 150px;
                 background-color: #edeff0;
                 overflow-x: hidden;
                 transition: 0.5s;
@@ -276,7 +276,7 @@
             
             .carddropdown-content {
                 display: none;
-                position: absolute;
+                position: relative;
                 background-color: #f9f9f9;
                 width: 260px;
                 overflow: auto;
@@ -296,33 +296,28 @@
                 font-size: 15px;
             }
 
-            #submit-btn {
+            .submit-btn {
                 height: 35px;
                 width: 120px;
                 margin:5px;
-                background-color: #ffffff;
-                color: #4d4d4d;
+                background-color: #5cb85d;
+                color: #ffffff;
                 font-size: 14px;
                 font-weight: bold;
                 float:right;
                 display:inline;
                 border: 1px none #8c8c8c;
                 border-radius: 4px;
-                box-shadow: 0 1px #cccccc;
+                box-shadow: 0 1px #437535;
                 cursor: hand;               
             }
             
-            #submit-btn:hover {
+            .submit-btn:hover {
                 border-radius: 4px;                
                 color: #ffffff;
-                background-color: #2591c5;
+                background-color: #539f4e;
                 box-shadow: 0 1px #006ca2;
             }
-            
-            
-            
-            
-    
             
             #description {
                 font-size:15px; 
@@ -524,6 +519,56 @@
                 background-color:#007bb9;
             }
             
+            .listdropdown {
+                display: inline;
+            }
+            
+            .list-dropdown-content {
+                position:absolute;
+                top: 52px;
+                display:inline;
+                background-color: #f9f9f9;
+                width: 250px;
+                overflow: auto;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+                border-radius: 4px;     
+            }
+            
+            .list-dropdown-content input[type=text] {
+                height: 40px;
+                width: 240px;
+                padding: 5px;
+                margin: 5px;
+                background-color: #fafec5;
+                border-radius: 4px;
+                border: 1px solid #4D4D4D;
+                font-size: 15px;
+            }
+            
+            #list-submit-btn {
+                height: 35px;
+                width: 120px;
+                margin:5px;
+                background-color: #5cb85d;
+                color: #ffffff;
+                font-size: 14px;
+                font-weight: bold;
+                float:right;
+                display:inline;
+                border: 1px none #437535;
+                border-radius: 4px;
+                box-shadow: 0 1px #437535;
+                cursor: hand;                
+            }
+            
+            #list-submit-btn:hover {
+                border-radius: 4px;                
+                color: #ffffff;
+                background-color: #539f4e;
+                box-shadow: 0 1px #006ca2;
+            }
+
         </style>
     </head>
     <body>
@@ -546,10 +591,11 @@
             </div>
         </div>  
         <div id="board-header">
-            <div id="boardName">
-                <p>Board 1</p>
-            </div>
+
+            <p id="boardName">Board 1</p>
             <button type="button" id="show-menu-btn">Show Menu</button>
+
+
             <div id="mySidenav" class="sidenav">
                 <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">&times;</a>
                 <a href="">Members</a>
@@ -558,33 +604,12 @@
         </div>
         <div id="Listdiv">
             <ul id="list">
-                <li>
-                    <div class="ListHeader">
-                        <p>This is a list w/ Dummy Data</p>
-                        <button onclick="deleteList(item0)" type="button" class="ListHeader-btn">&times;</button>                             
-                    </div>
-                    <div>
-                        <ul class="inner-list">
-                            <li><button class="cardBtn"><p id="testCard1">Desc</p>
-                            </button></li>
-                            <li><button class="cardBtn"><p id="testCard2">Desc</p>
-                            </button></li>
-                        </ul>
-                        <div class="carddropdown">
-                        <button type="button" class="addNewCardbtn">Add a card...</button>     
-                            <div id="addCardDropdown" class="carddropdown-content">
-                                <form id="submit-btn-form">
-                                    <input type="text" id="newCardInput" placeholder="Enter Description...">
-                                    <button type="submit" id="submit-btn">Submit</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <button id="addNewListBtn" type="button" onClick="addAnother()">Add New List</button>
+                <!-- LISTS GO HERE -->
             </ul>
+
+            
+            
         </div> 
-        
         
         <!-- My Modal -->
         <div id="myModal" class="modal">
@@ -604,6 +629,8 @@
                     </div>
                     <div id="labels">
                         <p>Labels</p>
+                        <div id="label-colors">
+                        </div>
                     </div>
                     <div class="users">
                         <p>Users</p>
@@ -629,7 +656,70 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Card drop down -->
+        <div class="addCardDropdown carddropdown-content">
+            <form class="submit-btn-form">
+                <input type="text" class="newCardInput" placeholder="Enter Description...">
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+        
+        <!--Links to script -->
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="board.js"></script>
     </body>
 </html>
+
+<!--
+<div class="carddropdown">
+<button type="button" class="addNewCardbtn">Add a card...</button>
+    <div class="addCardDropdown carddropdown-content">
+        <form class="submit-btn-form">
+            <input type="text" class="newCardInput" placeholder="Enter Description...">
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+</div>
+-->
+
+<!--
+<ul id="list">
+    <li>
+        <div class="outer-li">
+            <div class="ListHeader">
+                <p>This is a list w/ Dummy Data</p>
+
+                <button type="button" class="ListHeader-btn">x</button>
+
+            </div>
+            <div>
+                <ul class="inner-list">
+                                            cards go here
+                </ul>
+
+                <div class="carddropdown">
+                <button type="button" class="addNewCardbtn">Add a card...</button>
+                    <div class="addCardDropdown carddropdown-content">
+                        <form class="submit-btn-form">
+                            <input type="text" class="newCardInput" placeholder="Enter Description...">
+                            <button type="submit" class="submit-btn">Submit</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </li>
+
+    <div class="listdropdown">
+        <button type="button" id="addNewListBtn">Add New List</button>
+        <div id="add-list-dropdown" class="list-dropdown-content">
+            <form id="list-submit-btn-form">
+                <input type="text" id="newListInput" placeholder="Add a list...">
+                <button type="submit" id="list-submit-btn">Submit</button>
+            </form>
+        </div>                
+    </div>
+</ul>
+-->

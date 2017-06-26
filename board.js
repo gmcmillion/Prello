@@ -1,83 +1,65 @@
-//Global variable for keeping count of add buttons
-var numOfAddButtons = 2;    //initialize to 4 since we start with dummy data
-
-//Add a LIST to existing list
-var lastid = 1;
-addAnother = function() {
-    //Create a add button and set attributes
-    var btn = document.createElement("BUTTON");
-    var t = document.createTextNode("Add a card...");
-    btn.appendChild(t);
-    btn.setAttribute("class", "addNewCardbtn");
-    numOfAddButtons = numOfAddButtons + 1;  //increase count of buttons
-    btn.setAttribute("id", "myBtn"+numOfAddButtons);
-
-    //Create the delete button and set the attributes
-    var btn2 = document.createElement("BUTTON");
-    var t2 = document.createTextNode("x");
-    btn2.appendChild(t2);  
-    btn2.setAttribute("onclick", "deleteList("+"item"+lastid+")");
-    btn2.setAttribute("type", "button");
-    btn2.setAttribute("class", "ListHeader-btn");
-    btn2.setAttribute("id", "item"+lastid);
-    
-    //Create a new list and assign button to it
-    var ul = document.getElementById("list");
-    var li = document.createElement("li");
-    var children = ul.children.length;
-    //li.setAttribute("id", "element"+children);
-    li.appendChild(btn2);
-    li.appendChild(btn);
-    ul.appendChild(li);
-    
-    //increment lastid
-    lastid+=1;
-}
-
-//Delete list
-var list = document.getElementById("list");
-
-/*
-deleteList() = function(itemid) {
-    var listItem = document.getElementById(itemid);
-    list.removeChild(listItem);
-}
-*/
-
-
-
-
 //Initial Dummy cards
-var card1 = {name:"Card 1", description:"This is a my 1st card!", label:["green"]};
-var card2 = {name:"Card 2", description:"This is a my 2nd card!", label:["red"]};
+var listCards = [
+    {
+    title: 'First List',
+    arrayOfCards: [
+        { id: '01', name: "Card 1", description: "This is a my 1st card!", label: ['green', 'red', 'purple']},
+        { id: '02', name: "Card 2", description: "This is a my 2nd card!", label: ['purple', 'blue']},
+        { id: '03', name: "Card 3", description: "This is a my 3rd card!", label: ['purple'] }
+    ]
+    },
+    {
+    title: 'Second List',
+    arrayOfCards: [
+        { id: '10', name: "Card 4", description: "This is a my 4th card!", label: ['red', 'blue'] },
+        { id: '11', name: "Card 5", description: "This is a my 5th card!", label: ['red', 'purple', 'green'] }
+    ]
+    }/*,
+    {
+    title: 'Third List',
+    arrayOfCards: [
+        { id: '10', name: "Card 6", description: "This is a my 6th card!", label: ['red', 'blue'] },
+        { id: '11', name: "Card 7", description: "This is a my 7th card!", label: ['red', 'purple', 'green'] }
+    ]
+    }*/
+];
 
-//Array to hold cards
-var arrayOfCards = [];
 
-//Put dummy cards in Array
-arrayOfCards[0] = card1;
-arrayOfCards[1] = card2;
-
-//Insert the dummy cards into the html
-document.getElementById("testCard1").innerHTML = arrayOfCards[0].description;
-document.getElementById("testCard2").innerHTML = arrayOfCards[1].description;
-
-
-
-
-
-
-//Function that opens modal
-function openModal(num) {
-        
+function openModal(c, r) {
     //Populate modal with relevant info
-    document.getElementById("description").innerHTML = arrayOfCards[num].description;
-    document.getElementById("card-name").innerHTML = arrayOfCards[num].name;
-    //document.getElementById("labels").innerHTML = arrayOfCards[num].label[0];
+    $('#description').html(listCards[c].arrayOfCards[r].description);
+    $('#card-name').html(listCards[c].arrayOfCards[r].name);
     
-    //Display modal
-    modal.style.display = "block";
+    var temp3 = $('<div/>');     //temp div to hold label colors
+    for (var i = 0; i < listCards[c].arrayOfCards[r].label.length; i++)
+    {
+        var p = $('</p>');
+        if(listCards[c].arrayOfCards[r].label[i] === "green") {
+            p.css('background-color', '#5ebc60').css('width', '50px').css('height', '20px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '5px');
+        }
+        if(listCards[c].arrayOfCards[r].label[i] === "yellow") {
+            p.css('background-color', '#f2d44b').css('width', '50px').css('height', '20px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '5px');
+        }
+        if(listCards[c].arrayOfCards[r].label[i] === "orange") {
+            p.css('background-color', '#ffa95d').css('width', '50px').css('height', '20px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '5px');          
+        }
+        if(listCards[c].arrayOfCards[r].label[i] === "red") {
+            p.css('background-color', '#ec594d').css('width', '50px').css('height', '20px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '5px');
+        }
+        if(listCards[c].arrayOfCards[r].label[i] === "purple") {
+            p.css('background-color', '#c47ad9').css('width', '50px').css('height', '20px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '5px');
+        }
+        if(listCards[c].arrayOfCards[r].label[i] === "blue") {
+            p.css('background-color', '#007bb9').css('width', '50px').css('height', '20px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '5px');
+        }  
+        temp3.append(p);     //Append p element to temp div
+    }
+    $('#label-colors').html(temp3); //Put temp div in the inner html of '#label-colors' 
+    
+    modal.style.display = "block";      //Display modal
 }
+
+
 
 //Close modal if x is clicked or off screen
 var modal = document.getElementById("myModal");
@@ -95,8 +77,6 @@ window.onclick = function(event) {
 
 
 
-
-
 //Show menu slider (Open & close functions)
 function openNav() {
     document.getElementById("mySidenav").style.width = "250px";
@@ -105,13 +85,91 @@ function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
 }
 
+//Function that makes mini color labels for cards
+function colorMaker(color) {
+    var p = $('</p>');
+    if(color === "green") {
+        p.css('background-color', '#5ebc60').css('width', '25px').css('height', '10px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '2px');
+    }
+    if(color === "yellow") {
+        p.css('background-color', '#f2d44b').css('width', '25px').css('height', '10px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '2px');
+    }
+    if(color === "orange") {
+        p.css('background-color', '#ffa95d').css('width', '25px').css('height', '10px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '2px');          
+    }
+    if(color === "red") {
+        p.css('background-color', '#ec594d').css('width', '25px').css('height', '10px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '2px');
+    }
+    if(color === "purple") {
+        p.css('background-color', '#c47ad9').css('width', '25px').css('height', '10px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '2px');
+    }
+    if(color === "blue") {
+        p.css('background-color', '#007bb9').css('width', '25px').css('height', '10px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '2px');
+    }  
+    return p;
+}
 
 
+//Global variables
+var col;
+var row;
+var temp;           
 
-//Jquery
-var lol;
-var temp;           //Global variable to store which modal is opened
+//Jquery 
 function main() {
+    //Insert the dummy cards into the html
+    for(var i = 0; i < listCards.length; i++) 
+    {    
+        //Create new list contents
+        var p = $('</p>').text(listCards[i].title);
+        var newDiv = $('<div/>').attr('class', 'ListHeader');
+        newDiv.append(p);
+        
+        var newUL = $('<ul/>').attr('class', 'inner-list');
+        var newDiv2 = $('<div/>');
+        newDiv2.append(newUL);
+        
+        var newDiv3 = $('<div/>').attr('class', 'outer-li');
+        newDiv3.append(newDiv);
+        newDiv3.append(newDiv2);
+        
+        var newli = $('<li/>');
+        newli.append(newDiv3);
+        
+        $('#list').append(newli);
+        
+        for(var j = 0; j < listCards[i].arrayOfCards.length; j++) 
+        {
+            //Create new p element
+            var pElem = $('</p>').text(listCards[i].arrayOfCards[j].description);
+
+            //Create another p element for label colors
+            var temp2 = $('<div/>').attr('class', 'lab-colors').attr('id', i+""+j);
+            for(var k = 0; k < listCards[i].arrayOfCards[j].label.length; k++)
+            {
+                temp2.append(colorMaker(listCards[i].arrayOfCards[j].label[k]));
+            }
+
+            //Create new button
+            var btnElem = $('<button/>').attr('class', 'cardBtn');
+            btnElem.append(pElem);
+            btnElem.append(temp2);
+
+            //Create new li
+            var liElem = $('<li/>').append(btnElem);
+
+            //Append to ul "inner-list"
+            $('.inner-list:eq('+i+')').append(liElem);
+        }
+        
+        //Add card button
+        var newBtn = $('<button/>').attr('type', 'button').attr('class', 'addNewCardbtn').text('Add a card...');
+        
+        var newDiv4 = $('<div/>').attr('class', 'carddropdown'); 
+        newDiv4.append(newBtn);  
+        
+        newDiv2.append(newDiv4);
+    }
     
     //Function for boards drop down menu
     $('#board-btn-content').hide();
@@ -120,13 +178,13 @@ function main() {
     });
     
     //Delete-card-btn
-    $('#delete-card-btn').on('click', function(){
+    $('#delete-card-btn').on('click', function(){        
         //Remove this card from data structure
-        arrayOfCards.splice(temp, 1);
+        listCards[col].arrayOfCards.splice(row, 1);
         
-        //Remove li element from ul (find the nth child)
-        $('.inner-list li:nth-child('+(temp+1)+')').remove();
-        
+        //Remove li element from ul (find the nth child)        
+        $('.inner-list:eq('+col+') li:nth-child('+(row+1)+')').remove();
+                
         //Close modal
         modal.style.display = "none";
     });
@@ -138,8 +196,93 @@ function main() {
     });
     
     //Function for adding colors of the label to card
-    $('#green').on('click', function() {
-        alert('green');
+    $('#green').on('click', function() {        
+        var p = $('</p>');
+        p.css('background-color', '#5ebc60').css('width', '50px').css('height', '20px').css('border-radius', '4px');
+        $('#label-colors').css('display', 'inline-block');
+        
+        p.append(p);
+        
+        var len = listCards[col].arrayOfCards[row].label.length;  //Get length of label array
+        listCards[col].arrayOfCards[row].label[len] = 'green';    //Store in memory
+    
+        //Put on color on actual card
+        $('#'+col+""+row).append(colorMaker('green'));
+
+        openModal(col, row);            //re-open modal
+        $('#labeldropdown').hide();
+        
+    });
+    $('#yellow').on('click', function() {        
+        var p = $('</p>');
+        p.css('background-color', '#f2d44b').css('width', '50px').css('height', '20px').css('border-radius', '4px');
+        $('#label-colors').append(p);
+        
+        var len = listCards[col].arrayOfCards[row].label.length;  //Get length of label array
+        listCards[col].arrayOfCards[row].label[len] = 'yellow';   //Store in memory
+    
+        //Put on color on actual card
+        $('#'+col+""+row).append(colorMaker('yellow'));
+        
+        openModal(col, row);            //re-open modal
+        $('#labeldropdown').hide();
+    });
+    $('#orange').on('click', function() {        
+        var p = $('</p>');
+        p.css('background-color', '#ffa95d').css('width', '50px').css('height', '20px').css('border-radius', '4px');
+        $('#label-colors').append(p);
+        
+        var len = listCards[col].arrayOfCards[row].label.length;  //Get length of label array
+        listCards[col].arrayOfCards[row].label[len] = 'orange';   //Store in memory
+        
+        //Put on color on actual card
+        $('#'+col+""+row).append(colorMaker('orange'));
+        
+        openModal(col, row);            //re-open modal
+        $('#labeldropdown').hide();
+    });
+    $('#red').on('click', function() {        
+        var p = $('</p>');
+        p.css('background-color', '#ec594d').css('width', '50px').css('height', '20px').css('border-radius', '4px');
+        $('#label-colors').append(p);
+        
+        var len = listCards[col].arrayOfCards[row].label.length;  //Get length of label array
+        listCards[col].arrayOfCards[row].label[len] = 'red';      //Store in memory
+        
+        //Put on color on actual card
+        $('#'+col+""+row).append(colorMaker('red'));
+        
+        openModal(col, row);            //re-open modal
+        $('#labeldropdown').hide();
+    });
+    $('#purple').on('click', function() {        
+        var p = $('</p>');
+        p.css('background-color', '#c47ad9').css('width', '50px').css('height', '20px').css('border-radius', '4px');
+        $('#label-colors').append(p);
+        
+        var len = listCards[col].arrayOfCards[row].label.length;  //Get length of label array
+        listCards[col].arrayOfCards[row].label[len] = 'purple';   //Store in memory
+        
+        //Put on color on actual card
+        $('#'+col+""+row).append(colorMaker('purple'));
+    
+        openModal(col, row);            //re-open modal
+        $('#labeldropdown').hide();
+    });
+    $('#blue').on('click', function() {        
+        var p = $('</p>');
+        p.css('background-color', '#007bb9').css('width', '50px').css('height', '20px').css('border-radius', '4px');
+        $('#label-colors').append(p);
+        
+        var len = listCards[col].arrayOfCards[row].label.length;  //Get length of label array
+        listCards[col].arrayOfCards[row].label[len] = 'blue';     //Store in memory
+        
+        //Put on color on actual card
+        $('#'+col+""+row).append(colorMaker('blue'));
+    
+        //openModal(temp);            //re-open modal
+        openModal(col, row);
+        $('#labeldropdown').hide();
     });
     
     //Function for 'Show Menu" slide effect
@@ -148,55 +291,148 @@ function main() {
         openNav();
     });
         
-    //When you click on any li within the inner list, do something
+    //When you click on any li within the inner list, open modal
     $('#list').on('click', '.inner-list li', function() {
         //Get the index of the list that was clicked
         temp = $(this).index();
-
-        //Open modal
-        openModal(temp);
+        //col = $(this).parent().index();
+        col = $(this).parent().parent().parent().parent().index();
+        row = $(this).index();
+    
+        //Open modal        
+        openModal(col, row);
     });
-
+    
     //On click, show "Add a card" input box
-    $('#addCardDropdown').hide();
+    $('.addCardDropdown').hide();
     $('.addNewCardbtn').on('click', function() {
-        $(this).next().toggle();
+        //Store col & row globally
+        col = $(this).parent().parent().parent().parent().index();
+        row = listCards[col].arrayOfCards.length;
+        
+        //alert('col: ' + col + ' row: ' + row + ' temp: ' + temp);
+        
+        $('.addCardDropdown').toggle();  
     });
     
     //When submit is click
-    $('#submit-btn').on('click', function(e) {  
+    $('.submit-btn').on('click', function(e) {  
         e.preventDefault();                     //Prevent refresh    
-        var post = $('#newCardInput').val();    //Get input value
+        var post = $('.newCardInput').val();    //Get input value
         
-        //Create new li element
-        //$('<li>').text(post).appendTo('.inner-list');
+        //Create new p tag, and assign the inputted text        
+        var ptag = $('</p>').text(post);
         
-        //Create new p tag
-        var ptag = document.createElement("p");
-        ptag.innerHTML = post;
-        ptag.setAttribute
+        //Create another div element for label colors
+        var tempdiv = $('<div/>').attr('class', 'lab-colors').attr('id', col+""+row);
 
-        //Create new button that will store p tag 
-        var tempBtn = document.createElement("button");
-        tempBtn.setAttribute("class", "cardBtn");
+        //Create new button that will store p tag         
+        var tempBtn = $('<button/>').attr('class', 'cardBtn');
+        
+        //Append both ptag and tempdiv to new button
         tempBtn.append(ptag);
+        tempBtn.append(tempdiv);
 
         //Create new li tag that will store button
-        var litag = document.createElement("li");
+        var litag = $('<li/>');
         litag.append(tempBtn);
         
         //Append litag to '.inner-list'
-        $('.inner-list').append(litag);
+        $('.inner-list:eq('+col+')').append(litag);
         
-        //Create new card object & add new card to array
-        var card = {name:"Add Card Name...", description:$('#newCardInput').val()};
-        arrayOfCards[arrayOfCards.length] = card;
+        //Create new card object & add new card to array ***************** check if correct for 2d array
+        var card = {name:"Add Card Name...", description:$('.newCardInput').val(), label:[]};
+        
+        //arrayOfCards[arrayOfCards.length] = card;
+        listCards[col].arrayOfCards[row] = card;
         
         //Hide input after submit, and reset form
-        $('#addCardDropdown').hide();
-        $('#submit-btn-form')[0].reset();
+        $('.addCardDropdown').hide();
+        $('.submit-btn-form')[0].reset();
+    });
+    
+    //Add new list function
+    $('#add-list-dropdown').hide();
+    $('#addNewListBtn').on('click', function() {
+        $(this).next().toggle();  
+    });
+    
+    $('#list-submit-btn').on('click', function(e) {
+        e.preventDefault();                     //Prevent refresh
+        var post = $('#newListInput').val();    //Get input value
+        
+        var p = $('</p>').text(post);
+        
+        var btn = $('<button/>').attr('type', 'button').attr('class', 'ListHeader-btn').text('x');
+        var newDiv = $('<div/>').attr('class', 'ListHeader');
+        
+        newDiv.append(p);
+        newDiv.append(btn);
+        
+        var newUL = $('<ul/>').attr('class', 'inner-list');
+        
+        //Create a clone of the div containing list contents
+        //var $dup = $('.outer-li:last-child').clone();
+        var $dup = $('.carddropdown').clone();
+        
+        //For card 
+        
+        
+        
+        
+        newDiv2 = $('<div/>');
+        newDiv2.append(newUL);
+        newDiv2.append($dup);
+        
+        newDiv3 = $('<div/>').attr('class', 'outer-li');
+        newDiv3.append(newDiv);
+        newDiv3.append(newDiv2);
+        
+        //Create a new child li
+        //$('<li>').appendTo('#list');
+        
+        
+        var liEle = $('<li/>').append(newDiv3);
+        
+        //Store the clone in new li, which is the last child
+        $('#list:last-child').append(liEle);
+        
+        
+        
+        //Add list to data structure
+        
+        
+        //Hide input after submit, and reset form
+        $('#add-list-dropdown').hide();
+        $('#list-submit-btn-form')[0].reset();
     });
 }
 
 //Will call function main when HTML & CSS are done loading
 $(document).ready(main);
+
+/*
+for(var i = 0; i < arrayOfCards.length; i++)
+{
+    //Create new p element
+    var pElem = $('</p>').text(arrayOfCards[i].description);
+
+    //Create another p element for label colors
+    var temp2 = $('<div/>').attr('class', 'lab-colors').attr('id', '0'+i);
+    for(var j = 0; j < arrayOfCards[i].label.length; j++)
+    {
+        temp2.append(colorMaker(arrayOfCards[i].label[j]));
+    }
+
+    //Create new button
+    var btnElem = $('<button/>').attr('class', 'cardBtn');
+    btnElem.append(pElem);
+    btnElem.append(temp2);
+
+    //Create new li
+    var liElem = $('<li/>').append(btnElem);
+
+    //Append to ul "inner-list"
+    $('.inner-list').append(liElem);
+}
+*/
