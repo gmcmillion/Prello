@@ -117,7 +117,7 @@
             }
 
             #show-menu-btn {
-                margin:15px;
+                margin:15px 5px;
                 height: 35px;
                 width: 120px;
                 background-color: #ffffff;
@@ -145,7 +145,7 @@
                 width: 0;
                 position:relative;
                 z-index: 1;
-                left: 150px;
+                left: 130px;
                 background-color: #edeff0;
                 overflow-x: hidden;
                 transition: 0.5s;
@@ -412,7 +412,7 @@
                 cursor: pointer;
             }
             #addNewListBtn {
-                margin: 15px;
+                margin: 15px 5px;
                 height: 35px;
                 width: 120px;
                 background-color: #ffffff;
@@ -420,7 +420,6 @@
                 font-size: 14px;
                 font-weight: bold;
                 float:right;
-                /*display:inline;*/
                 border: 1px none #8c8c8c;
                 border-radius: 4px;
                 box-shadow: 0 1px #cccccc;
@@ -519,11 +518,17 @@
             #blue {
                 background-color:#007bb9;
             }
+            
+            #pos-list-dropdown {
+                position: relative;
+                float: right;
+                display: inline-block;
+            }
 
             .list-dropdown-content {
-                position:relative;
+                position: absolute;
                 top: 50px;
-                left: 745px;
+                right: 5px;
                 background-color: #f9f9f9;
                 width: 250px;
                 overflow: auto;
@@ -565,7 +570,20 @@
                 background-color: #539f4e;
                 box-shadow: 0 1px #006ca2;
             }
+            
+            /*
+            #list {
+                overflow: scroll;
+                overflow-x: hidden;
 
+            }
+            
+            .inner-list {
+                overflow: scroll;
+                margin:0px;
+                padding:0px;
+            }
+            */
         </style>
     </head>
     <body>
@@ -596,14 +614,16 @@
                 <a href="">Members</a>
                 <a href="">Activity</a>
             </div> 
-            
-            <button type="button" id="addNewListBtn">Add New List</button>
-            <div id="add-list-dropdown" class="list-dropdown-content">
-                <form id="list-submit-btn-form">
-                    <input type="text" id="newListInput" placeholder="Add a list...">
-                    <button type="submit" id="list-submit-btn">Submit</button>
-                </form>
+            <div id="pos-list-dropdown">
+                <button type="button" id="addNewListBtn">Add New List</button>
+                <div id="add-list-dropdown" class="list-dropdown-content">
+                    <form id="list-submit-btn-form">
+                        <input type="text" id="newListInput" placeholder="Add a list...">
+                        <button type="submit" id="list-submit-btn">Submit</button>
+                    </form>
+                </div>
             </div>
+
         </div>
         <div id="Listdiv">
             <ul id="list">

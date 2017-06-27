@@ -1,55 +1,52 @@
 //Initial Dummy cards
+/*
 var listCards = [
     {
     title: 'First List',
-    arrayOfCards: [
-        { id: '01', name: "Card 1", description: "This is a my 1st card!", label: ['green', 'red', 'purple']},
-        { id: '02', name: "Card 2", description: "This is a my 2nd card!", label: ['purple', 'blue']},
-        { id: '03', name: "Card 3", description: "This is a my 3rd card!", label: ['purple'] }
+    cards: [
+        { name: "Card 1", description: "This is my 1st card", label: ['green', 'red', 'purple']},
+        { name: "Card 2", description: "This is my 2nd card", label: ['purple', 'blue']},
+        { name: "Card 3", description: "This is my 3rd card", label: ['purple', 'yellow'] }
     ]
     },
     {
     title: 'Second List',
-    arrayOfCards: [
-        { id: '10', name: "Card 4", description: "This is a my 4th card!", label: ['red', 'blue'] },
-        { id: '11', name: "Card 5", description: "This is a my 5th card!", label: ['red', 'purple', 'green'] }
-    ]
-    },
-    {
-    title: 'Third List',
-    arrayOfCards: [
-        { id: '10', name: "Card 6", description: "This is a my 6th card!", label: ['red', 'blue'] },
-        { id: '11', name: "Card 7", description: "This is a my 7th card!", label: ['red', 'purple', 'green'] }
+    cards: [
+        { name: "Card 4", description: "This is my 4th card", label: ['red', 'blue'] },
+        { name: "Card 5", description: "This is my 5th card", label: ['red', 'purple', 'green'] }
     ]
     }
 ];
+*/
+
+
 
 
 function openModal(c, r) {
     //Populate modal with relevant info
-    $('#description').html(listCards[c].arrayOfCards[r].description);
-    $('#card-name').html(listCards[c].arrayOfCards[r].name);
+    $('#description').html(listCards[c].cards[r].description);
+    $('#card-name').html(listCards[c].cards[r].name);
     
     var temp3 = $('<div/>');     //temp div to hold label colors
-    for (var i = 0; i < listCards[c].arrayOfCards[r].label.length; i++)
+    for (var i = 0; i < listCards[c].cards[r].label.length; i++)
     {
         var p = $('</p>');
-        if(listCards[c].arrayOfCards[r].label[i] === "green") {
+        if(listCards[c].cards[r].label[i] === "green") {
             p.css('background-color', '#5ebc60').css('width', '50px').css('height', '20px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '5px');
         }
-        if(listCards[c].arrayOfCards[r].label[i] === "yellow") {
+        if(listCards[c].cards[r].label[i] === "yellow") {
             p.css('background-color', '#f2d44b').css('width', '50px').css('height', '20px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '5px');
         }
-        if(listCards[c].arrayOfCards[r].label[i] === "orange") {
+        if(listCards[c].cards[r].label[i] === "orange") {
             p.css('background-color', '#ffa95d').css('width', '50px').css('height', '20px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '5px');          
         }
-        if(listCards[c].arrayOfCards[r].label[i] === "red") {
+        if(listCards[c].cards[r].label[i] === "red") {
             p.css('background-color', '#ec594d').css('width', '50px').css('height', '20px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '5px');
         }
-        if(listCards[c].arrayOfCards[r].label[i] === "purple") {
+        if(listCards[c].cards[r].label[i] === "purple") {
             p.css('background-color', '#c47ad9').css('width', '50px').css('height', '20px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '5px');
         }
-        if(listCards[c].arrayOfCards[r].label[i] === "blue") {
+        if(listCards[c].cards[r].label[i] === "blue") {
             p.css('background-color', '#007bb9').css('width', '50px').css('height', '20px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '5px');
         }  
         temp3.append(p);     //Append p element to temp div
@@ -58,8 +55,6 @@ function openModal(c, r) {
     
     modal.style.display = "block";      //Display modal
 }
-
-
 
 //Close modal if x is clicked or off screen
 var modal = document.getElementById("myModal");
@@ -75,8 +70,6 @@ window.onclick = function(event) {
     }
 }
 
-
-
 //Show menu slider (Open & close functions)
 function openNav() {
     document.getElementById("mySidenav").style.width = "250px";
@@ -86,7 +79,7 @@ function closeNav() {
 }
 
 //Function that makes mini color labels for cards
-function colorMaker(color) {
+function colorMaker(color) {    
     var p = $('</p>');
     if(color === "green") {
         p.css('background-color', '#5ebc60').css('width', '25px').css('height', '10px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '2px');
@@ -114,9 +107,27 @@ function colorMaker(color) {
 var col;
 var row;
 var temp;           
+var listCards = [];
+
+//Ajax
+$.ajax({
+    url: "http://thiman.me:1337/mcnubbins/list",
+    type: "GET",
+    dataType : "json",
+})
+
+.done(function(json) {
+    console.log(json);
+
+    //Populate listCards[]
+    for (var i = 0; i < json.length; i++)
+    {
+        listCards[i] = json[i];
+    }
+})
 
 //Jquery 
-function main() {
+function main() {    
     //Insert the dummy cards into the html
     for(var i = 0; i < listCards.length; i++) 
     {    
@@ -140,16 +151,16 @@ function main() {
         
         $('#list').append(newli);
         
-        for(var j = 0; j < listCards[i].arrayOfCards.length; j++) 
+        for(var j = 0; j < listCards[i].cards.length; j++) 
         {
             //Create new p element
-            var pElem = $('</p>').text(listCards[i].arrayOfCards[j].description);
+            var pElem = $('</p>').text(listCards[i].cards[j].description);
 
             //Create another p element for label colors
-            var temp2 = $('<div/>').attr('class', 'lab-colors').attr('id', i+""+j);
-            for(var k = 0; k < listCards[i].arrayOfCards[j].label.length; k++)
+            var temp2 = $('<div/>').attr('class', 'lab-colors');
+            for(var k = 0; k < listCards[i].cards[j].label.length; k++)
             {
-                temp2.append(colorMaker(listCards[i].arrayOfCards[j].label[k]));
+                temp2.append(colorMaker(listCards[i].cards[j].label[k]));
             }
 
             //Create new button
@@ -181,12 +192,25 @@ function main() {
     
     //Delete-card-btn
     $('#delete-card-btn').on('click', function(){        
+        //Remove from api
+        var listid = listCards[col]._id;
+        var cardid = listCards[col].cards[row]._id;
+        
+        //Generate url w/ appropriate id
+        var post_url = "http://thiman.me:1337/mcnubbins/list/"+listid+"/card/"+cardid; 
+        
+        //Delete from api
+        $.ajax({
+            url: post_url,
+            type: "DELETE"
+        });
+                
         //Remove this card from data structure
-        listCards[col].arrayOfCards.splice(row, 1);
+        listCards[col].cards.splice(row, 1);
         
         //Remove li element from ul (find the nth child)        
         $('.inner-list:eq('+col+') li:nth-child('+(row+1)+')').remove();
-                
+                        
         //Close modal
         modal.style.display = "none";
     });
@@ -205,17 +229,12 @@ function main() {
         
         p.append(p);
         
-        var len = listCards[col].arrayOfCards[row].label.length;  //Get length of label array
+        var len = listCards[col].cards[row].label.length;  //Get length of label array
         
-        listCards[col].arrayOfCards[row].label[len] = 'green';    //Store in memory
+        listCards[col].cards[row].label[len] = 'green';    //Store in memory
     
         //Put on color on actual html card
-        $('#'+col+""+row).append(colorMaker('green'));
-        
-        //alert('col: ' + col + ' row: ' + row);
-        
-        //var tcol = $('.inner-list:eq('+col+')')
-        //var trow = $('.inner-list li:eq('+row+')').append(colorMaker('green'));
+        $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('green'));
 
         openModal(col, row);            //re-open modal
         $('#labeldropdown').hide();
@@ -226,11 +245,11 @@ function main() {
         p.css('background-color', '#f2d44b').css('width', '50px').css('height', '20px').css('border-radius', '4px');
         $('#label-colors').append(p);
         
-        var len = listCards[col].arrayOfCards[row].label.length;  //Get length of label array
-        listCards[col].arrayOfCards[row].label[len] = 'yellow';   //Store in memory
+        var len = listCards[col].cards[row].label.length;  //Get length of label array
+        listCards[col].cards[row].label[len] = 'yellow';   //Store in memory
     
         //Put on color on actual card
-        $('#'+col+""+row).append(colorMaker('yellow'));
+        $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('yellow'));
         
         openModal(col, row);            //re-open modal
         $('#labeldropdown').hide();
@@ -240,11 +259,11 @@ function main() {
         p.css('background-color', '#ffa95d').css('width', '50px').css('height', '20px').css('border-radius', '4px');
         $('#label-colors').append(p);
         
-        var len = listCards[col].arrayOfCards[row].label.length;  //Get length of label array
-        listCards[col].arrayOfCards[row].label[len] = 'orange';   //Store in memory
+        var len = listCards[col].cards[row].label.length;  //Get length of label array
+        listCards[col].cards[row].label[len] = 'orange';   //Store in memory
         
         //Put on color on actual card
-        $('#'+col+""+row).append(colorMaker('orange'));
+        $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('orange'));
         
         openModal(col, row);            //re-open modal
         $('#labeldropdown').hide();
@@ -254,11 +273,11 @@ function main() {
         p.css('background-color', '#ec594d').css('width', '50px').css('height', '20px').css('border-radius', '4px');
         $('#label-colors').append(p);
         
-        var len = listCards[col].arrayOfCards[row].label.length;  //Get length of label array
-        listCards[col].arrayOfCards[row].label[len] = 'red';      //Store in memory
+        var len = listCards[col].cards[row].label.length;  //Get length of label array
+        listCards[col].cards[row].label[len] = 'red';      //Store in memory
         
         //Put on color on actual card
-        $('#'+col+""+row).append(colorMaker('red'));
+        $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('red'));
         
         openModal(col, row);            //re-open modal
         $('#labeldropdown').hide();
@@ -268,11 +287,11 @@ function main() {
         p.css('background-color', '#c47ad9').css('width', '50px').css('height', '20px').css('border-radius', '4px');
         $('#label-colors').append(p);
         
-        var len = listCards[col].arrayOfCards[row].label.length;  //Get length of label array
-        listCards[col].arrayOfCards[row].label[len] = 'purple';   //Store in memory
+        var len = listCards[col].cards[row].label.length;  //Get length of label array
+        listCards[col].cards[row].label[len] = 'purple';   //Store in memory
         
         //Put on color on actual card
-        $('#'+col+""+row).append(colorMaker('purple'));
+        $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('purple'));
     
         openModal(col, row);            //re-open modal
         $('#labeldropdown').hide();
@@ -282,11 +301,11 @@ function main() {
         p.css('background-color', '#007bb9').css('width', '50px').css('height', '20px').css('border-radius', '4px');
         $('#label-colors').append(p);
         
-        var len = listCards[col].arrayOfCards[row].label.length;  //Get length of label array
-        listCards[col].arrayOfCards[row].label[len] = 'blue';     //Store in memory
+        var len = listCards[col].cards[row].label.length;  //Get length of label array
+        listCards[col].cards[row].label[len] = 'blue';     //Store in memory
         
         //Put on color on actual card
-        $('#'+col+""+row).append(colorMaker('blue'));
+        $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('blue'));
     
         //openModal(temp);            //re-open modal
         openModal(col, row);
@@ -315,7 +334,7 @@ function main() {
     $('#list').on('click', '.addNewCardbtn' ,function() {
         //Store col & row globally
         col = $(this).parent().parent().parent().parent().index();
-        row = listCards[col].arrayOfCards.length;
+        row = listCards[col].cards.length;
         
         $('.addCardDropdown').toggle();  
     });
@@ -329,7 +348,7 @@ function main() {
         var ptag = $('</p>').text(post);
         
         //Create another div element for label colors
-        var tempdiv = $('<div/>').attr('class', 'lab-colors').attr('id', col+""+row);
+        var tempdiv = $('<div/>').attr('class', 'lab-colors');
 
         //Create new button that will store p tag         
         var tempBtn = $('<button/>').attr('class', 'cardBtn');
@@ -348,9 +367,25 @@ function main() {
         //Create new card object & add new card to array 
         var card = {name:"Add Card Name...", description:$('.newCardInput').val(), label:[]};
         
-        //arrayOfCards[arrayOfCards.length] = card;
-        listCards[col].arrayOfCards[row] = card;
+        //cards[cards.length] = card;
+        listCards[col].cards[row] = card;
         
+        //Generate url w/ appropriate id
+        var post_url = "http://thiman.me:1337/mcnubbins/list/"+listCards[col]._id +"/card/"; 
+
+        //Put added card to url 
+        $.post(post_url, 
+        { 
+            name: "",
+            description: post,
+            label: ['']
+        })      
+        .done(function(response) {
+            //console.log(response);
+            listCards[col].cards[row]._id = response._id;
+            //console.log(listCards[col].cards[row]._id);
+        }); 
+
         //Hide input after submit, and reset form
         $('.addCardDropdown').hide();
         $('.submit-btn-form')[0].reset();
@@ -398,7 +433,7 @@ function main() {
         $('#list:last-child').append(liEle);
         
         //Add list to data structure
-        var newList = {title: post, arrayOfCards:[]};
+        var newList = {title: post, cards:[]};
         listCards[col] = newList;
         
         //Hide input after submit, and reset form
