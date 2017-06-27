@@ -56,6 +56,7 @@ function openModal(c, r) {
     modal.style.display = "block";      //Display modal
 }
 
+
 //Close modal if x is clicked or off screen
 var modal = document.getElementById("myModal");
 var span = document.getElementsByClassName("close")[0];
@@ -105,8 +106,7 @@ function colorMaker(color) {
 
 //Global variables
 var col;
-var row;
-var temp;           
+var row;        
 var listCards = [];
 
 //Ajax
@@ -215,6 +215,27 @@ function main() {
         modal.style.display = "none";
     });
     
+    //Function called when label color needs to be added
+    function updateAPI() {
+        //Generate url w/ appropriate ids
+        var listid = listCards[col]._id;
+        var cardid = listCards[col].cards[row]._id;
+        var post_url = "http://thiman.me:1337/mcnubbins/list/"+listid+"/card/"+cardid;         
+
+        //PATCH api with new label info
+        $.ajax({
+            url: post_url,
+            type: "PATCH",
+            dataType: 'json',
+            data: {
+                name : listCards[col].cards[row].name,
+                description : listCards[col].cards[row].description,
+                label : listCards[col].cards[row].label,
+                _id: cardid
+            }
+        });  
+    }
+    
     //Function for labels dropdown menu
     $('#labeldropdown').hide();
     $('#label-btn').on('click', function() {
@@ -230,12 +251,14 @@ function main() {
         p.append(p);
         
         var len = listCards[col].cards[row].label.length;  //Get length of label array
-        
         listCards[col].cards[row].label[len] = 'green';    //Store in memory
-    
+        
         //Put on color on actual html card
         $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('green'));
-
+        
+        //Update API with new label
+        updateAPI();
+    
         openModal(col, row);            //re-open modal
         $('#labeldropdown').hide();
         
@@ -251,6 +274,9 @@ function main() {
         //Put on color on actual card
         $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('yellow'));
         
+        //Update API with new label
+        updateAPI();
+        
         openModal(col, row);            //re-open modal
         $('#labeldropdown').hide();
     });
@@ -264,6 +290,9 @@ function main() {
         
         //Put on color on actual card
         $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('orange'));
+        
+        //Update API with new label
+        updateAPI();
         
         openModal(col, row);            //re-open modal
         $('#labeldropdown').hide();
@@ -279,6 +308,9 @@ function main() {
         //Put on color on actual card
         $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('red'));
         
+        //Update API with new label
+        updateAPI();
+        
         openModal(col, row);            //re-open modal
         $('#labeldropdown').hide();
     });
@@ -293,6 +325,9 @@ function main() {
         //Put on color on actual card
         $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('purple'));
     
+        //Update API with new label
+        updateAPI();
+        
         openModal(col, row);            //re-open modal
         $('#labeldropdown').hide();
     });
@@ -307,7 +342,9 @@ function main() {
         //Put on color on actual card
         $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('blue'));
     
-        //openModal(temp);            //re-open modal
+        //Update API with new label
+        updateAPI();
+        
         openModal(col, row);
         $('#labeldropdown').hide();
     });
@@ -320,11 +357,11 @@ function main() {
         
     //When you click on any li within the inner list, open modal
     $('#list').on('click', '.inner-list li', function() {
-
-        temp = $(this).index();
+        
+        //Get col and row
         col = $(this).parent().parent().parent().parent().index();
         row = $(this).index();
-    
+        
         //Open modal        
         openModal(col, row);
     });
@@ -436,6 +473,19 @@ function main() {
         var newList = {title: post, cards:[]};
         listCards[col] = newList;
         
+        //Generate url for posting a list
+        var post_url = "http://thiman.me:1337/mcnubbins/list"; 
+
+        //Put added list into api
+        $.post(post_url, 
+        { 
+            title: post
+        })      
+        .done(function(response) {            
+            //Store generated _id back into global listCards
+            listCards[col]._id = response._id;
+        }); 
+        
         //Hide input after submit, and reset form
         $('#add-list-dropdown').hide();
         $('#list-submit-btn-form')[0].reset();
@@ -445,7 +495,19 @@ function main() {
     $('#list').on('click', '.xbtn', function() {
         //Get column that called this function
         col = $(this).parent().parent().parent().index();
-
+        
+        //Remove from api
+        var listid = listCards[col]._id;
+        
+        //Generate url w/ appropriate id
+        var post_url = "http://thiman.me:1337/mcnubbins/list/"+listid; 
+        
+        //Delete from api
+        $.ajax({
+            url: post_url,
+            type: "DELETE"
+        });
+        
         //Delete list from html
         $(this).parent().parent().parent().remove();
         
