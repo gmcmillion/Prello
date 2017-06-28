@@ -21,23 +21,8 @@ var listCards = [
 
 //Global variables
 var col;
-var row;        
+var row; 
 var listCards = [];
-
-//Ajax
-$.ajax({
-    url: "http://thiman.me:1337/mcnubbins/list",
-    type: "GET",
-    dataType : "json",
-}).done(function(json) {
-    console.log(json);
-    
-    //Populate listCards[]
-    for (var i = 0; i < json.length; i++)
-    {
-        listCards[i] = json[i];
-    }
-});
 
 function openModal(c, r) {
     //Populate modal with relevant info
@@ -119,8 +104,8 @@ function colorMaker(color) {
     return p;
 }
 
-//Jquery 
-function main() {       
+
+function populate() {
     //Insert the dummy cards into the html
     for(var i = 0; i < listCards.length; i++) 
     {    
@@ -176,6 +161,20 @@ function main() {
         
         newDiv2.append(newDiv4);
     }
+}
+
+//Jquery 
+function main() {      
+    //Ajax
+    $.get("http://thiman.me:1337/mcnubbins/list", function(response) {
+        console.log(response);
+        
+        //Store response in array
+        listCards = response;
+
+        //Populate html
+        populate();
+    });
     
     //Function for boards drop down menu
     $('#board-btn-content').hide();
@@ -214,7 +213,6 @@ function main() {
         var listid = listCards[col]._id;
         var cardid = listCards[col].cards[row]._id;
         var post_url = "http://thiman.me:1337/mcnubbins/list/"+listid+"/card/"+cardid;         
-
         //PATCH api with new label info
         $.ajax({
             url: post_url,
