@@ -19,8 +19,25 @@ var listCards = [
 ];
 */
 
+//Global variables
+var col;
+var row;        
+var listCards = [];
 
-
+//Ajax
+$.ajax({
+    url: "http://thiman.me:1337/mcnubbins/list",
+    type: "GET",
+    dataType : "json",
+}).done(function(json) {
+    console.log(json);
+    
+    //Populate listCards[]
+    for (var i = 0; i < json.length; i++)
+    {
+        listCards[i] = json[i];
+    }
+});
 
 function openModal(c, r) {
     //Populate modal with relevant info
@@ -55,7 +72,6 @@ function openModal(c, r) {
     
     modal.style.display = "block";      //Display modal
 }
-
 
 //Close modal if x is clicked or off screen
 var modal = document.getElementById("myModal");
@@ -103,37 +119,14 @@ function colorMaker(color) {
     return p;
 }
 
-
-//Global variables
-var col;
-var row;        
-var listCards = [];
-
-//Ajax
-$.ajax({
-    url: "http://thiman.me:1337/mcnubbins/list",
-    type: "GET",
-    dataType : "json",
-})
-
-.done(function(json) {
-    console.log(json);
-
-    //Populate listCards[]
-    for (var i = 0; i < json.length; i++)
-    {
-        listCards[i] = json[i];
-    }
-})
-
 //Jquery 
-function main() {    
+function main() {       
     //Insert the dummy cards into the html
     for(var i = 0; i < listCards.length; i++) 
     {    
         //Create new list contents
         var p = $('</p>').text(listCards[i].title);
-        var xbtn = $('<button/>').attr('type', 'button').attr('class', 'xbtn').text('x');
+        var xbtn = $('<button/>').attr('type', 'button').attr('class', 'xbtn').html('&times;');
         var newDiv = $('<div/>').attr('class', 'ListHeader');
         newDiv.append(p);
         newDiv.append(xbtn);
@@ -373,7 +366,12 @@ function main() {
         col = $(this).parent().parent().parent().parent().index();
         row = listCards[col].cards.length;
         
-        $('.addCardDropdown').toggle();  
+        //Make popup appear under button
+        $("#popup").css({
+        'position': 'absolute',
+            'left': $(this).offset().left,
+            'top': $(this).offset().top + $(this).height() + 5
+            }).show(); 
     });
     
     //When submit is click
@@ -420,7 +418,6 @@ function main() {
         .done(function(response) {
             //console.log(response);
             listCards[col].cards[row]._id = response._id;
-            //console.log(listCards[col].cards[row]._id);
         }); 
 
         //Hide input after submit, and reset form
@@ -429,7 +426,6 @@ function main() {
     });
     
     //Add new list function
-    $('#add-list-dropdown').hide();
     $('#addNewListBtn').on('click', function() {
         $(this).next().toggle(); 
         
@@ -444,7 +440,7 @@ function main() {
         
         var p = $('</p>').text(post);
         
-        var xbtn = $('<button/>').attr('type', 'button').attr('class', 'xbtn').text('x');
+        var xbtn = $('<button/>').attr('type', 'button').attr('class', 'xbtn').html('&times;');
         var newDiv = $('<div/>').attr('class', 'ListHeader');
         newDiv.append(p);
         newDiv.append(xbtn);

@@ -187,9 +187,8 @@
             
             #Listdiv li {
                 height: 500px;
-                width: 250px;
+                width: 270px;
                 background-color: #E2E4E6;
-                padding-right: 10px;
                 margin-right: 10px;
                 display: inline-block;
                 border-radius: 4px;
@@ -198,7 +197,7 @@
             }
             
             #Listdiv li li{
-                margin: 5px;
+                margin: 5px 9px;
                 background-color: #ffffff;
                 height: 80px;
                 width: 240px;
@@ -209,21 +208,25 @@
             
             .ListHeader p {
                 float:left;
-                margin: 7px 10px;
+                margin: 10px;
                 color: #4d4d4d;
                 font-size:14px;
                 font-weight: bold;
             }
             
+            .ListHeader button {
+                float:right;
+                margin: 5px;
+            }
+            
             .xbtn {
-                position: relative;
-                left:5px;
-                top: 2px;
                 height: 30px;
                 width: 30px;
                 border-radius: 4px;
                 border-style: none;
                 font-size:20px;
+                padding-left:8px;
+                padding-bottom: 5px;
                 color: #4d4d4d;
                 background-color: #ffffff;
                 cursor:hand;
@@ -252,11 +255,12 @@
             
             .carddropdown {
                 position: relative;
-                display: inline-block;
+                display: block;
             }
             
             .addNewCardbtn {
                 display:block;
+                float:left;
                 background-color: #e2e4e6;
                 width: 100px;
                 height: 40px;
@@ -526,6 +530,7 @@
             }
 
             .list-dropdown-content {
+                display: none;
                 position: absolute;
                 top: 50px;
                 right: 5px;
@@ -571,19 +576,10 @@
                 box-shadow: 0 1px #006ca2;
             }
             
-            /*
-            #list {
-                overflow: scroll;
-                overflow-x: hidden;
-
-            }
-            
             .inner-list {
-                overflow: scroll;
-                margin:0px;
-                padding:0px;
+                clear:both;
             }
-            */
+
         </style>
     </head>
     <body>
@@ -678,7 +674,7 @@
         </div>
         
         <!-- Card drop down -->
-        <div class="addCardDropdown carddropdown-content">
+        <div class="addCardDropdown carddropdown-content" id="popup">
             <form class="submit-btn-form">
                 <input type="text" class="newCardInput" placeholder="Enter Description...">
                 <button type="submit" class="submit-btn">Submit</button>
