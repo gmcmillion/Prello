@@ -166,7 +166,7 @@ function populate() {
 //Jquery 
 function main() {      
     //Ajax
-    $.get("http://thiman.me:1337/mcnubbins/list", function(response) {
+    $.get("http://localhost:3000/list", function(response) {
         console.log(response);
         
         //Store response in array
@@ -189,7 +189,7 @@ function main() {
         var cardid = listCards[col].cards[row]._id;
         
         //Generate url w/ appropriate id
-        var post_url = "http://thiman.me:1337/mcnubbins/list/"+listid+"/card/"+cardid; 
+        var post_url = "http://localhost:3000/list/"+listid+"/card/"+cardid; 
         
         //Delete from api
         $.ajax({
@@ -212,8 +212,9 @@ function main() {
         //Generate url w/ appropriate ids
         var listid = listCards[col]._id;
         var cardid = listCards[col].cards[row]._id;
-        var post_url = "http://thiman.me:1337/mcnubbins/list/"+listid+"/card/"+cardid;         
-        //PATCH api with new label info
+        var post_url = "http://localhost:3000/list/"+listid+"/card/"+cardid;         
+        
+		//PATCH api with new label info
         $.ajax({
             url: post_url,
             type: "PATCH",
@@ -404,17 +405,16 @@ function main() {
         listCards[col].cards[row] = card;
         
         //Generate url w/ appropriate id
-        var post_url = "http://thiman.me:1337/mcnubbins/list/"+listCards[col]._id +"/card/"; 
+        var post_url = "http://localhost:3000/list/"+listCards[col]._id +"/card"; 
 
         //Put added card to url 
         $.post(post_url, 
         { 
-            name: "",
+            name: '',
             description: post,
             label: ['']
-        })      
+        })   
         .done(function(response) {
-            //console.log(response);
             listCards[col].cards[row]._id = response._id;
         }); 
 
@@ -468,7 +468,7 @@ function main() {
         listCards[col] = newList;
         
         //Generate url for posting a list
-        var post_url = "http://thiman.me:1337/mcnubbins/list"; 
+        var post_url = "http://localhost:3000/list"; 
 
         //Put added list into api
         $.post(post_url, 
@@ -479,7 +479,7 @@ function main() {
             //Store generated _id back into global listCards
             listCards[col]._id = response._id;
         }); 
-        
+
         //Hide input after submit, and reset form
         $('#add-list-dropdown').hide();
         $('#list-submit-btn-form')[0].reset();
@@ -494,7 +494,7 @@ function main() {
         var listid = listCards[col]._id;
         
         //Generate url w/ appropriate id
-        var post_url = "http://thiman.me:1337/mcnubbins/list/"+listid; 
+        var post_url = "http://localhost:3000/list/"+listid; 
         
         //Delete from api
         $.ajax({
