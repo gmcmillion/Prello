@@ -1,6 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
-
+//var List = require('../models/list.js');
+//var Card = require('../models/card.js');
 var router = express.Router();
 
 //Schema
@@ -9,7 +10,12 @@ var Schema = mongoose.Schema;
 var cardSchema = new Schema({
 	name: String,
 	description: String,
-	label: Array
+	label: Array,
+	comment: Array,
+	commauthor: Array,
+	commdate: Array,
+	commtime: Array,
+	author: String
 });
 
 var listSchema = new Schema({
@@ -21,9 +27,9 @@ var listSchema = new Schema({
 var List = mongoose.model('List', listSchema);
 var Card = mongoose.model('Card', cardSchema);
 
-
 /* GET home page. */
-router.get('/', function(req, res) {    
+router.get('/', function(req, res) {  
+	console.log('logged in as: '+ res.locals.user);  
     List.find(function (err, list){
         if (err) 
 			console.log(err);
@@ -58,14 +64,20 @@ router.delete('/:lid', function(req, res) {
 	}); 
 });
 
-
 //router.post new CARD
 router.post('/:lid/card', function(req, res) {
+	console.log('Author is: '+ res.locals.user.username);
+
 	var newCard = new Card( 
 		{
-			name: 'Add Card Name...',
+			name: '',
 			description: req.body.description,
-			label: []
+			label: [],
+			comment: [],
+			commauthor: [],
+			commdate: [],
+			commtime: [],
+			author: res.locals.user.username
 		}
 	);
 	
@@ -100,7 +112,8 @@ router.patch('/:lid/card/:cid', function(req, res) {
 	List.update(
 		{ 'cards._id': mongoose.Types.ObjectId(req.params.cid) },
 		//$set replaces value of field w/ specified field
-		{ $set: { 'cards.$': req.body } }, 		//Mongodb 'positional $ operator
+		//'positional $ operator' identifies an element in an array to update
+		{ $set: { 'cards.$': req.body } }, 		//Mongodb 'positional $ operator'
 		{ new: true }
 	)
 	.then(function(err, updatedList) {

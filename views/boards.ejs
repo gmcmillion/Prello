@@ -1,0 +1,25 @@
+<%- include('boards-header', {href: 'stylesheets/boards.css' });%>        
+        <div id="mainbody">
+            <div id="welcome">
+                <p>Welcome <%= user.username %></p>
+            </div>
+
+            <!-- List of boards -->
+            <div id="personalBoards">
+                <img src="images/personal.png">
+                <p>Personal Boards</p>
+            </div>
+            
+            <div id="boardsList">
+                <ul>
+                    <li><button type="button" id="firstBoard">Board 1</button></li>
+                    <li><button type="button" id="newBoard">Create new board...</button></li>
+                </ul>
+            </div>
+            
+            <div id="createNewTeam">
+                <a href="">Create a new team...</a>
+            </div>
+            
+        </div>
+<%- include('boards-footer', {script: 'javascripts/boards.js' });%>

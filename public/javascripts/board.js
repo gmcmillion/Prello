@@ -23,12 +23,14 @@ var listCards = [
 var col;
 var row; 
 var listCards = [];
+var user;
 
 function openModal(c, r) {
     //Populate modal with relevant info
     $('#description').html(listCards[c].cards[r].description);
     $('#card-name').html(listCards[c].cards[r].name);
-    
+    $('#author').html(listCards[c].cards[r].author);
+
     var temp3 = $('<div/>');     //temp div to hold label colors
     for (var i = 0; i < listCards[c].cards[r].label.length; i++)
     {
@@ -55,6 +57,32 @@ function openModal(c, r) {
     }
     $('#label-colors').html(temp3); //Put temp div in the inner html of '#label-colors' 
     
+    //Populate modal comments
+    var tr = $('<tr/>');
+    var td1 = $('<td/>');
+    var td2 = $('<td/>');
+    var td3 = $('<td/>');
+    var td4 = $('<td/>');
+    console.log(listCards[c].cards[r].comment.length);
+    for (var i = 0; i < listCards[c].cards[r].comment.length; i++)
+    {                
+        //For author
+        td1.append(listCards[c].cards[r].comment[i]);
+        td2.append(listCards[c].cards[r].commauthor[i]);
+
+        //For date
+        td3.append(listCards[c].cards[r].commdate[i]);
+        
+        //For time
+        td4.append(listCards[c].cards[r].commtime[i]);
+
+        tr.append(td1);
+        tr.append(td2);
+        tr.append(td3);
+        tr.append(td4);
+    }
+    $('#comment-table').append(tr);
+
     modal.style.display = "block";      //Display modal
 }
 
@@ -103,7 +131,6 @@ function colorMaker(color) {
     }  
     return p;
 }
-
 
 function populate() {
     //Insert the dummy cards into the html
@@ -164,7 +191,12 @@ function populate() {
 }
 
 //Jquery 
-function main() {      
+function main() {  
+    //Get current username  
+    $.get("http://localhost:3000/username", function(response) {
+        user = response;
+    });
+
     //Ajax
     $.get("http://localhost:3000/list", function(response) {
         console.log(response);
@@ -206,15 +238,15 @@ function main() {
         //Close modal
         modal.style.display = "none";
     });
-    
-    //Function called when label color needs to be added
+
+    //Function called when label color OR comments need to be added
     function updateAPI() {
         //Generate url w/ appropriate ids
         var listid = listCards[col]._id;
         var cardid = listCards[col].cards[row]._id;
         var post_url = "http://localhost:3000/list/"+listid+"/card/"+cardid;         
         
-		//PATCH api with new label info
+		//PATCH api with new label/comment info
         $.ajax({
             url: post_url,
             type: "PATCH",
@@ -223,6 +255,11 @@ function main() {
                 name : listCards[col].cards[row].name,
                 description : listCards[col].cards[row].description,
                 label : listCards[col].cards[row].label,
+                author : listCards[col].cards[row].author,
+                comment : listCards[col].cards[row].comment,
+                commauthor: listCards[col].cards[row].commauthor,
+                commdate: listCards[col].cards[row].commdate,
+                commtime: listCards[col].cards[row].commtime,
                 _id: cardid
             }
         });  
@@ -373,7 +410,7 @@ function main() {
             }).show(); 
     });
     
-    //When submit is click
+    //When submit is click, add a new card
     $('.submit-btn').on('click', function(e) {  
         e.preventDefault();                     //Prevent refresh    
         var post = $('.newCardInput').val();    //Get input value
@@ -399,7 +436,15 @@ function main() {
         $('.inner-list:eq('+col+')').append(litag);
         
         //Create new card object & add new card to array 
-        var card = {name:"Add Card Name...", description:$('.newCardInput').val(), label:[]};
+        var card = {
+            name: "", 
+            description:$('.newCardInput').val(), 
+            label:[],
+            comment: [],
+            commauthor: [],
+			commdate: [],
+			commtime: [],
+            author: user};
         
         //cards[cards.length] = card;
         listCards[col].cards[row] = card;
@@ -412,7 +457,12 @@ function main() {
         { 
             name: '',
             description: post,
-            label: ['']
+            label: [''],
+            comment: [''],
+            commauthor: [''],
+			commdate: [''],
+			commtime: [''],
+            author: ''
         })   
         .done(function(response) {
             listCards[col].cards[row]._id = response._id;
@@ -422,6 +472,26 @@ function main() {
         $('.addCardDropdown').hide();
         $('.submit-btn-form')[0].reset();
     });
+
+    //When add comment button is clicked
+    $('#add-comment-button').on('click', function() {
+        var cmmt = $('#comm').val();    //Get input value
+        var d = new Date();
+        var t = d.getHours()+':'+d.getMinutes(); 
+        var len = listCards[col].cards[row].comment.length;  //Get length of comment array
+
+        //Store in local memory
+        listCards[col].cards[row].comment[len] = cmmt;          
+        listCards[col].cards[row].commauthor[len] = user;
+        listCards[col].cards[row].commdate[len] = d.toDateString();
+        listCards[col].cards[row].commtime[len] = t;
+    
+        //Update API with new comment info
+        updateAPI();
+        
+        openModal(col, row);            //re-open modal
+        $('#comment-form')[0].reset();
+    })
     
     //Add new list function
     $('#addNewListBtn').on('click', function() {
@@ -507,6 +577,18 @@ function main() {
         
         //Delete list from data structure
         listCards.splice(col, 1);
+    });
+    
+    //Log out button
+    $('#logout-btn').on('click', function() {
+        console.log('logging out');
+
+        //log out
+        var post_url = "http://localhost:3000/logout"; 
+        $.get(post_url, function(data) {
+            if (typeof data.redirect == 'string')
+                window.location = data.redirect; 
+        });
     });
 }
 
