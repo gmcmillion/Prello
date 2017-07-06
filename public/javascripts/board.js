@@ -1,24 +1,3 @@
-//Initial Dummy cards
-/*
-var listCards = [
-    {
-    title: 'First List',
-    cards: [
-        { name: "Card 1", description: "This is my 1st card", label: ['green', 'red', 'purple']},
-        { name: "Card 2", description: "This is my 2nd card", label: ['purple', 'blue']},
-        { name: "Card 3", description: "This is my 3rd card", label: ['purple', 'yellow'] }
-    ]
-    },
-    {
-    title: 'Second List',
-    cards: [
-        { name: "Card 4", description: "This is my 4th card", label: ['red', 'blue'] },
-        { name: "Card 5", description: "This is my 5th card", label: ['red', 'purple', 'green'] }
-    ]
-    }
-];
-*/
-
 //Global variables
 var col;
 var row; 
@@ -34,38 +13,34 @@ function openModal(c, r) {
     var temp3 = $('<div/>');     //temp div to hold label colors
     for (var i = 0; i < listCards[c].cards[r].label.length; i++)
     {
-        var p = $('</p>');
-        if(listCards[c].cards[r].label[i] === "green") {
-            p.css('background-color', '#5ebc60').css('width', '50px').css('height', '20px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '5px');
-        }
-        if(listCards[c].cards[r].label[i] === "yellow") {
-            p.css('background-color', '#f2d44b').css('width', '50px').css('height', '20px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '5px');
-        }
-        if(listCards[c].cards[r].label[i] === "orange") {
-            p.css('background-color', '#ffa95d').css('width', '50px').css('height', '20px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '5px');          
-        }
-        if(listCards[c].cards[r].label[i] === "red") {
-            p.css('background-color', '#ec594d').css('width', '50px').css('height', '20px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '5px');
-        }
-        if(listCards[c].cards[r].label[i] === "purple") {
-            p.css('background-color', '#c47ad9').css('width', '50px').css('height', '20px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '5px');
-        }
-        if(listCards[c].cards[r].label[i] === "blue") {
-            p.css('background-color', '#007bb9').css('width', '50px').css('height', '20px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '5px');
-        }  
+        var p = $('</p>').attr('class', 'modal-label-color');
+        p.css('background-color', listCards[c].cards[r].label[i]);
+
         temp3.append(p);     //Append p element to temp div
     }
     $('#label-colors').html(temp3); //Put temp div in the inner html of '#label-colors' 
     
+    //Build Table w/ headers
+    var table = $('<table/>').attr('id', 'comment-table');
+    var tr1 = $('<tr/>').attr('id', 'table-header');
+    var th1 = $('<th/>').text('Comment');
+    var th2 = $('<th/>').text('Author');
+    var th3 = $('<th/>').text('Date');
+    var th4 = $('<th/>').text('Time');
+    tr1.append(th1);
+    tr1.append(th2);
+    tr1.append(th3);
+    tr1.append(th4);
+    table.append(tr1);
     //Populate modal comments
-    var tr = $('<tr/>');
-    var td1 = $('<td/>');
-    var td2 = $('<td/>');
-    var td3 = $('<td/>');
-    var td4 = $('<td/>');
-    console.log(listCards[c].cards[r].comment.length);
     for (var i = 0; i < listCards[c].cards[r].comment.length; i++)
-    {                
+    {    
+        var tr2 = $('<tr/>');   
+        var td1 = $('<td/>');
+        var td2 = $('<td/>');
+        var td3 = $('<td/>');
+        var td4 = $('<td/>');
+
         //For author
         td1.append(listCards[c].cards[r].comment[i]);
         td2.append(listCards[c].cards[r].commauthor[i]);
@@ -76,13 +51,14 @@ function openModal(c, r) {
         //For time
         td4.append(listCards[c].cards[r].commtime[i]);
 
-        tr.append(td1);
-        tr.append(td2);
-        tr.append(td3);
-        tr.append(td4);
+        tr2.append(td1);
+        tr2.append(td2);
+        tr2.append(td3);
+        tr2.append(td4);
+        table.append(tr2);
     }
-    $('#comment-table').append(tr);
 
+    $('#comments').html(table);
     modal.style.display = "block";      //Display modal
 }
 
@@ -110,25 +86,8 @@ function closeNav() {
 
 //Function that makes mini color labels for cards
 function colorMaker(color) {    
-    var p = $('</p>');
-    if(color === "green") {
-        p.css('background-color', '#5ebc60').css('width', '25px').css('height', '10px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '2px');
-    }
-    if(color === "yellow") {
-        p.css('background-color', '#f2d44b').css('width', '25px').css('height', '10px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '2px');
-    }
-    if(color === "orange") {
-        p.css('background-color', '#ffa95d').css('width', '25px').css('height', '10px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '2px');          
-    }
-    if(color === "red") {
-        p.css('background-color', '#ec594d').css('width', '25px').css('height', '10px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '2px');
-    }
-    if(color === "purple") {
-        p.css('background-color', '#c47ad9').css('width', '25px').css('height', '10px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '2px');
-    }
-    if(color === "blue") {
-        p.css('background-color', '#007bb9').css('width', '25px').css('height', '10px').css('border-radius', '4px').css('display', 'inline-block').css('margin', '2px');
-    }  
+    var p = $('</p>').attr('class', 'mini-label-color');
+    p.css('background-color', color);
     return p;
 }
 
@@ -193,17 +152,15 @@ function populate() {
 //Jquery 
 function main() {  
     //Get current username  
-    $.get("http://localhost:3000/username", function(response) {
+    $.get("/username", function(response) {
         user = response;
     });
 
     //Ajax
-    $.get("http://localhost:3000/list", function(response) {
+    $.get("/list", function(response) {
         console.log(response);
-        
         //Store response in array
         listCards = response;
-
         //Populate html
         populate();
     });
@@ -221,7 +178,7 @@ function main() {
         var cardid = listCards[col].cards[row]._id;
         
         //Generate url w/ appropriate id
-        var post_url = "http://localhost:3000/list/"+listid+"/card/"+cardid; 
+        var post_url = "/list/"+listid+"/card/"+cardid; 
         
         //Delete from api
         $.ajax({
@@ -244,7 +201,7 @@ function main() {
         //Generate url w/ appropriate ids
         var listid = listCards[col]._id;
         var cardid = listCards[col].cards[row]._id;
-        var post_url = "http://localhost:3000/list/"+listid+"/card/"+cardid;         
+        var post_url = "/list/"+listid+"/card/"+cardid;         
         
 		//PATCH api with new label/comment info
         $.ajax({
@@ -280,10 +237,10 @@ function main() {
         p.append(p);
         
         var len = listCards[col].cards[row].label.length;  //Get length of label array
-        listCards[col].cards[row].label[len] = 'green';    //Store in memory
+        listCards[col].cards[row].label[len] = '#5ebc60';    //Store in memory
         
         //Put on color on actual html card
-        $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('green'));
+        $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('#5ebc60'));
         
         //Update API with new label
         updateAPI();
@@ -298,10 +255,10 @@ function main() {
         $('#label-colors').append(p);
         
         var len = listCards[col].cards[row].label.length;  //Get length of label array
-        listCards[col].cards[row].label[len] = 'yellow';   //Store in memory
+        listCards[col].cards[row].label[len] = '#f2d44b';   //Store in memory
     
         //Put on color on actual card
-        $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('yellow'));
+        $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('#f2d44b'));
         
         //Update API with new label
         updateAPI();
@@ -315,10 +272,10 @@ function main() {
         $('#label-colors').append(p);
         
         var len = listCards[col].cards[row].label.length;  //Get length of label array
-        listCards[col].cards[row].label[len] = 'orange';   //Store in memory
+        listCards[col].cards[row].label[len] = '#ffa95d';   //Store in memory
         
         //Put on color on actual card
-        $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('orange'));
+        $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('#ffa95d'));
         
         //Update API with new label
         updateAPI();
@@ -332,10 +289,10 @@ function main() {
         $('#label-colors').append(p);
         
         var len = listCards[col].cards[row].label.length;  //Get length of label array
-        listCards[col].cards[row].label[len] = 'red';      //Store in memory
+        listCards[col].cards[row].label[len] = '#ec594d';      //Store in memory
         
         //Put on color on actual card
-        $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('red'));
+        $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('#ec594d'));
         
         //Update API with new label
         updateAPI();
@@ -349,10 +306,10 @@ function main() {
         $('#label-colors').append(p);
         
         var len = listCards[col].cards[row].label.length;  //Get length of label array
-        listCards[col].cards[row].label[len] = 'purple';   //Store in memory
+        listCards[col].cards[row].label[len] = '#c47ad9';   //Store in memory
         
         //Put on color on actual card
-        $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('purple'));
+        $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('#c47ad9'));
     
         //Update API with new label
         updateAPI();
@@ -366,10 +323,10 @@ function main() {
         $('#label-colors').append(p);
         
         var len = listCards[col].cards[row].label.length;  //Get length of label array
-        listCards[col].cards[row].label[len] = 'blue';     //Store in memory
+        listCards[col].cards[row].label[len] = '#007bb9';     //Store in memory
         
         //Put on color on actual card
-        $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('blue'));
+        $('.inner-list:eq('+col+') li:nth-child('+(row+1)+') div').append(colorMaker('#007bb9'));
     
         //Update API with new label
         updateAPI();
@@ -414,43 +371,9 @@ function main() {
     $('.submit-btn').on('click', function(e) {  
         e.preventDefault();                     //Prevent refresh    
         var post = $('.newCardInput').val();    //Get input value
-        
-        //Create new p tag, and assign the inputted text        
-        var ptag = $('</p>').text(post);
-        
-        //Create another div element for label colors
-        var tempdiv = $('<div/>').attr('class', 'lab-colors');
-
-        //Create new button that will store p tag         
-        var tempBtn = $('<button/>').attr('class', 'cardBtn');
-        
-        //Append both ptag and tempdiv to new button
-        tempBtn.append(ptag);
-        tempBtn.append(tempdiv);
-
-        //Create new li tag that will store button
-        var litag = $('<li/>');
-        litag.append(tempBtn);
-        
-        //Append litag to '.inner-list'
-        $('.inner-list:eq('+col+')').append(litag);
-        
-        //Create new card object & add new card to array 
-        var card = {
-            name: "", 
-            description:$('.newCardInput').val(), 
-            label:[],
-            comment: [],
-            commauthor: [],
-			commdate: [],
-			commtime: [],
-            author: user};
-        
-        //cards[cards.length] = card;
-        listCards[col].cards[row] = card;
-        
+    
         //Generate url w/ appropriate id
-        var post_url = "http://localhost:3000/list/"+listCards[col]._id +"/card"; 
+        var post_url = "/list/"+listCards[col]._id +"/card"; 
 
         //Put added card to url 
         $.post(post_url, 
@@ -465,7 +388,28 @@ function main() {
             author: ''
         })   
         .done(function(response) {
-            listCards[col].cards[row]._id = response._id;
+            var card = response;
+            //Store locally
+            listCards[col].cards[row] = card;
+            //Create new p tag, and assign the inputted text        
+            var ptag = $('</p>').text(card.description);
+            
+            //Create another div element for label colors
+            var tempdiv = $('<div/>').attr('class', 'lab-colors');
+
+            //Create new button that will store p tag         
+            var tempBtn = $('<button/>').attr('class', 'cardBtn');
+            
+            //Append both ptag and tempdiv to new button
+            tempBtn.append(ptag);
+            tempBtn.append(tempdiv);
+
+            //Create new li tag that will store button
+            var litag = $('<li/>');
+            litag.append(tempBtn);
+            
+            //Append litag to '.inner-list'
+            $('.inner-list:eq('+col+')').append(litag);
         }); 
 
         //Hide input after submit, and reset form
@@ -506,48 +450,43 @@ function main() {
         e.preventDefault();                     //Prevent refresh
         var post = $('#newListInput').val();    //Get input value
         
-        var p = $('</p>').text(post);
-        
-        var xbtn = $('<button/>').attr('type', 'button').attr('class', 'xbtn').html('&times;');
-        var newDiv = $('<div/>').attr('class', 'ListHeader');
-        newDiv.append(p);
-        newDiv.append(xbtn);
-        
-        var newUL = $('<ul/>').attr('class', 'inner-list');
-        
-        var newbtn = $('<button/>').attr('type', 'button').attr('class', 'addNewCardbtn').text('Add a card...');
-        
-        var newDiv2 = $('<div/>').attr('class', 'carddropdown');
-        newDiv2.append(newbtn);
-        
-        newDiv3 = $('<div/>');
-        newDiv3.append(newUL);
-        newDiv3.append(newDiv2);
-        
-        newDiv4 = $('<div/>').attr('class', 'outer-li');
-        newDiv4.append(newDiv);
-        newDiv4.append(newDiv3);    
-        
-        var liEle = $('<li/>').append(newDiv4);
-        
-        //Store the clone in new li, which is the last child
-        $('#list:last-child').append(liEle);
-        
-        //Add list to data structure
-        var newList = {title: post, cards:[]};
-        listCards[col] = newList;
-        
-        //Generate url for posting a list
-        var post_url = "http://localhost:3000/list"; 
+        var post_url = "/list"; 
 
         //Put added list into api
         $.post(post_url, 
         { 
             title: post
         })      
-        .done(function(response) {            
-            //Store generated _id back into global listCards
-            listCards[col]._id = response._id;
+        .done(function(response) {  
+            //Add list to data structure
+            listCards[col] = response;
+
+            var p = $('</p>').text(post);
+        
+            var xbtn = $('<button/>').attr('type', 'button').attr('class', 'xbtn').html('&times;');
+            var newDiv = $('<div/>').attr('class', 'ListHeader');
+            newDiv.append(p);
+            newDiv.append(xbtn);
+            
+            var newUL = $('<ul/>').attr('class', 'inner-list');
+            
+            var newbtn = $('<button/>').attr('type', 'button').attr('class', 'addNewCardbtn').text('Add a card...');
+            
+            var newDiv2 = $('<div/>').attr('class', 'carddropdown');
+            newDiv2.append(newbtn);
+            
+            newDiv3 = $('<div/>');
+            newDiv3.append(newUL);
+            newDiv3.append(newDiv2);
+            
+            newDiv4 = $('<div/>').attr('class', 'outer-li');
+            newDiv4.append(newDiv);
+            newDiv4.append(newDiv3);    
+            
+            var liEle = $('<li/>').append(newDiv4);
+            
+            //Store the clone in new li, which is the last child
+            $('#list:last-child').append(liEle);    
         }); 
 
         //Hide input after submit, and reset form
@@ -564,7 +503,7 @@ function main() {
         var listid = listCards[col]._id;
         
         //Generate url w/ appropriate id
-        var post_url = "http://localhost:3000/list/"+listid; 
+        var post_url = "/list/"+listid; 
         
         //Delete from api
         $.ajax({
@@ -577,18 +516,6 @@ function main() {
         
         //Delete list from data structure
         listCards.splice(col, 1);
-    });
-    
-    //Log out button
-    $('#logout-btn').on('click', function() {
-        console.log('logging out');
-
-        //log out
-        var post_url = "http://localhost:3000/logout"; 
-        $.get(post_url, function(data) {
-            if (typeof data.redirect == 'string')
-                window.location = data.redirect; 
-        });
     });
 }
 

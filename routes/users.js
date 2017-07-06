@@ -1,42 +1,11 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var mongoose = require('mongoose');
-var User = require('../models/user.js');
+var User = require('../models/user');
 var sessions = require('client-sessions');
 var router = express.Router();
 
-
 router.use(bodyParser.urlencoded({ extended: true }));
-
-//Use SSL so app only communicates w/ browser over encrypted channel
-
-router.use(sessions({
-  cookieName: 'session',
-  secret: 'eg[isfd-8yF9-7w2315df{}+Ijsli;;to8',
-  duration: 30 * 60 * 1000,
-  activeDuration: 5 * 60 * 1000,
-  httpOnly: true,   //prevents browser JS from accessing cookies
-  secure: true,     //ensures cookies are only used over HTTPS
-  ephemeral: true   //deletes the cookie when the browser is closed
-}));
-
-//Global middleware
-router.use(function(req, res, next) {
-  if (req.session && req.session.user) {
-    User.findOne({ email: req.session.user.email }, function(err, user) {
-      if (user) {
-        req.user = user;
-        delete req.user.password; // delete the password from the session
-        req.session.user = user;  //refresh the session value
-        res.locals.user = user;
-      }
-      // finishing processing the middleware and run the route
-      next();
-    });
-  } else {
-    next();
-  }
-});
 
 //Render login page
 router.get('/', function(req, res) {
@@ -66,21 +35,22 @@ router.get('/users', function(req, res, next) {
   	})
 });
 
+//To get current username
 router.get('/username', function(req, res, next) {
 	res.json(res.locals.user.username);
 });
 
 //To register a new user
 router.post('/reg', function(req, res) {
-	res.json(req.body);
-
 	console.log('reg post');
-
+	
+	//Create user object
 	var user = new User({
 		username: req.body.username,
 		password: req.body.password,
 		email: req.body.email
 	});
+
 	//Save into mongodb
 	user.save(function(err) {
 		if(err) {
@@ -93,7 +63,8 @@ router.post('/reg', function(req, res) {
 			
 		} else {
 			req.session.user = user;	//set-cookie: session={email...pass...}
-			res.send({redirect: '/boards'});
+			//res.send({redirect: '/boards'});
+			res.redirect('/boards');
 		}
 	});
 });
@@ -112,7 +83,8 @@ router.post('/login', function(req, res) {
 
 				req.session.user = user;	//set-cookie: session={email...pass...}
 				console.log('getting boards');
-				res.send({redirect: '/boards'});
+				//res.send({redirect: '/boards'});
+				res.redirect('/boards');
 			} else {
 				res.render('login.ejs', {error: 'Invalid password'});
 			}
@@ -142,14 +114,7 @@ router.get('/boards', requireLogin, function(req, res) {
 	}
 });
 
-//Reset session when user logs out
-router.get('/logout', function(req, res) {
-	console.log('router.get/logout');
-	req.session.reset();
-	//Redirect to homepage
-	//res.redirect('/');
-	res.send({redirect: '/'});
-});
+
 
 //Delete user
 router.delete('/:uid', function(req, res) {

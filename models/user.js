@@ -13,17 +13,3 @@ var schema = new Schema({
 
 
 module.exports = mongoose.model('User', schema);
-
-
-/*
-//Schema
-var Schema = mongoose.Schema;
-var ObjectId = Schema.ObjectId;
-
-var User = mongoose.model('User', new Schema({
-	id: ObjectId, 
-	username: String,
-	password: String,
-    email: { type: String, unique: true } 
-}));
-*/

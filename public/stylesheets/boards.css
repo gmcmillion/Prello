@@ -151,7 +151,7 @@ p {
 }
 
 #firstBoard {
-    background-image: url(abstract-mosaic-background.png);
+    background-image: url(../images/abstract-mosaic-background.png);
     background-size:cover;
 }
 
@@ -179,4 +179,8 @@ p {
 
 #welcome p{
     font-size:22px;
+}
+
+a {
+    text-decoration: none;
 }

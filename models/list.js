@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 
 var listSchema = new Schema({
 	title: String,
-	cards: [cardSchema]
+	cards: [Card]
 });
 
 module.exports = mongoose.model('List', listSchema);

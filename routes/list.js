@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 //var Card = require('../models/card.js');
 var router = express.Router();
 
+
 //Schema
 var Schema = mongoose.Schema;
 
@@ -26,6 +27,7 @@ var listSchema = new Schema({
 //Models
 var List = mongoose.model('List', listSchema);
 var Card = mongoose.model('Card', cardSchema);
+
 
 /* GET home page. */
 router.get('/', function(req, res) {  
@@ -87,7 +89,7 @@ router.post('/:lid/card', function(req, res) {
 		if (err) 
 			console.log(err);
 		else 
-			res.json(card);
+			res.json(newCard);
 	});
 });
 

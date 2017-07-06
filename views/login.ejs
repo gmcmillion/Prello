@@ -3,8 +3,7 @@
         <div id="createAccount">
             <h1>Create a Prello Account</h1>
 
-            <!-- action="/users"  within form below-->
-            <form id="register-form" method="post" >
+            <form id="register-form" method="post" action="/reg">
                 <p>Username </p>
                 <input type="text" id="username" name="username" placeholder="e.g., Peter Anteater" required>
 
@@ -24,8 +23,7 @@
         <div id="Login">
             <h1>Log in to Prello</h1>
             
-            <!-- action="/login"  within form below-->
-            <form id="login-form" method="post">
+            <form id="login-form" method="post" action="/login">
                 <p>Username</p>
                 <input type="text" id="user" placeholder="e.g., Peter Anteater" name="username" required>
                 
@@ -35,10 +33,9 @@
                 <br /><br />
                 <input type="checkbox" id="remem" name="checkbox">
                 <label for="remem">Remember Me</label>
-            </form>
-            
-            <button id="login-btn" type="button">Log In</button><p id="forgotpass">Forgot your password? <a href="board.html">Reset it.</a></p>
 
+                <button id="login-btn" type="submit">Log In</button><p id="forgotpass">Forgot your password? <a href="board.html">Reset it.</a></p>
+            </form>
         </div>
         
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

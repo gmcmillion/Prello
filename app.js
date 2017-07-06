@@ -10,7 +10,8 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var list = require('./routes/list');
 var cors = require('cors');
-//var sessions = require('client-sessions');
+var sessions = require('client-sessions');
+var User = require('./models/user');
 
 //Connect to mongo
 mongoose.connect('mongodb://localhost/prello');
@@ -28,7 +29,7 @@ app.use(cors());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');    //Use ejs as template engine
 
-/*
+//Use SSL so app only communicates w/ browser over encrypted channel
 app.use(sessions({
   cookieName: 'session',
   secret: 'eg[isfd-8yF9-7w2315df{}+Ijsli;;to8',
@@ -38,7 +39,34 @@ app.use(sessions({
   secure: true,     //ensures cookies are only used over HTTPS
   ephemeral: true   //deletes the cookie when the browser is closed
 }));
-*/
+
+//Global middleware
+app.use(function(req, res, next) {
+  if (req.session && req.session.user) {
+    User.findOne({ email: req.session.user.email }, function(err, user) {
+      if (user) {
+        req.user = user;
+        delete req.user.password; // delete the password from the session
+        req.session.user = user;  //refresh the session value
+        res.locals.user = user;
+      }
+      // finishing processing the middleware and run the route
+      next();
+    });
+  } else {
+    next();
+  }
+});
+
+//Reset session when user logs out
+app.get('/logout', function(req, res) {
+	console.log('router.get/logout');
+	req.session.reset();
+	
+	//Redirect to homepage
+	res.redirect('/login');
+	//res.send({redirect: '/'});
+});
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

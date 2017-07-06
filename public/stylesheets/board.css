@@ -2,7 +2,7 @@ body {
     width: 100%;
     height: 100%;
     margin: 0;
-    background-image: url('abstract-mosaic-background.png');
+    background-image: url(../images/abstract-mosaic-background.png);
     background-repeat: no-repeat;
     background-size: cover;
     font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
@@ -425,6 +425,14 @@ button img{
     padding:0;
 }
 
+.modal-label-color {
+    width: 50px;
+    height: 20px; 
+    border-radius: 4px;
+    display: inline-block;
+    margin: 5px;
+}
+
 .close {
     color: #aaaaaa;
     float: right;
@@ -644,4 +652,16 @@ tr:nth-child(even) {
 #table-header {
     color: #4d4d4d;
     font-size: 16px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.mini-label-color {
+    width: 25px;
+    height: 10px;
+    border-radius: 4px;
+    display: inline-block;
+    margin: 2px;
 }
