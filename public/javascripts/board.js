@@ -55,6 +55,7 @@ function openModal(c, r) {
         tr2.append(td2);
         tr2.append(td3);
         tr2.append(td4);
+        
         table.append(tr2);
     }
 

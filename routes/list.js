@@ -4,7 +4,6 @@ var mongoose = require('mongoose');
 //var Card = require('../models/card.js');
 var router = express.Router();
 
-
 //Schema
 var Schema = mongoose.Schema;
 

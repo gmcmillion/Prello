@@ -3,6 +3,17 @@
             <div id="welcome">
                 <p>Welcome <%= user.username %></p>
             </div>
+            <!--
+            <div id="add-board-dropdown">
+                <button type="button" id="addNewBoardBtn">Add New Board</button>
+                <div id="add-list-dropdown" class="list-dropdown-content">
+                    <form id="list-submit-btn-form">
+                        <input type="text" id="newListInput" placeholder="Add a list...">
+                        <button type="submit" id="list-submit-btn">Submit</button>
+                    </form>
+                </div>
+            </div>
+            -->
 
             <!-- List of boards -->
             <div id="personalBoards">
@@ -13,13 +24,10 @@
             <div id="boardsList">
                 <ul>
                     <a href="/board"><li><button type="button" id="firstBoard">Board 1</button></li></a>
+                    
+                    <!-- Create an id that will build a url to use for the href -->
                     <li><button type="button" id="newBoard">Create new board...</button></li>
                 </ul>
             </div>
-            
-            <div id="createNewTeam">
-                <a href="">Create a new team...</a>
-            </div>
-            
         </div>
 <%- include('boards-footer', {script: 'javascripts/boards.js' });%>
