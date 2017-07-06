@@ -2,7 +2,6 @@
 var col;
 var row; 
 var listCards = [];
-var user;
 
 function openModal(c, r) {
     //Populate modal with relevant info
@@ -25,12 +24,12 @@ function openModal(c, r) {
     var tr1 = $('<tr/>').attr('id', 'table-header');
     var th1 = $('<th/>').text('Comment');
     var th2 = $('<th/>').text('Author');
-    var th3 = $('<th/>').text('Date');
-    var th4 = $('<th/>').text('Time');
+    var th3 = $('<th/>').text('Date & Time');
+
     tr1.append(th1);
     tr1.append(th2);
     tr1.append(th3);
-    tr1.append(th4);
+
     table.append(tr1);
     //Populate modal comments
     for (var i = 0; i < listCards[c].cards[r].comment.length; i++)
@@ -39,27 +38,20 @@ function openModal(c, r) {
         var td1 = $('<td/>');
         var td2 = $('<td/>');
         var td3 = $('<td/>');
-        var td4 = $('<td/>');
 
         //For author
-        td1.append(listCards[c].cards[r].comment[i]);
-        td2.append(listCards[c].cards[r].commauthor[i]);
-
-        //For date
-        td3.append(listCards[c].cards[r].commdate[i]);
-        
-        //For time
-        td4.append(listCards[c].cards[r].commtime[i]);
+        td1.append(listCards[c].cards[r].comment[i].comment);
+        td2.append(listCards[c].cards[r].comment[i].commauthor);
+        td3.append(listCards[c].cards[r].comment[i].commdate);
 
         tr2.append(td1);
         tr2.append(td2);
         tr2.append(td3);
-        tr2.append(td4);
         
         table.append(tr2);
     }
-
     $('#comments').html(table);
+
     modal.style.display = "block";      //Display modal
 }
 
@@ -152,11 +144,6 @@ function populate() {
 
 //Jquery 
 function main() {  
-    //Get current username  
-    $.get("/username", function(response) {
-        user = response;
-    });
-
     //Ajax
     $.get("/list", function(response) {
         console.log(response);
@@ -215,9 +202,6 @@ function main() {
                 label : listCards[col].cards[row].label,
                 author : listCards[col].cards[row].author,
                 comment : listCards[col].cards[row].comment,
-                commauthor: listCards[col].cards[row].commauthor,
-                commdate: listCards[col].cards[row].commdate,
-                commtime: listCards[col].cards[row].commtime,
                 _id: cardid
             }
         });  
@@ -383,9 +367,6 @@ function main() {
             description: post,
             label: [''],
             comment: [''],
-            commauthor: [''],
-			commdate: [''],
-			commtime: [''],
             author: ''
         })   
         .done(function(response) {
@@ -421,20 +402,31 @@ function main() {
     //When add comment button is clicked
     $('#add-comment-button').on('click', function() {
         var cmmt = $('#comm').val();    //Get input value
-        var d = new Date();
-        var t = d.getHours()+':'+d.getMinutes(); 
-        var len = listCards[col].cards[row].comment.length;  //Get length of comment array
+        var date = new Date();          //Generate date & time
 
-        //Store in local memory
-        listCards[col].cards[row].comment[len] = cmmt;          
-        listCards[col].cards[row].commauthor[len] = user;
-        listCards[col].cards[row].commdate[len] = d.toDateString();
-        listCards[col].cards[row].commtime[len] = t;
-    
-        //Update API with new comment info
-        updateAPI();
-        
-        openModal(col, row);            //re-open modal
+        //Generate url w/ appropriate id
+        var listid = listCards[col]._id;
+        var cardid = listCards[col].cards[row]._id;
+        var post_url = "/list/"+listid+"/card/"+cardid+"/comment";  
+
+        //Post new comment to database
+        $.post(post_url, 
+        { 
+            comment: cmmt,
+            commauthor: '',
+            commdate: date
+        })   
+        .done(function(response) {
+            var len = listCards[col].cards[row].comment.length;  //Get length of comment array
+           
+            //Store in local memory
+            listCards[col].cards[row].comment[len] = response;   
+
+            //Update API w/ new comment info
+            updateAPI();     
+
+            openModal(col, row);            //re-open modal  
+        }); 
         $('#comment-form')[0].reset();
     })
     

@@ -35,11 +35,6 @@ router.get('/users', function(req, res, next) {
   	})
 });
 
-//To get current username
-router.get('/username', function(req, res, next) {
-	res.json(res.locals.user.username);
-});
-
 //To register a new user
 router.post('/reg', function(req, res) {
 	console.log('reg post');

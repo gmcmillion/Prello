@@ -7,14 +7,23 @@ var router = express.Router();
 //Schema
 var Schema = mongoose.Schema;
 
+/*
+var labelSchema = new Schema ({
+	color: String,
+	text: String
+});
+*/
+var commentSchema = new Schema ({
+	comment: String,
+	commauthor: String,
+	commdate: String
+});
+
 var cardSchema = new Schema({
 	name: String,
 	description: String,
 	label: Array,
-	comment: Array,
-	commauthor: Array,
-	commdate: Array,
-	commtime: Array,
+	comment: [commentSchema],
 	author: String
 });
 
@@ -26,7 +35,7 @@ var listSchema = new Schema({
 //Models
 var List = mongoose.model('List', listSchema);
 var Card = mongoose.model('Card', cardSchema);
-
+var Comment = mongoose.model('Comment', commentSchema);
 
 /* GET home page. */
 router.get('/', function(req, res) {  
@@ -75,9 +84,6 @@ router.post('/:lid/card', function(req, res) {
 			description: req.body.description,
 			label: [],
 			comment: [],
-			commauthor: [],
-			commdate: [],
-			commtime: [],
 			author: res.locals.user.username
 		}
 	);
@@ -89,6 +95,31 @@ router.post('/:lid/card', function(req, res) {
 			console.log(err);
 		else 
 			res.json(newCard);
+	});
+});
+
+//router.post new comment
+router.post('/:lid/card/:cid/comment', function(req, res) {
+	console.log('new comment');
+
+	//Create new comment
+	var newComment = new Comment( 
+		{
+			comment: req.body.comment,
+			commauthor: res.locals.user.username,
+			commdate: req.body.commdate
+		}
+	);
+
+	Card.findByIdAndUpdate(req.params.cid, {
+		$push: {comment : newComment}
+		}, {new: true}, function (err, comment) {
+		if (err) 
+			console.log(err);
+		else {
+			console.log('success');
+			res.json(newComment);
+		}	
 	});
 });
 
@@ -107,7 +138,7 @@ router.delete('/:lid/card/:cid', function(req, res) {
 	);
 });
 
-//router.patch CARD
+//router.patch CARD (for label colors)
 router.patch('/:lid/card/:cid', function(req, res) {
 	console.log(req.body);
 	List.update(
