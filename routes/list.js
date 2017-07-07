@@ -3,70 +3,70 @@ var mongoose = require('mongoose');
 //var List = require('../models/list.js');
 //var Card = require('../models/card.js');
 var router = express.Router();
-
-//Schema
-var Schema = mongoose.Schema;
-
-/*
-var labelSchema = new Schema ({
-	color: String,
-	text: String
-});
-*/
-var commentSchema = new Schema ({
-	comment: String,
-	commauthor: String,
-	commdate: String
-});
-
-var cardSchema = new Schema({
-	name: String,
-	description: String,
-	label: Array,
-	comment: [commentSchema],
-	author: String
-});
-
-var listSchema = new Schema({
-	title: String,
-	cards: [cardSchema]
-});
-
-//Models
-var List = mongoose.model('List', listSchema);
-var Card = mongoose.model('Card', cardSchema);
-var Comment = mongoose.model('Comment', commentSchema);
+var models = require('../models/allModels');
 
 /* GET home page. */
 router.get('/', function(req, res) {  
-	console.log('logged in as: '+ res.locals.user);  
-    List.find(function (err, list){
+	//console.log('logged in as: '+ res.locals.user);  
+	//console.log('board id is: '+ res.locals.user.boards[0]._id);
+    /*
+	models.List.find(function (err, list){
         if (err) 
 			console.log(err);
         res.json(list);
-    })
+    });
+	*/
+	/*
+	models.Board.findById(res.locals.user.boards._id, function(err, board) {		
+			if(err)
+				console.log(err);
+			else
+			{
+				console.log('found:'+ res.locals.user.boards[0]._id);
+				console.log(board);
+				res.json(board.lists);
+			}
+    });
+	*/
 });
 
 //router.post new LIST
 router.post('/', function(req, res) {
-    var newList = new List(
+	//console.log('req body: '+JSON.stringify(req.body));
+    var newList = new models.List(
         {
             title: req.body.title,
 			cards: []
         }
     );
-    
-    newList.save(function (err, list) {
-        if (err) 
-            console.log(err);
-        else 
-			res.json(list);    
-    });
+
+	console.log(this._id);
+
+	//console.log('logged in as: '+ res.locals.user);  
+	console.log('board id is: '+ res.locals.user.boards[0]._id);
+	//console.log(board.id(_id));
+	/*
+    models.Board.findByIdAndUpdate(res.locals.user.boards[0]._id, {
+		$push: {lists : newList}
+		}, {new: true}, function (err, list) {
+		if (err) 
+			console.log(err);
+		else 
+        {
+            newList.save(function (err, list) {
+            if (err) 
+                console.log(err);
+            else 
+                res.json(list); 
+            });
+        }
+	});
+	*/
 });
 
 //router.delete LIST
 router.delete('/:lid', function(req, res) {
-    List.findByIdAndRemove(req.params.lid, function (err, list) {
+    models.List.findByIdAndRemove(req.params.lid, function (err, list) {
 		if (err) 
             console.log(err);
         else 
@@ -78,7 +78,7 @@ router.delete('/:lid', function(req, res) {
 router.post('/:lid/card', function(req, res) {
 	console.log('Author is: '+ res.locals.user.username);
 
-	var newCard = new Card( 
+	var newCard = new models.Card( 
 		{
 			name: '',
 			description: req.body.description,
@@ -88,7 +88,7 @@ router.post('/:lid/card', function(req, res) {
 		}
 	);
 	
-	List.findByIdAndUpdate(req.params.lid, {
+	models.List.findByIdAndUpdate(req.params.lid, {
 		$push: {cards : newCard}
 		}, {new: true}, function (err, card) {
 		if (err) 
@@ -103,7 +103,7 @@ router.post('/:lid/card/:cid/comment', function(req, res) {
 	console.log('new comment');
 
 	//Create new comment
-	var newComment = new Comment( 
+	var newComment = new models.Comment( 
 		{
 			comment: req.body.comment,
 			commauthor: res.locals.user.username,
@@ -111,7 +111,7 @@ router.post('/:lid/card/:cid/comment', function(req, res) {
 		}
 	);
 
-	Card.findByIdAndUpdate(req.params.cid, {
+	models.Card.findByIdAndUpdate(req.params.cid, {
 		$push: {comment : newComment}
 		}, {new: true}, function (err, comment) {
 		if (err) 
@@ -125,7 +125,7 @@ router.post('/:lid/card/:cid/comment', function(req, res) {
 
 //router.delete CARD
 router.delete('/:lid/card/:cid', function(req, res) {		
-	List.update(
+	models.List.update(
 		{_id: req.params.lid },
 		{ $pull: { cards : {_id : req.params.cid}}}, 
 		{ upsert: false }, 
@@ -141,7 +141,7 @@ router.delete('/:lid/card/:cid', function(req, res) {
 //router.patch CARD (for label colors)
 router.patch('/:lid/card/:cid', function(req, res) {
 	console.log(req.body);
-	List.update(
+	models.List.update(
 		{ 'cards._id': mongoose.Types.ObjectId(req.params.cid) },
 		//$set replaces value of field w/ specified field
 		//'positional $ operator' identifies an element in an array to update

@@ -149,6 +149,7 @@ function main() {
         console.log(response);
         //Store response in array
         listCards = response;
+        
         //Populate html
         populate();
     });

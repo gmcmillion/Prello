@@ -16,7 +16,7 @@ body {
 
 #mainbody {
     height:500px;
-    margin:25px;
+    margin:15px;
 }
 
 #logo {
@@ -150,12 +150,12 @@ p {
     color:#4d4d4d;
 }
 
-#firstBoard {
+.firstBoard {
     background-image: url(../images/abstract-mosaic-background.png);
     background-size:cover;
 }
 
-#firstBoard:hover {
+.firstBoard:hover {
     opacity: 0.7;
 }
 
@@ -177,6 +177,10 @@ p {
     color: #ffffff;
 }
 
+#welcome {
+    float: left;
+}
+
 #welcome p{
     font-size:22px;
 }
@@ -184,3 +188,98 @@ p {
 a {
     text-decoration: none;
 }
+
+#add-board-dropdown-div {
+    position: relative;
+    float: right;
+    display: inline-block;
+}
+
+#add-new-board-btn {
+    margin: 10px;
+    height: 35px;
+    width: 120px;
+    background-color: #D6DADC;
+    color: #4d4d4d;
+    font-size: 14px;
+    font-weight: bold;
+    float: right;
+    border: 1px none #8c8c8c;
+    border-radius: 4px;
+    box-shadow: 0 1px #cccccc;
+    cursor: hand;
+}
+
+#add-new-board-btn:hover {
+    border-radius: 4px;
+    color: #ffffff;
+    background-color: #2591c5;
+    box-shadow: 0 1px #006ca2;
+}
+
+.board-dropdown-content {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 5px;
+    background-color: #f9f9f9;
+    width: 250px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 4px;
+}
+
+#board-form {
+    display: block;
+    margin-top: 0em;
+}
+
+.board-dropdown-content input[type=text] {
+    height: 40px;
+    width: 240px;
+    padding: 5px;
+    margin: 5px;
+    background-color: #fafec5;
+    border-radius: 4px;
+    border: 1px solid #4D4D4D;
+    font-size: 15px;
+}
+
+#board-submit-btn {
+    height: 35px;
+    width: 120px;
+    margin:5px;
+    background-color: #5cb85d;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    float:right;
+    display:inline;
+    border: 1px none #437535;
+    border-radius: 4px;
+    box-shadow: 0 1px #437535;
+    cursor: hand; 
+}
+
+/*
+.xbtn {
+    height: 30px !important;
+    width: 30px !important;
+    margin: 0px !important; 
+    border-radius: 4px;
+    border-style: none;
+    font-size:25px;
+    padding-left:8px;
+    padding-bottom: 5px;
+    color: #4d4d4d;
+    background-color: #ffffff;
+    cursor:hand;
+}
+
+.xbtn:hover {
+    color: #ffffff;
+    background-color: #2591c5;
+    box-shadow: 0 1px #006ca2;           
+}
+*/

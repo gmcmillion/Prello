@@ -1,7 +1,8 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var mongoose = require('mongoose');
-var User = require('../models/user');
+//var User = require('../models/user');
+var models = require('../models/allModels');
 var sessions = require('client-sessions');
 var router = express.Router();
 
@@ -28,7 +29,7 @@ router.get('/board', requireLogin, function(req, res) {
 //GET users listing
 router.get('/users', function(req, res, next) {
 	console.log('router.get');
-	User.find(function (err, user){
+	models.User.find(function (err, user){
     	if (err) 
       		console.log(err);
     	res.json(user);
@@ -40,10 +41,11 @@ router.post('/reg', function(req, res) {
 	console.log('reg post');
 	
 	//Create user object
-	var user = new User({
+	var user = new models.User({
 		username: req.body.username,
 		password: req.body.password,
-		email: req.body.email
+		email: req.body.email,
+		boards: []
 	});
 
 	//Save into mongodb
@@ -55,10 +57,8 @@ router.post('/reg', function(req, res) {
 			// if(err.code === 11000)
 			// 	error = 'That email is already taken, try another';
 			// res.render('login.ejs'), { error: error};
-			
 		} else {
 			req.session.user = user;	//set-cookie: session={email...pass...}
-			//res.send({redirect: '/boards'});
 			res.redirect('/boards');
 		}
 	});
@@ -68,9 +68,8 @@ router.post('/reg', function(req, res) {
 //Check db for username and password match
 router.post('/login', function(req, res) {
 	console.log('.post/login');
-
 	//Validate login & password are correct
-	User.findOne({username: req.body.username}, function(err, user) {
+	models.User.findOne({username: req.body.username}, function(err, user) {
 		if(!user) {
 			res.render('login.ejs', {error: 'Invalid username'});
 		} else {
@@ -78,7 +77,6 @@ router.post('/login', function(req, res) {
 
 				req.session.user = user;	//set-cookie: session={email...pass...}
 				console.log('getting boards');
-				//res.send({redirect: '/boards'});
 				res.redirect('/boards');
 			} else {
 				res.render('login.ejs', {error: 'Invalid password'});
@@ -94,7 +92,7 @@ router.get('/boards', requireLogin, function(req, res) {
 	//Check if session exists
 	if(req.session && req.session.user) {
 		//Look up user by email
-		User.findOne({email: req.session.user.email}, function(err, user) {
+		models.User.findOne({email: req.session.user.email}, function(err, user) {
 			if(!user) {
 				req.session.reset();
 				res.redirect('/login');
@@ -109,12 +107,10 @@ router.get('/boards', requireLogin, function(req, res) {
 	}
 });
 
-
-
 //Delete user
 router.delete('/:uid', function(req, res) {
   	console.log(req.params);
-    User.findByIdAndRemove(req.params.uid, function (err, user) {
+    models.User.findByIdAndRemove(req.params.uid, function (err, user) {
 		if (err) 
             console.log(err);
         else 

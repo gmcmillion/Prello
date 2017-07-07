@@ -9,9 +9,12 @@ var mongoose = require('mongoose');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var list = require('./routes/list');
+var board = require('./routes/boardRoutes');
+
 var cors = require('cors');
 var sessions = require('client-sessions');
-var User = require('./models/user');
+//var User = require('./models/user');
+var models = require('./models/allModels');
 
 //Connect to mongo
 mongoose.connect('mongodb://localhost/prello');
@@ -31,31 +34,31 @@ app.set('view engine', 'ejs');    //Use ejs as template engine
 
 //Use SSL so app only communicates w/ browser over encrypted channel
 app.use(sessions({
-  cookieName: 'session',
-  secret: 'eg[isfd-8yF9-7w2315df{}+Ijsli;;to8',
-  duration: 30 * 60 * 1000,
-  activeDuration: 5 * 60 * 1000,
-  httpOnly: true,   //prevents browser JS from accessing cookies
-  secure: true,     //ensures cookies are only used over HTTPS
-  ephemeral: true   //deletes the cookie when the browser is closed
+	cookieName: 'session',
+	secret: 'eg[isfd-8yF9-7w2315df{}+Ijsli;;to8',
+	duration: 30 * 60 * 1000,
+	activeDuration: 5 * 60 * 1000,
+	httpOnly: true,   //prevents browser JS from accessing cookies
+	secure: true,     //ensures cookies are only used over HTTPS
+	ephemeral: true   //deletes the cookie when the browser is closed
 }));
 
 //Global middleware
 app.use(function(req, res, next) {
-  if (req.session && req.session.user) {
-    User.findOne({ email: req.session.user.email }, function(err, user) {
-      if (user) {
-        req.user = user;
-        delete req.user.password; // delete the password from the session
-        req.session.user = user;  //refresh the session value
-        res.locals.user = user;
-      }
-      // finishing processing the middleware and run the route
-      next();
-    });
-  } else {
-    next();
-  }
+  	if (req.session && req.session.user) {
+		models.User.findOne({ email: req.session.user.email }, function(err, user) {
+			if (user) {
+				req.user = user;
+				delete req.user.password; // delete the password from the session
+				req.session.user = user;  //refresh the session value
+				res.locals.user = user;
+			}
+		// finishing processing the middleware and run the route
+			next();
+		});
+	} else {
+		next();
+	}
 });
 
 //Reset session when user logs out
@@ -78,6 +81,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', users);
 //app.use('/', index);
+app.use('/boardRoutes', board);
 app.use('/users', users);
 app.use('/list', list);
 
@@ -98,6 +102,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 
 module.exports = app;
