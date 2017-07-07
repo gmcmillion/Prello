@@ -5,30 +5,26 @@ var mongoose = require('mongoose');
 var router = express.Router();
 var models = require('../models/allModels');
 
-/* GET home page. */
-router.get('/', function(req, res) {  
-	//console.log('logged in as: '+ res.locals.user);  
-	//console.log('board id is: '+ res.locals.user.boards[0]._id);
-    /*
-	models.List.find(function (err, list){
-        if (err) 
-			console.log(err);
-        res.json(list);
-    });
-	*/
-	/*
-	models.Board.findById(res.locals.user.boards._id, function(err, board) {		
-			if(err)
-				console.log(err);
-			else
-			{
-				console.log('found:'+ res.locals.user.boards[0]._id);
-				console.log(board);
-				res.json(board.lists);
-			}
-    });
-	*/
-});
+// GET lists
+// router.get('/:bid', function(req, res) {  
+// 	//Finds all lists
+// 	models.List.find(function (err, list){
+//         if (err) 
+// 			console.log(err);
+//         res.json(list);
+//     });
+// 	/*
+// 	models.Board.findById(res.locals.user.boards._id, function(err, board) {		
+// 			if(err)
+// 				console.log(err);
+// 			else
+// 			{
+// 				console.log(board);
+// 				res.json(board.lists);
+// 			}
+//     });
+// 	*/
+// });
 
 //router.post new LIST
 router.post('/', function(req, res) {
@@ -40,12 +36,6 @@ router.post('/', function(req, res) {
         }
     );
 
-	console.log(this._id);
-
-	//console.log('logged in as: '+ res.locals.user);  
-	console.log('board id is: '+ res.locals.user.boards[0]._id);
-	//console.log(board.id(_id));
-	/*
     models.Board.findByIdAndUpdate(res.locals.user.boards[0]._id, {
 		$push: {lists : newList}
 		}, {new: true}, function (err, list) {
@@ -61,7 +51,7 @@ router.post('/', function(req, res) {
             });
         }
 	});
-	*/
+
 });
 
 //router.delete LIST

@@ -1,4 +1,4 @@
-<%- include('board-header', {href: 'stylesheets/board.css' });%>
+<%- include('board-header', {href: '../stylesheets/board.css' });%>
 <div id="board-header">
     <p id="boardName">Board 1</p>
     
@@ -85,4 +85,5 @@
     </form>
 </div>
         
-<%- include('board-footer', {script: 'javascripts/board.js' });%>
+<script> var id = '<%- id %>'; </script>   
+<%- include('board-footer', {script: '../javascripts/board.js' });%>

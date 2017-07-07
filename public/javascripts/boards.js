@@ -11,8 +11,7 @@ function main() {
             btn.text(boards[i].name);
             //btn.append(xbtn);
             var li = $('<li/>').append(btn);
-            var a = $('<a/>').attr('href', '/board').append(li);
-
+            var a = $('<a/>').attr('href', '/board/'+boards[i]._id).append(li);
             $('.ul-boards').append(a);
         }
     }

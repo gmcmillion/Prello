@@ -14,6 +14,14 @@ router.get('/', function(req, res) {
 	res.render('login.ejs');
 });
 
+router.get('/user', function(req, res) {
+	console.log('render login.ejs');
+	
+	models.Board.find()
+	
+	res.json()
+});
+
 //Get reg/login page
 router.get('/login', function(req, res) {
 	console.log('/login ** render login.ejs');
@@ -21,10 +29,86 @@ router.get('/login', function(req, res) {
 });
 
 //Get board page
-router.get('/board', requireLogin, function(req, res) {
+router.get('/board/:bid', requireLogin, function(req, res) {
 //router.get('/board', function(req, res) {
-	res.render('board.ejs');
+	res.render('board.ejs', {id: req.params.bid});
 });
+
+
+
+
+
+router.get('/board/:bid/list', function(req, res) {
+	console.log('req param bid:' +req.params.bid);
+
+	models.Board.findById(req.params.bid, function(err, board) {		
+			if(err)
+				console.log(err);
+			else
+			{
+				console.log(board);
+				res.json(board.lists);
+			}
+    });
+});
+
+router.post('/board/:bid/list', function(req, res) {
+	var newList = new models.List(
+        {
+            title: req.body.title,
+			cards: []
+        }
+    );
+
+	models.Board.findByIdAndUpdate(req.params.bid, {
+		$push: {lists : newList}
+		}, {new: true}, function (err, list) {
+		if (err) 
+			console.log(err);
+		else 
+        {
+            newList.save(function (err, list) {
+            if (err) 
+                console.log(err);
+            else 
+                res.json(list); 
+            });
+        }
+	});
+});
+
+/*
+router.post('/', function(req, res) {
+	//console.log('req body: '+JSON.stringify(req.body));
+    var newList = new models.List(
+        {
+            title: req.body.title,
+			cards: []
+        }
+    );
+
+	//console.log('logged in as: '+ res.locals.user);  
+	//console.log('board id is: ');
+	//console.log(board.id(_id));
+
+    models.Board.findByIdAndUpdate(req.params.bid, {
+		$push: {lists : newList}
+		}, {new: true}, function (err, list) {
+		if (err) 
+			console.log(err);
+		else 
+        {
+            newList.save(function (err, list) {
+            if (err) 
+                console.log(err);
+            else 
+                res.json(list); 
+            });
+        }
+	});
+});
+*/
+
 
 //GET users listing
 router.get('/users', function(req, res, next) {
@@ -63,7 +147,6 @@ router.post('/reg', function(req, res) {
 		}
 	});
 });
-
 
 //Check db for username and password match
 router.post('/login', function(req, res) {
@@ -120,7 +203,7 @@ router.delete('/:uid', function(req, res) {
 
 //To check if user is logged in
 function requireLogin (req, res, next) {
-	console.log('requireLogin');
+	//console.log('requireLogin');
 	if (!req.user) {
     	res.redirect('/login');
   	} else {

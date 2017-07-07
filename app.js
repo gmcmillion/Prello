@@ -79,7 +79,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', users);
+//app.use('/', users);
 //app.use('/', index);
 app.use('/boardRoutes', board);
 app.use('/users', users);

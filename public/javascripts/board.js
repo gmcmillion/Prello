@@ -145,14 +145,29 @@ function populate() {
 //Jquery 
 function main() {  
     //Ajax
+    /*
     $.get("/list", function(response) {
         console.log(response);
+        console.log('board id is: '+ id);
         //Store response in array
         listCards = response;
-        
+    });
+    */
+    console.log(id);
+
+    var post_url = id+"/list";
+
+    $.ajax({
+        url: post_url,
+        type: 'GET'
+    }).done(function(response) {
+        //Store response in array
+        listCards = response;
         //Populate html
         populate();
     });
+
+        
     
     //Function for boards drop down menu
     $('#board-btn-content').hide();
@@ -444,7 +459,7 @@ function main() {
         e.preventDefault();                     //Prevent refresh
         var post = $('#newListInput').val();    //Get input value
         
-        var post_url = "/list"; 
+        var post_url = "/users/board/"+id+"/list"; 
 
         //Put added list into api
         $.post(post_url, 

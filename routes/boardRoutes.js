@@ -5,6 +5,12 @@ var models = require('../models/allModels');
 var sessions = require('client-sessions');
 var router = express.Router();
 
+//For storing boards id within board.ejs file
+/*
+router.get('/:id', function(req, res) {
+  res.render('board', { title: 'Express' , id: req.params.id });
+});
+*/
 //GET boards listing
 router.get('/', function(req, res, next) {
     console.log('logged in as: '+ res.locals.user);
