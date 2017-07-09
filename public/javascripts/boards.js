@@ -11,13 +11,13 @@ function main() {
             btn.text(boards[i].name);
             //btn.append(xbtn);
             var li = $('<li/>').append(btn);
-            var a = $('<a/>').attr('href', '/board/'+boards[i]._id).append(li);
+            var a = $('<a/>').attr('href', 'list/'+boards[i]._id).append(li);
             $('.ul-boards').append(a);
         }
     }
 
-    //Get boards
-    $.get("/boardRoutes", function(response) {
+    //Get list of boards
+    $.get("boards/listofboards", function(response) {
         console.log(response);
         //Store response in array
         boards = response;
@@ -35,19 +35,19 @@ function main() {
     $('#board-submit-btn').on('click', function() {
         var post = $('#name').val();
 
-        var post_url = "/boardRoutes"
+        var post_url = "/boards/newboard"
 
         $.post(post_url, {
             name: post,
             lists: [''],
-	        author: ''
+	        author: '',
+            userid: ''
         }).done(function(response) {
             boards = response;
         });
     });
 
     //Delete boards w/ button click
-
 }
 
 $(document).ready(main);

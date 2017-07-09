@@ -42,7 +42,8 @@ var List = mongoose.model('List', listSchema);
 var boardSchema = new Schema({
 	name: String,
 	lists: [listSchema],
-	author: String
+	author: String,
+	userid: Array
 });
 var Board = mongoose.model('Board', boardSchema);
 
@@ -52,10 +53,9 @@ var userSchema = new Schema({
 	username: String,
 	password: String,
     email: { type: String, unique: true },
-	boards: [boardSchema]
+	boards: Array
 });
 var User = mongoose.model('User', userSchema);
-
 
 module.exports = {
 	Comment: Comment, 

@@ -9,7 +9,7 @@ var mongoose = require('mongoose');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var list = require('./routes/list');
-var board = require('./routes/boardRoutes');
+var board = require('./routes/boards');
 
 var cors = require('cors');
 var sessions = require('client-sessions');
@@ -67,7 +67,7 @@ app.get('/logout', function(req, res) {
 	req.session.reset();
 	
 	//Redirect to homepage
-	res.redirect('/login');
+	res.redirect('/users');
 	//res.send({redirect: '/'});
 });
 
@@ -81,7 +81,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use('/', users);
 //app.use('/', index);
-app.use('/boardRoutes', board);
+app.use('/boards', board);
 app.use('/users', users);
 app.use('/list', list);
 

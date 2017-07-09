@@ -10,107 +10,11 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 //Render login page
 router.get('/', function(req, res) {
-	console.log('render login.ejs');
+	console.log('rendering login.ejs');
 	res.render('login.ejs');
 });
 
-router.get('/user', function(req, res) {
-	console.log('render login.ejs');
-	
-	models.Board.find()
-	
-	res.json()
-});
-
-//Get reg/login page
-router.get('/login', function(req, res) {
-	console.log('/login ** render login.ejs');
-	res.render('login.ejs');
-});
-
-//Get board page
-router.get('/board/:bid', requireLogin, function(req, res) {
-//router.get('/board', function(req, res) {
-	res.render('board.ejs', {id: req.params.bid});
-});
-
-
-
-
-
-router.get('/board/:bid/list', function(req, res) {
-	console.log('req param bid:' +req.params.bid);
-
-	models.Board.findById(req.params.bid, function(err, board) {		
-			if(err)
-				console.log(err);
-			else
-			{
-				console.log(board);
-				res.json(board.lists);
-			}
-    });
-});
-
-router.post('/board/:bid/list', function(req, res) {
-	var newList = new models.List(
-        {
-            title: req.body.title,
-			cards: []
-        }
-    );
-
-	models.Board.findByIdAndUpdate(req.params.bid, {
-		$push: {lists : newList}
-		}, {new: true}, function (err, list) {
-		if (err) 
-			console.log(err);
-		else 
-        {
-            newList.save(function (err, list) {
-            if (err) 
-                console.log(err);
-            else 
-                res.json(list); 
-            });
-        }
-	});
-});
-
-/*
-router.post('/', function(req, res) {
-	//console.log('req body: '+JSON.stringify(req.body));
-    var newList = new models.List(
-        {
-            title: req.body.title,
-			cards: []
-        }
-    );
-
-	//console.log('logged in as: '+ res.locals.user);  
-	//console.log('board id is: ');
-	//console.log(board.id(_id));
-
-    models.Board.findByIdAndUpdate(req.params.bid, {
-		$push: {lists : newList}
-		}, {new: true}, function (err, list) {
-		if (err) 
-			console.log(err);
-		else 
-        {
-            newList.save(function (err, list) {
-            if (err) 
-                console.log(err);
-            else 
-                res.json(list); 
-            });
-        }
-	});
-});
-*/
-
-
-//GET users listing
+//GET users listing in postman
 router.get('/users', function(req, res, next) {
 	console.log('router.get');
 	models.User.find(function (err, user){
@@ -143,12 +47,12 @@ router.post('/reg', function(req, res) {
 			// res.render('login.ejs'), { error: error};
 		} else {
 			req.session.user = user;	//set-cookie: session={email...pass...}
-			res.redirect('/boards');
+			res.redirect('../boards');
 		}
 	});
 });
 
-//Check db for username and password match
+//To login a user
 router.post('/login', function(req, res) {
 	console.log('.post/login');
 	//Validate login & password are correct
@@ -160,34 +64,12 @@ router.post('/login', function(req, res) {
 
 				req.session.user = user;	//set-cookie: session={email...pass...}
 				console.log('getting boards');
-				res.redirect('/boards');
+				res.redirect('../boards');
 			} else {
 				res.render('login.ejs', {error: 'Invalid password'});
 			}
 		}
 	});
-});
-
-//Get boards page, and check for session user
-router.get('/boards', requireLogin, function(req, res) {
-//router.get('/boards', function(req, res) {
-	console.log('/boards');
-	//Check if session exists
-	if(req.session && req.session.user) {
-		//Look up user by email
-		models.User.findOne({email: req.session.user.email}, function(err, user) {
-			if(!user) {
-				req.session.reset();
-				res.redirect('/login');
-			} else {
-				res.locals.user = user;
-				console.log('logged in as: '+ res.locals.user);
-				res.render('boards.ejs');
-			}
-		});
-	} else {
-		res.redirect('/login');
-	}
 });
 
 //Delete user
@@ -205,7 +87,7 @@ router.delete('/:uid', function(req, res) {
 function requireLogin (req, res, next) {
 	//console.log('requireLogin');
 	if (!req.user) {
-    	res.redirect('/login');
+    	res.redirect('/users');
   	} else {
     	next();
   	}

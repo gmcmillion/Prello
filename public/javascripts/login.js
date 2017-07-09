@@ -12,9 +12,8 @@ register_form.addEventListener('submit', function(e) {
 });
 
 function main() {    
-    //Get users
+    //Get users page
     $.get("http://localhost:3000/users", function(response) {
-        console.log(response);
     });
 }
 

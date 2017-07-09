@@ -1,4 +1,4 @@
-<%- include('boards-header', {href: 'stylesheets/boards.css' });%>        
+<%- include('boards-header', {href: '../stylesheets/boards.css' });%>        
         <div id="mainbody">
             <div id="welcome">
                 <p>Welcome <%= user.username %></p>
@@ -8,7 +8,6 @@
                 <button type="button" id="add-new-board-btn">Add New Board</button>
                 <!-- Dropdown -->
                 <div id="board-dropdown" class="board-dropdown-content">
-                    <!-- <form id="board-form" method="post" action="boardRoutes/newBoard"> -->
                     <form id="board-form">
                         <input type="text" id="name" name="name" placeholder="Add a Board...">
                         <button id="board-submit-btn" type="submit">Submit</button>
@@ -18,7 +17,7 @@
 
             <!-- List of boards -->
             <div id="personalBoards">
-                <img src="images/personal.png">
+                <img src="../images/personal.png">
                 <p>Personal Boards</p>
             </div>
             
@@ -31,4 +30,4 @@
                 </ul>
             </div>
         </div>
-<%- include('boards-footer', {script: 'javascripts/boards.js' });%>
+<%- include('boards-footer', {script: '../javascripts/boards.js' });%>

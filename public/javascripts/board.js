@@ -145,29 +145,18 @@ function populate() {
 //Jquery 
 function main() {  
     //Ajax
-    /*
-    $.get("/list", function(response) {
-        console.log(response);
-        console.log('board id is: '+ id);
-        //Store response in array
-        listCards = response;
-    });
-    */
-    console.log(id);
-
-    var post_url = id+"/list";
-
+    //Get all lists which belong to this user
+    var post_url = id+"/allLists";
     $.ajax({
         url: post_url,
         type: 'GET'
     }).done(function(response) {
+        console.log(response);
         //Store response in array
         listCards = response;
         //Populate html
         populate();
-    });
-
-        
+    });        
     
     //Function for boards drop down menu
     $('#board-btn-content').hide();
@@ -182,7 +171,7 @@ function main() {
         var cardid = listCards[col].cards[row]._id;
         
         //Generate url w/ appropriate id
-        var post_url = "/list/"+listid+"/card/"+cardid; 
+        var post_url = id+"/"+listid +"/card/"+cardid; 
         
         //Delete from api
         $.ajax({
@@ -205,8 +194,63 @@ function main() {
         //Generate url w/ appropriate ids
         var listid = listCards[col]._id;
         var cardid = listCards[col].cards[row]._id;
-        var post_url = "/list/"+listid+"/card/"+cardid;         
+        //var post_url = id+"/"+listid+"/card/"+cardid;  
+        var origPos = row;       
         
+        //Push new card url
+        var post_url = id+"/"+listCards[col]._id +"/card/labels"; 
+
+        //Delete old card url
+        var post_url2 = id+"/"+listid +"/card/"+cardid; 
+        
+        //Delete from api
+        $.ajax({
+            url: post_url2,
+            type: "DELETE"
+        });
+
+        //Put added card to url 
+        $.post(post_url, 
+        { 
+            name : listCards[col].cards[row].name,
+            description : listCards[col].cards[row].description,
+            label : listCards[col].cards[row].label,
+            comment : listCards[col].cards[row].comment,
+            author : listCards[col].cards[row].author,
+            _id: listCards[col].cards[row]._id
+        })   
+        .done(function(response) {
+            console.log(response);
+            var card = response;
+            //Store locally
+            listCards[col].cards[row] = card;
+            //Create new p tag, and assign the inputted text        
+            var ptag = $('</p>').text(card.description);
+            
+            //Create another div element for label colors
+            var tempdiv = $('<div/>').attr('class', 'lab-colors');
+
+            //Create new button that will store p tag         
+            var tempBtn = $('<button/>').attr('class', 'cardBtn');
+            
+            //Append both ptag and tempdiv to new button
+            tempBtn.append(ptag);
+            tempBtn.append(tempdiv);
+
+            //Create new li tag that will store button
+            var litag = $('<li/>');
+            litag.append(tempBtn);
+            
+            //Append litag to '.inner-list'
+            $('.inner-list:eq('+col+')').append(litag);
+
+            //Position card to original order
+
+            //refresh page
+            location.reload();
+        }); 
+
+        /*
 		//PATCH api with new label/comment info
         $.ajax({
             url: post_url,
@@ -216,11 +260,12 @@ function main() {
                 name : listCards[col].cards[row].name,
                 description : listCards[col].cards[row].description,
                 label : listCards[col].cards[row].label,
-                author : listCards[col].cards[row].author,
                 comment : listCards[col].cards[row].comment,
+                author : listCards[col].cards[row].author,
                 _id: cardid
             }
         });  
+        */
     }
     
     //Function for labels dropdown menu
@@ -374,7 +419,8 @@ function main() {
         var post = $('.newCardInput').val();    //Get input value
     
         //Generate url w/ appropriate id
-        var post_url = "/list/"+listCards[col]._id +"/card"; 
+        //var post_url = "/list/"+listCards[col]._id +"/card"; 
+        var post_url = id+"/"+listCards[col]._id +"/card"; 
 
         //Put added card to url 
         $.post(post_url, 
@@ -386,6 +432,7 @@ function main() {
             author: ''
         })   
         .done(function(response) {
+            console.log(response);
             var card = response;
             //Store locally
             listCards[col].cards[row] = card;
@@ -423,7 +470,7 @@ function main() {
         //Generate url w/ appropriate id
         var listid = listCards[col]._id;
         var cardid = listCards[col].cards[row]._id;
-        var post_url = "/list/"+listid+"/card/"+cardid+"/comment";  
+        var post_url = id+"/"+listid+"/"+cardid+"/comment";  
 
         //Post new comment to database
         $.post(post_url, 
@@ -434,7 +481,7 @@ function main() {
         })   
         .done(function(response) {
             var len = listCards[col].cards[row].comment.length;  //Get length of comment array
-           
+            console.log(response);
             //Store in local memory
             listCards[col].cards[row].comment[len] = response;   
 
@@ -459,7 +506,7 @@ function main() {
         e.preventDefault();                     //Prevent refresh
         var post = $('#newListInput').val();    //Get input value
         
-        var post_url = "/users/board/"+id+"/list"; 
+        var post_url = id;
 
         //Put added list into api
         $.post(post_url, 
@@ -512,8 +559,7 @@ function main() {
         var listid = listCards[col]._id;
         
         //Generate url w/ appropriate id
-        var post_url = "/list/"+listid; 
-        
+        var post_url = id+"/allLists/"+listid;
         //Delete from api
         $.ajax({
             url: post_url,
