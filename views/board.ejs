@@ -5,7 +5,14 @@
     <button type="button" id="show-menu-btn">Show Menu</button>
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">&times;</a>
-        <a href="">Members</a>
+        <a href="" class="add-user-btn">Add Users</a>
+            <!-- Add user input box -->
+            <div id="add-user-div" class="">
+                <form id="add-user-form">
+                    <input type="text" id="newUserInput" placeholder="Add user email...">
+                    <button type="submit" id="user-submit-btn">Submit</button>
+                </form>
+            </div>
         <a href="">Activity</a>
     </div> 
     <div id="pos-list-dropdown">

@@ -29,17 +29,10 @@ router.get('/', requireLogin, function(req, res) {
 //GET boards listing
 router.get('/listofboards', function(req, res, next) {
 	console.log('listofboards');
-
-	//Gets ALL boards
-	// models.Board.find(function (err, board){
-    // 	if (err) 
-    //   		console.log(err);
-	// 	else
-    // 		res.json(board);
-  	// });
-
-	//Gets boards from current user ONLY
-	models.Board.find({ author: res.locals.user.username } ,function (err, board){
+	console.log('res.locals.user');
+	
+	//Get all boards from author & all shared boards
+	models.Board.find({ $or: [{ author: res.locals.user.username }, {userid: res.locals.user._id } ] } ,function (err, board){
 		if (err) 
       		console.log(err);
 		else{
@@ -55,7 +48,7 @@ router.post('/newboard', function(req, res) {
 		name: req.body.name,
 		lists: [],
 		author: res.locals.user.username,
-		userid: res.locals.user._id
+		userid: res.locals.user._id,
 	});
 
 	//Save newBoard into mongodb

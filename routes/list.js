@@ -6,20 +6,21 @@ var router = express.Router();
 var models = require('../models/allModels');
 
 //Get board page and store boardid in ejs file
-router.get('/:bid', requireLogin, function(req, res) {
+router.get('/:bid', requireLogin, checkPermission, function(req, res) {
+//router.get('/:bid', requireLogin, function(req, res) {
 	res.render('board.ejs', {id: req.params.bid});
 });
 
 //Return all lists for current bid
 router.get('/:bid/alllists', function(req, res) {
 	models.Board.findById(req.params.bid, function(err, board) {		
-			if(err)
-				console.log(err);
-			else
-			{
-				console.log(board);
-				res.json(board.lists);
-			}
+		if(err)
+			console.log(err);
+		else
+		{
+			console.log(board);
+			res.json(board.lists);
+		}
     });
 });
 
@@ -154,6 +155,38 @@ router.post('/:bid/:lid/:cid/comment', function(req, res) {
 	});
 });
 
+//To patch boardSchemas userid field
+router.patch('/:bid/:email', function(req, res) {
+	var tempid;
+	//Find user id from user email
+	models.User.find({email: req.params.email}, function(err, user) {
+		if (err) 
+			console.log(err);
+		else 
+		{
+			console.log(user);
+			tempid = user[0]._id;
+			console.log('tempid: '+tempid);
+
+			//Push the found user id within boardSchemas userid field
+			models.Board.findByIdAndUpdate(req.params.bid, 
+				{ $push: {userid : tempid} },
+				{new: true}, 
+				function (err, board) {
+				if (err) 
+					console.log(err);
+				else 
+				{
+					console.log('success');
+					console.log(board.userid[0]);
+					res.json(board.userid[0]);
+				}
+			});
+		}
+	});	
+});
+
+
 //router.patch CARD (for label colors)
 // router.patch('/:bid/:lid/card/:cid', function(req, res) {
 // 	console.log('label colors');
@@ -192,6 +225,29 @@ function requireLogin (req, res, next) {
   	} else {
     	next();
   	}
+};
+
+//to check if user has permission to view board
+//Only people that can view board are the author, and those with permissions
+//boardSchema's array holds the users who can view the board
+//if user does not, alert 'does not have permission' 
+function checkPermission (req, res, next) {
+	console.log('CHECK PERMISSIONS');
+	models.Board.findById(req.params.bid, function(err, board) {
+		if (err) 
+      		console.log(err);
+		else {
+			//Is the current user id listed within boardSchema's userid array?
+			for(var i = 0; i < board.userid.length; i++)
+			{
+				if(res.locals.user._id.toString() === board.userid[i].toString()) {
+					return next();
+				}
+			}
+			console.log('You do not have permission to view this board. Redirecting');
+			res.redirect('/users');
+		}	
+	});
 };
 
 module.exports = router;

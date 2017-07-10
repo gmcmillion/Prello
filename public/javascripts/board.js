@@ -144,6 +144,7 @@ function populate() {
 
 //Jquery 
 function main() {  
+    console.log()
     //Ajax
     //Get all lists which belong to this user
     var post_url = id+"/allLists";
@@ -571,6 +572,33 @@ function main() {
         
         //Delete list from data structure
         listCards.splice(col, 1);
+    });
+
+    //Toggle add user input box
+    $('.add-user-btn').on('click', function(e) {
+        e.preventDefault();
+        //Toggle input box
+        $(this).next().toggle(); 
+    });
+
+    //On submit, add new user to current board
+    $('#user-submit-btn').on('click', function(e) {
+        e.preventDefault();                     
+        var email = $('#newUserInput').val();    
+
+        var post_url = id+"/"+email;
+
+        //Patch board array with 
+        $.ajax({
+            url: post_url,
+            type: "PATCH",
+            dataType: 'json'
+        }).done(function(response) {
+            //console.log(response);
+        });
+
+        $('#add-user-div').hide();
+        closeNav();
     });
 }
 
