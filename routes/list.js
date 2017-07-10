@@ -128,6 +128,7 @@ router.post('/:bid/:lid/card/labels', function(req, res) {
 	)
 });
 
+
 //router.post new comment
 router.post('/:bid/:lid/:cid/comment', function(req, res) {
 	console.log('new comment');
@@ -154,9 +155,21 @@ router.post('/:bid/:lid/:cid/comment', function(req, res) {
 });
 
 //router.patch CARD (for label colors)
-/*
-router.patch('/:bid/:lid/card/:cid', function(req, res) {
-	console.log('label colors');
+// router.patch('/:bid/:lid/card/:cid', function(req, res) {
+// 	console.log('label colors');
+
+// 	models.Card.findByIdAndUpdate(req.params.cid, 
+// 		{$set: {'cards.$': req.body} }, 
+// 		{new: true},
+// 		function (err, response) {
+// 		if (err) 
+// 			console.log(err);
+// 		else {
+// 			console.log('success');
+// 			res.json(response);
+// 		}	
+// 	}); 
+
 
 	//Only works with 1st card
 	// models.Board.update({
@@ -169,8 +182,7 @@ router.patch('/:bid/:lid/card/:cid', function(req, res) {
 	// 	console.error(err);
 	// 	res.end();
 	// });
-});
-*/
+//});
 
 //To check if user is logged in
 function requireLogin (req, res, next) {
