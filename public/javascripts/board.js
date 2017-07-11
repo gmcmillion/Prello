@@ -195,63 +195,8 @@ function main() {
         //Generate url w/ appropriate ids
         var listid = listCards[col]._id;
         var cardid = listCards[col].cards[row]._id;
-        //var post_url = id+"/"+listid+"/card/"+cardid;  
-        var origPos = row;       
+        var post_url = id+"/"+listid+"/card/"+cardid; 
         
-        //Push new card url
-        var post_url = id+"/"+listCards[col]._id +"/card/labels"; 
-
-        //Delete old card url
-        var post_url2 = id+"/"+listid +"/card/"+cardid; 
-        
-        //Delete from api
-        $.ajax({
-            url: post_url2,
-            type: "DELETE"
-        });
-
-        //Put added card to url 
-        $.post(post_url, 
-        { 
-            name : listCards[col].cards[row].name,
-            description : listCards[col].cards[row].description,
-            label : listCards[col].cards[row].label,
-            comment : listCards[col].cards[row].comment,
-            author : listCards[col].cards[row].author,
-            _id: listCards[col].cards[row]._id
-        })   
-        .done(function(response) {
-            console.log(response);
-            var card = response;
-            //Store locally
-            listCards[col].cards[row] = card;
-            //Create new p tag, and assign the inputted text        
-            var ptag = $('</p>').text(card.description);
-            
-            //Create another div element for label colors
-            var tempdiv = $('<div/>').attr('class', 'lab-colors');
-
-            //Create new button that will store p tag         
-            var tempBtn = $('<button/>').attr('class', 'cardBtn');
-            
-            //Append both ptag and tempdiv to new button
-            tempBtn.append(ptag);
-            tempBtn.append(tempdiv);
-
-            //Create new li tag that will store button
-            var litag = $('<li/>');
-            litag.append(tempBtn);
-            
-            //Append litag to '.inner-list'
-            $('.inner-list:eq('+col+')').append(litag);
-
-            //Position card to original order
-
-            //refresh page
-            location.reload();
-        }); 
-
-        /*
 		//PATCH api with new label/comment info
         $.ajax({
             url: post_url,
@@ -265,8 +210,9 @@ function main() {
                 author : listCards[col].cards[row].author,
                 _id: cardid
             }
-        });  
-        */
+        }).done(function(response) {
+            console.log(response);
+        });
     }
     
     //Function for labels dropdown menu
