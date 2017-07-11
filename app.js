@@ -13,7 +13,6 @@ var board = require('./routes/boards');
 
 var cors = require('cors');
 var sessions = require('client-sessions');
-//var User = require('./models/user');
 var models = require('./models/allModels');
 
 //Connect to mongo
@@ -60,18 +59,6 @@ app.use(function(req, res, next) {
 		next();
 	}
 });
-
-//Global middleware to check if user has permission to view board
-//Only people that can view board are the author, and those with permissions
-//boardSchema's array holds the users who can view the board
-//if user does not, alert 'does not have permission' 
-/*
-app.use(function(req, res, next) {
-	if()
-
-});
-*/
-
 
 //Reset session when user logs out
 app.get('/logout', function(req, res) {
