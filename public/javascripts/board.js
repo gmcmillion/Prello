@@ -144,7 +144,56 @@ function populate() {
 
 //Jquery 
 function main() {  
-    console.log()
+    var socket = io.connect();
+
+    //Event handler for submit btn
+    $('#list-submit-btn-form').submit(function(e) {
+        e.preventDefault();
+        socket.emit('send list', $('#newListInput').val());  //Send to server
+        $('#newListInput').val('');     //clear input box value
+    });
+
+    //Receive list back from server on client side
+    socket.on('new list', function(post) {
+        var post_url = id;
+        //Put added list into api
+        $.post(post_url, { 
+            title: post
+        }).done(function(response) {  
+            //Add list to data structure
+            listCards[col] = response;
+
+            var p = $('</p>').text(post);
+        
+            var xbtn = $('<button/>').attr('type', 'button').attr('class', 'xbtn').html('&times;');
+            var newDiv = $('<div/>').attr('class', 'ListHeader');
+            newDiv.append(p);
+            newDiv.append(xbtn);
+            
+            var newUL = $('<ul/>').attr('class', 'inner-list');
+            
+            var newbtn = $('<button/>').attr('type', 'button').attr('class', 'addNewCardbtn').text('Add a card...');
+            
+            var newDiv2 = $('<div/>').attr('class', 'carddropdown');
+            newDiv2.append(newbtn);
+            
+            newDiv3 = $('<div/>');
+            newDiv3.append(newUL);
+            newDiv3.append(newDiv2);
+            
+            newDiv4 = $('<div/>').attr('class', 'outer-li');
+            newDiv4.append(newDiv);
+            newDiv4.append(newDiv3);    
+            
+            var liEle = $('<li/>').append(newDiv4);
+            
+            //Store the clone in new li, which is the last child
+            $('#list:last-child').append(liEle);    
+        }); 
+        //Hide input after submit, and reset form
+        $('#add-list-dropdown').hide();
+    });
+
     //Ajax
     //Get all lists which belong to this user
     var post_url = id+"/allLists";
@@ -196,7 +245,7 @@ function main() {
         var listid = listCards[col]._id;
         var cardid = listCards[col].cards[row]._id;
         var post_url = id+"/"+listid+"/card/"+cardid; 
-        
+
 		//PATCH api with new label/comment info
         $.ajax({
             url: post_url,
@@ -447,7 +496,7 @@ function main() {
         //Update global col info
         col = listCards.length;
     });
-    
+    /*
     //Create a new list on submit
     $('#list-submit-btn').on('click', function(e) {
         e.preventDefault();                     //Prevent refresh
@@ -496,6 +545,7 @@ function main() {
         $('#add-list-dropdown').hide();
         $('#list-submit-btn-form')[0].reset();
     });
+    */
 
     //When xbtn is clicked, delete list
     $('#list').on('click', '.xbtn', function() {

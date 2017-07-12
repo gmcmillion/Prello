@@ -583,7 +583,7 @@ button img{
     font-size: 15px;
 }
 
-#list-submit-btn {
+#list-submit-btn-form input[type=submit] {
     height: 35px;
     width: 120px;
     margin:5px;
@@ -599,7 +599,7 @@ button img{
     cursor: hand;                
 }
 
-#list-submit-btn:hover {
+#list-submit-btn-form input[type=submit]:hover {
     border-radius: 4px;                
     color: #ffffff;
     background-color: #539f4e;
