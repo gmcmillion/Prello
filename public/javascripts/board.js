@@ -146,55 +146,6 @@ function populate() {
 function main() {  
     var socket = io.connect();
 
-    //Event handler for submit btn
-    $('#list-submit-btn-form').submit(function(e) {
-        e.preventDefault();
-        socket.emit('send list', $('#newListInput').val());  //Send to server
-        $('#newListInput').val('');     //clear input box value
-    });
-
-    //Receive list back from server on client side
-    socket.on('new list', function(post) {
-        var post_url = id;
-        //Put added list into api
-        $.post(post_url, { 
-            title: post
-        }).done(function(response) {  
-            //Add list to data structure
-            listCards[col] = response;
-
-            var p = $('</p>').text(post);
-        
-            var xbtn = $('<button/>').attr('type', 'button').attr('class', 'xbtn').html('&times;');
-            var newDiv = $('<div/>').attr('class', 'ListHeader');
-            newDiv.append(p);
-            newDiv.append(xbtn);
-            
-            var newUL = $('<ul/>').attr('class', 'inner-list');
-            
-            var newbtn = $('<button/>').attr('type', 'button').attr('class', 'addNewCardbtn').text('Add a card...');
-            
-            var newDiv2 = $('<div/>').attr('class', 'carddropdown');
-            newDiv2.append(newbtn);
-            
-            newDiv3 = $('<div/>');
-            newDiv3.append(newUL);
-            newDiv3.append(newDiv2);
-            
-            newDiv4 = $('<div/>').attr('class', 'outer-li');
-            newDiv4.append(newDiv);
-            newDiv4.append(newDiv3);    
-            
-            var liEle = $('<li/>').append(newDiv4);
-            
-            //Store the clone in new li, which is the last child
-            $('#list:last-child').append(liEle);    
-        }); 
-        //Hide input after submit, and reset form
-        $('#add-list-dropdown').hide();
-    });
-
-    //Ajax
     //Get all lists which belong to this user
     var post_url = id+"/allLists";
     $.ajax({
@@ -206,8 +157,180 @@ function main() {
         listCards = response;
         //Populate html
         populate();
-    });        
+    }); 
+
+    //Event handler for submit btn
+    $('#list-submit-btn-form').submit(function(e) {
+        e.preventDefault();
+        var post = $('#newListInput').val();
+        var post_url = id;
+
+        //Put added list into api
+        $.post(post_url, { 
+            title: post
+        }).done(function(response) {  
+            //Add list to data structure
+            listCards[col] = response;
+
+            //Generate html code for new list
+            var p = $('</p>').text(post);
+            var xbtn = $('<button/>').attr('type', 'button').attr('class', 'xbtn').html('&times;');
+            var newDiv = $('<div/>').attr('class', 'ListHeader');
+            newDiv.append(p);
+            newDiv.append(xbtn);
+            var newUL = $('<ul/>').attr('class', 'inner-list');
+            var newbtn = $('<button/>').attr('type', 'button').attr('class', 'addNewCardbtn').text('Add a card...');
+            var newDiv2 = $('<div/>').attr('class', 'carddropdown');
+            newDiv2.append(newbtn);
+            newDiv3 = $('<div/>');
+            newDiv3.append(newUL);
+            newDiv3.append(newDiv2);
+            newDiv4 = $('<div/>').attr('class', 'outer-li');
+            newDiv4.append(newDiv);
+            newDiv4.append(newDiv3);    
+            var liEle = $('<li/>').append(newDiv4);
+            $('#list:last-child').append(liEle);    
+
+            //Send to server
+            socket.emit('send list', response);
+        });
+        //Hide input after submit, and reset form
+        $('#add-list-dropdown').toggle();
+        $('#newListInput').val('');
+    });
+
+    //Receive list back from server on client side
+    socket.on('new list', function(post) {
+        col = listCards.length;     //Get column
+        listCards[col] = post;      //Store in global data structure
+
+        //Generate html code for new list
+        var p = $('</p>').text(post.title);
+        var xbtn = $('<button/>').attr('type', 'button').attr('class', 'xbtn').html('&times;');
+        var newDiv = $('<div/>').attr('class', 'ListHeader');
+        newDiv.append(p);
+        newDiv.append(xbtn);
+        var newUL = $('<ul/>').attr('class', 'inner-list');
+        var newbtn = $('<button/>').attr('type', 'button').attr('class', 'addNewCardbtn').text('Add a card...');
+        var newDiv2 = $('<div/>').attr('class', 'carddropdown');
+        newDiv2.append(newbtn);
+        newDiv3 = $('<div/>');
+        newDiv3.append(newUL);
+        newDiv3.append(newDiv2);
+        newDiv4 = $('<div/>').attr('class', 'outer-li');
+        newDiv4.append(newDiv);
+        newDiv4.append(newDiv3);    
+        var liEle = $('<li/>').append(newDiv4);
+        $('#list:last-child').append(liEle);   
+    });
+
+     //On click, show "Add a card" input box
+    $('.addCardDropdown').hide();
+    $('#list').on('click', '.addNewCardbtn' ,function() {
+        //Store col & row globally
+        col = $(this).parent().parent().parent().parent().index();
+        row = listCards[col].cards.length;
+        
+        //Make popup appear under button
+        $("#popup").css({
+        'position': 'absolute',
+            'left': $(this).offset().left,
+            'top': $(this).offset().top + $(this).height() + 5
+            }).show(); 
+    });
     
+    //When submit is click, add a new card
+    $('.submit-btn').on('click', function(e) { 
+        e.preventDefault();
+        var post = $('.newCardInput').val();
+
+        //Generate url w/ appropriate id
+        var post_url = id+"/"+listCards[col]._id +"/card"; 
+
+        //Put added card to url 
+        $.post(post_url, 
+        { 
+            name: '',
+            description: post,
+            label: [''],
+            comment: [''],
+            author: ''
+        })   
+        .done(function(response) {
+            var card = response;
+            //Store locally
+            listCards[col].cards[row] = card;
+
+            //Generate html code for new list      
+            var ptag = $('</p>').text(card.description);
+            var tempdiv = $('<div/>').attr('class', 'lab-colors');        
+            var tempBtn = $('<button/>').attr('class', 'cardBtn');
+            tempBtn.append(ptag);
+            tempBtn.append(tempdiv);
+            var litag = $('<li/>');
+            litag.append(tempBtn);
+            $('.inner-list:eq('+col+')').append(litag);
+
+            //Send to server
+            socket.emit('send card', response, col, row);  
+        }); 
+
+        //Hide input after submit, and reset form
+        $('.addCardDropdown').hide();
+        $('.submit-btn-form')[0].reset();
+    });
+
+    //Receive card back from server on client side
+    socket.on('new card', function(post, col, row) {
+        //Store locally
+        listCards[col].cards[row] = post;
+
+        //Generate html code for new list and append      
+        var ptag = $('</p>').text(post.description);
+        var tempdiv = $('<div/>').attr('class', 'lab-colors');       
+        var tempBtn = $('<button/>').attr('class', 'cardBtn');
+        tempBtn.append(ptag);
+        tempBtn.append(tempdiv);
+        var litag = $('<li/>');
+        litag.append(tempBtn);
+        $('.inner-list:eq('+col+')').append(litag);
+    });
+
+    //When xbtn is clicked, delete list
+    $('#list').on('click', '.xbtn', function() {
+        //Get column that called this function
+        col = $(this).parent().parent().parent().index();
+
+        //Generate url w/ appropriate id
+        var post_url = id+"/allLists/"+listCards[col]._id;
+        
+        //Delete from api
+        $.ajax({
+            url: post_url,
+            type: "DELETE"
+        });
+
+        //Delete list from html
+        $(this).parent().parent().parent().remove();
+        
+        //Delete list from global data structure
+        listCards.splice(col, 1);
+
+        //Send to server
+        socket.emit('delete list', col);
+    });
+
+    //Receive back from server on client side and delete list
+    socket.on('updated list', function(col) {
+        var child = col + 1;
+
+        //Delete list from html
+        $('#list li:nth-child('+child+')').remove();
+        
+        //Delete list from data structure
+        listCards.splice(col, 1);
+    });
+           
     //Function for boards drop down menu
     $('#board-btn-content').hide();
     $('#board-btn').on('click', function() {
@@ -228,15 +351,27 @@ function main() {
             url: post_url,
             type: "DELETE"
         });
-                
-        //Remove this card from data structure
-        listCards[col].cards.splice(row, 1);
         
         //Remove li element from ul (find the nth child)        
         $('.inner-list:eq('+col+') li:nth-child('+(row+1)+')').remove();
-                        
+
+        //Remove this card from data structure
+        listCards[col].cards.splice(row, 1);
+
+        //Send to server
+        socket.emit('delete card', col, row);
+
         //Close modal
         modal.style.display = "none";
+    });
+
+    //Receive back from server on client side and delete card
+    socket.on('updated card', function(col, row) {
+        //Remove li element from ul (find the nth child)        
+        $('.inner-list:eq('+col+') li:nth-child('+(row+1)+')').remove();
+
+        //Remove this card from data structure
+        listCards[col].cards.splice(row, 1);
     });
 
     //Function called when label color OR comments need to be added
@@ -393,70 +528,6 @@ function main() {
         //Open modal        
         openModal(col, row);
     });
-    
-    //On click, show "Add a card" input box
-    $('.addCardDropdown').hide();
-    $('#list').on('click', '.addNewCardbtn' ,function() {
-        //Store col & row globally
-        col = $(this).parent().parent().parent().parent().index();
-        row = listCards[col].cards.length;
-        
-        //Make popup appear under button
-        $("#popup").css({
-        'position': 'absolute',
-            'left': $(this).offset().left,
-            'top': $(this).offset().top + $(this).height() + 5
-            }).show(); 
-    });
-    
-    //When submit is click, add a new card
-    $('.submit-btn').on('click', function(e) {  
-        e.preventDefault();                     //Prevent refresh    
-        var post = $('.newCardInput').val();    //Get input value
-    
-        //Generate url w/ appropriate id
-        //var post_url = "/list/"+listCards[col]._id +"/card"; 
-        var post_url = id+"/"+listCards[col]._id +"/card"; 
-
-        //Put added card to url 
-        $.post(post_url, 
-        { 
-            name: '',
-            description: post,
-            label: [''],
-            comment: [''],
-            author: ''
-        })   
-        .done(function(response) {
-            console.log(response);
-            var card = response;
-            //Store locally
-            listCards[col].cards[row] = card;
-            //Create new p tag, and assign the inputted text        
-            var ptag = $('</p>').text(card.description);
-            
-            //Create another div element for label colors
-            var tempdiv = $('<div/>').attr('class', 'lab-colors');
-
-            //Create new button that will store p tag         
-            var tempBtn = $('<button/>').attr('class', 'cardBtn');
-            
-            //Append both ptag and tempdiv to new button
-            tempBtn.append(ptag);
-            tempBtn.append(tempdiv);
-
-            //Create new li tag that will store button
-            var litag = $('<li/>');
-            litag.append(tempBtn);
-            
-            //Append litag to '.inner-list'
-            $('.inner-list:eq('+col+')').append(litag);
-        }); 
-
-        //Hide input after submit, and reset form
-        $('.addCardDropdown').hide();
-        $('.submit-btn-form')[0].reset();
-    });
 
     //When add comment button is clicked
     $('#add-comment-button').on('click', function() {
@@ -495,79 +566,6 @@ function main() {
         
         //Update global col info
         col = listCards.length;
-    });
-    /*
-    //Create a new list on submit
-    $('#list-submit-btn').on('click', function(e) {
-        e.preventDefault();                     //Prevent refresh
-        var post = $('#newListInput').val();    //Get input value
-        
-        var post_url = id;
-
-        //Put added list into api
-        $.post(post_url, 
-        { 
-            title: post
-        })      
-        .done(function(response) {  
-            //Add list to data structure
-            listCards[col] = response;
-
-            var p = $('</p>').text(post);
-        
-            var xbtn = $('<button/>').attr('type', 'button').attr('class', 'xbtn').html('&times;');
-            var newDiv = $('<div/>').attr('class', 'ListHeader');
-            newDiv.append(p);
-            newDiv.append(xbtn);
-            
-            var newUL = $('<ul/>').attr('class', 'inner-list');
-            
-            var newbtn = $('<button/>').attr('type', 'button').attr('class', 'addNewCardbtn').text('Add a card...');
-            
-            var newDiv2 = $('<div/>').attr('class', 'carddropdown');
-            newDiv2.append(newbtn);
-            
-            newDiv3 = $('<div/>');
-            newDiv3.append(newUL);
-            newDiv3.append(newDiv2);
-            
-            newDiv4 = $('<div/>').attr('class', 'outer-li');
-            newDiv4.append(newDiv);
-            newDiv4.append(newDiv3);    
-            
-            var liEle = $('<li/>').append(newDiv4);
-            
-            //Store the clone in new li, which is the last child
-            $('#list:last-child').append(liEle);    
-        }); 
-
-        //Hide input after submit, and reset form
-        $('#add-list-dropdown').hide();
-        $('#list-submit-btn-form')[0].reset();
-    });
-    */
-
-    //When xbtn is clicked, delete list
-    $('#list').on('click', '.xbtn', function() {
-        //Get column that called this function
-        col = $(this).parent().parent().parent().index();
-        
-        //Remove from api
-        var listid = listCards[col]._id;
-        
-        //Generate url w/ appropriate id
-        var post_url = id+"/allLists/"+listid;
-        //Delete from api
-        $.ajax({
-            url: post_url,
-            type: "DELETE"
-        });
-        
-        //Delete list from html
-        $(this).parent().parent().parent().remove();
-        
-        //Delete list from data structure
-        listCards.splice(col, 1);
     });
 
     //Toggle add user input box

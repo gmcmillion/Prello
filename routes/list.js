@@ -53,8 +53,9 @@ router.delete('/:bid/allLists/:lid', function(req, res) {
 		function(err, list){
 			if (err) 
 				console.log(err);
-			else 
+			else {
 				res.json(list);
+			}			
 		}
 	);
 });
