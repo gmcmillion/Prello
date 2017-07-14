@@ -122,7 +122,7 @@ button img{
     color: #4d4d4d;
     font-size: 14px;
     font-weight: bold;
-    float:right;
+    float: right;
     display:inline;
     border: 1px none #8c8c8c;
     border-radius: 4px;
@@ -184,6 +184,7 @@ button img{
 }
 
 #Listdiv li {
+    display: inline;
     height: 500px;
     width: 270px;
     background-color: #E2E4E6;
@@ -608,6 +609,7 @@ button img{
 
 .inner-list {
     clear:both;
+    white-space: nowrap;
 }
 
 #logout-btn {

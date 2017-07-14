@@ -1,20 +1,20 @@
-<%- include('login-header', {href: 'stylesheets/login.css' });%>
+<%- include('login-header', {href: '../stylesheets/login.css' });%>
     <body>
         <div id="createAccount">
             <h1>Create a Prello Account</h1>
 
             <form id="register-form" method="post" action="users/reg">
                 <p>Username </p>
-                <input type="text" id="username" name="username" placeholder="e.g., Peter Anteater" required>
+                <input type="text" id="username" name="username" autocomplete="off" placeholder="e.g., Peter Anteater" required>
 
                 <p>Email </p>
-                <input type="email" id="email" name="email" placeholder="e.g., anteater@uci.edu" required>
+                <input type="email" id="email" name="email" autocomplete="off" placeholder="e.g., anteater@uci.edu" required>
 
                 <p>Password </p>
-                <input type="password" id="password" name="password" placeholder="e.g., *********" required>
+                <input type="password" id="password" name="password" autocomplete="off" placeholder="e.g., *********" required>
             
                 <p>Confirm Password </p>
-                <input type="password" id="password-confirm" name="confirm password" placeholder="e.g., *********" required>
+                <input type="password" id="password-confirm" name="confirm password" autocomplete="off" placeholder="e.g., *********" required>
             
                 <button id="register-btn" type="submit" value="Register">Create New Account</button>
             </form>
@@ -25,10 +25,10 @@
             
             <form id="login-form" method="post" action="users/login">
                 <p>Username</p>
-                <input type="text" id="user" placeholder="e.g., Peter Anteater" name="username" required>
+                <input type="text" id="user" placeholder="e.g., Peter Anteater" autocomplete="off" name="username" required>
                 
                 <p>Password</p>
-                <input type="password" id="pass" placeholder="e.g., *********" name="password" required>
+                <input type="password" id="pass" placeholder="e.g., *********" autocomplete="off" name="password" required>
                 
                 <br /><br />
                 <input type="checkbox" id="remem" name="checkbox">

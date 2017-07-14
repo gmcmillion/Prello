@@ -145,6 +145,7 @@ function populate() {
 //Jquery 
 function main() {  
     var socket = io.connect();
+    socket.emit('board id', id);
 
     //Get all lists which belong to this user
     var post_url = id+"/allLists";
@@ -192,7 +193,7 @@ function main() {
             $('#list:last-child').append(liEle);    
 
             //Send to server
-            socket.emit('send list', response);
+            socket.emit('send list', response, id);
         });
         //Hide input after submit, and reset form
         $('#add-list-dropdown').toggle();
@@ -272,7 +273,7 @@ function main() {
             $('.inner-list:eq('+col+')').append(litag);
 
             //Send to server
-            socket.emit('send card', response, col, row);  
+            socket.emit('send card', response, col, row, id);  
         }); 
 
         //Hide input after submit, and reset form
@@ -317,7 +318,7 @@ function main() {
         listCards.splice(col, 1);
 
         //Send to server
-        socket.emit('delete list', col);
+        socket.emit('delete list', col, id);
     });
 
     //Receive back from server on client side and delete list
@@ -359,7 +360,7 @@ function main() {
         listCards[col].cards.splice(row, 1);
 
         //Send to server
-        socket.emit('delete card', col, row);
+        socket.emit('delete card', col, row, id);
 
         //Close modal
         modal.style.display = "none";
@@ -367,6 +368,7 @@ function main() {
 
     //Receive back from server on client side and delete card
     socket.on('updated card', function(col, row) {
+
         //Remove li element from ul (find the nth child)        
         $('.inner-list:eq('+col+') li:nth-child('+(row+1)+')').remove();
 

@@ -6,10 +6,8 @@ function main() {
         //Insert boards into the html
         for(var i = 0; i < boards.length; i++)
         {
-            //var xbtn = $('<button/>').attr('type', 'button').attr('class', 'xbtn').html('&times;');
             var btn = $('<button/>').attr('type', 'button').attr('class', 'firstBoard');
             btn.text(boards[i].name);
-            //btn.append(xbtn);
             var li = $('<li/>').append(btn);
             var a = $('<a/>').attr('href', 'list/'+boards[i]._id).append(li);
             $('.ul-boards').append(a);
@@ -19,10 +17,8 @@ function main() {
     //Get list of boards
     $.get("boards/listofboards", function(response) {
         console.log(response);
-        //Store response in array
-        boards = response;
-        //Populate html
-        populate();
+        boards = response;  //Store response in array
+        populate();         //Populate html
     });
 
     //Add board dropdown menu
@@ -34,7 +30,6 @@ function main() {
     //Add board to user on click
     $('#board-submit-btn').on('click', function() {
         var post = $('#name').val();
-
         var post_url = "/boards/newboard"
 
         $.post(post_url, {
@@ -46,8 +41,6 @@ function main() {
             boards = response;
         });
     });
-
-    //Delete boards w/ button click
 }
 
 $(document).ready(main);

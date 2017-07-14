@@ -10,13 +10,11 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 //Render login page
 router.get('/', function(req, res) {
-	console.log('rendering login.ejs');
 	res.render('login.ejs');
 });
 
 //GET users listing in postman
 router.get('/users', function(req, res, next) {
-	console.log('router.get');
 	models.User.find(function (err, user){
     	if (err) 
       		console.log(err);
@@ -25,9 +23,7 @@ router.get('/users', function(req, res, next) {
 });
 
 //To register a new user
-router.post('/reg', function(req, res) {
-	console.log('reg post');
-	
+router.post('/reg', function(req, res) {	
 	//Create user object
 	var user = new models.User({
 		username: req.body.username,
@@ -54,19 +50,20 @@ router.post('/reg', function(req, res) {
 
 //To login a user
 router.post('/login', function(req, res) {
-	console.log('.post/login');
 	//Validate login & password are correct
 	models.User.findOne({username: req.body.username}, function(err, user) {
 		if(!user) {
-			res.render('login.ejs', {error: 'Invalid username'});
+			console.log('User does not exist!');
+			//res.render('login.ejs', {error: 'Invalid username'});
+			res.redirect('/users');
 		} else {
 			if(req.body.password === user.password) {
-
 				req.session.user = user;	//set-cookie: session={email...pass...}
-				console.log('getting boards');
 				res.redirect('../boards');
 			} else {
-				res.render('login.ejs', {error: 'Invalid password'});
+				console.log('Password is incorrect!');
+				//res.render('login.ejs', {error: 'Invalid password'});
+				res.redirect('/users');
 			}
 		}
 	});
@@ -74,7 +71,6 @@ router.post('/login', function(req, res) {
 
 //Delete user
 router.delete('/:uid', function(req, res) {
-  	console.log(req.params);
     models.User.findByIdAndRemove(req.params.uid, function (err, user) {
 		if (err) 
             console.log(err);
@@ -85,7 +81,6 @@ router.delete('/:uid', function(req, res) {
 
 //To check if user is logged in
 function requireLogin (req, res, next) {
-	//console.log('requireLogin');
 	if (!req.user) {
     	res.redirect('/users');
   	} else {
