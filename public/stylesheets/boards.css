@@ -9,28 +9,15 @@ body {
     background-color: #026AA7;
 }
 
-#taskbar p {
-    margin: 10px;
-    float: center;
-}
-
 #mainbody {
     height:500px;
     margin:15px;
-}
-
-#logo {
-    padding: 0px;
-    text-align: center;
 }
 
 #leftTaskBarList {
     list-style-type: none;
     margin: 0;
     padding: 0;
-}
-
-#leftTaskBarList li{
     float: left;
 }
 
@@ -42,9 +29,6 @@ body {
 
 #rightTaskBarList li {
     float:right;
-}
-
-li button {
     display: inline;
 }
 
@@ -77,122 +61,28 @@ button {
     margin-left: 4px;
 }
 
-#boardTaskBar p{
-    float: right;
-}
-
-#searchTaskBar {
-    width: 180px;
-    background-color: #4c98be;
-}
-
-#searchTaskBar img {
-    float: right;
-    margin-right: 5px;
-}
-
 button img{
     height:20px;
     width:20px;
 }
 
-p {
-    font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
-    font-size:14px;
-    font-weight: bold;
-    color: #4d4d4d;
-}
-
-#personalBoards {
-    width: 160px;
-}
-
-#personalBoards p {
-    display:inline;
-    margin:0;
-    float:right;
-    font-size: 16px;
-}
-
-#personalBoards img {
-    height:20px;
-    width:20px;
-    float:left;
-    margin-left: 5px;
-}
-
-#boardsList {
-    clear:both;
-}
-
-#boardsList ul {
-    padding-left: 0;
-}
-
-#boardsList li {
-    list-style-type: none; 
-    display: inline;
-}
-
-#boardsList button {
-    width:250px;
-    height:90px;
-    margin:10px 5px;
-}
-
-#createNewTeam a{
-    color:#8c8c8c;
-    font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
-    font-size: 14px;
-}
-
-#createNewTeam a:hover{
-    color:#4d4d4d;
-}
-
-.firstBoard {
-    background-image: url(../images/abstract-mosaic-background.png);
-    background-size:cover;
-}
-
-.firstBoard:hover {
-    opacity: 0.7;
-}
-
-#newBoard {
-    color: #8c8c8c;
-    background-color: #e2e4e6;
-}
-
-#newBoard:hover {
-    color: #4d4d4d;
-    background-color: #d6dadc;
-}
-
 #logout-btn {
     width:100px;
-}
-#logout-btn p {
-    margin: 0px;
-    color: #ffffff;
 }
 
 #welcome {
     float: left;
 }
 
-#welcome p{
-    font-size:22px;
-}
-
-a {
-    text-decoration: none;
+#welcome h1{
+    font-weight: bold;
+    color: #4d4d4d;
+    font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
 }
 
 #add-board-dropdown-div {
     position: relative;
     float: right;
-    display: inline-block;
 }
 
 #add-new-board-btn {
@@ -254,7 +144,7 @@ a {
     color: #ffffff;
     font-size: 14px;
     font-weight: bold;
-    float:right;
+    float: right;
     display:inline;
     border: 1px none #437535;
     border-radius: 4px;
@@ -262,43 +152,49 @@ a {
     cursor: hand; 
 }
 
-.add-user-btn {
-    position: relative;
-    height: 30px !important;
-    width: 30px !important;
-    margin: 0px !important; 
-    border-radius: 4px;
-    border-style: none;
-    font-size:25px;
-    /*padding-left:8px;
-    padding-bottom: 5px;*/
-    color: #4d4d4d;
-    background-color: #ffffff;
-    cursor:hand; 
+#personalBoards {
+    width: 200px;
 }
 
-.board-text {
+#personalBoards h3 {
+    display: inline;
+    margin-left: 5px;
+    font-family: "jaf-facitweb","Helvetica Neue",Arial,sans-serif;
+    font-weight: bold;
+    color: #4d4d4d;
+}
+
+#personalBoards img {
+    height:20px;
+    width:20px;
+    float:left;
+    margin-left: 5px;
+}
+
+#boardsList ul {
+    padding-left: 0;
+}
+
+#boardsList li {
+    list-style-type: none; 
     display: inline;
 }
 
-/*
-.xbtn {
-    height: 30px !important;
-    width: 30px !important;
-    margin: 0px !important; 
-    border-radius: 4px;
-    border-style: none;
-    font-size:25px;
-    padding-left:8px;
-    padding-bottom: 5px;
-    color: #4d4d4d;
-    background-color: #ffffff;
-    cursor:hand;
+#boardsList button {
+    width:250px;
+    height:90px;
+    margin:10px 5px;
 }
 
-.xbtn:hover {
-    color: #ffffff;
-    background-color: #2591c5;
-    box-shadow: 0 1px #006ca2;           
+.board {
+    background-image: url(../images/abstract-mosaic-background.png);
+    background-size:cover;
 }
-*/
+
+.board:hover {
+    opacity: 0.7;
+}
+
+a {
+    text-decoration: none;
+}

@@ -1,25 +1,19 @@
-var bodyParser = require('body-parser');
 var express = require('express');
-var mongoose = require('mongoose');
-//var User = require('../models/user');
-var models = require('../models/allModels');
-var sessions = require('client-sessions');
 var router = express.Router();
-
-router.use(bodyParser.urlencoded({ extended: true }));
+var models = require('../models/allModels');
 
 //Render login page
 router.get('/', function(req, res) {
 	res.render('login.ejs');
 });
 
-//GET users listing in postman
+//GET users listings
 router.get('/users', function(req, res, next) {
 	models.User.find(function (err, user){
     	if (err) 
       		console.log(err);
     	res.json(user);
-  	})
+  	});
 });
 
 //To register a new user
@@ -35,12 +29,7 @@ router.post('/reg', function(req, res) {
 	//Save into mongodb
 	user.save(function(err) {
 		if(err) {
-			//var err = 'Something bad happened';
 			console.log('Something bad happened');
-			
-			// if(err.code === 11000)
-			// 	error = 'That email is already taken, try another';
-			// res.render('login.ejs'), { error: error};
 		} else {
 			req.session.user = user;	//set-cookie: session={email...pass...}
 			res.redirect('../boards');
@@ -78,14 +67,5 @@ router.delete('/:uid', function(req, res) {
             res.json(user);
 	}); 
 });
-
-//To check if user is logged in
-function requireLogin (req, res, next) {
-	if (!req.user) {
-    	res.redirect('/users');
-  	} else {
-    	next();
-  	}
-};
 
 module.exports = router;

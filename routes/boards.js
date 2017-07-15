@@ -1,9 +1,6 @@
-var bodyParser = require('body-parser');
 var express = require('express');
-var mongoose = require('mongoose');
-var models = require('../models/allModels');
-var sessions = require('client-sessions');
 var router = express.Router();
+var models = require('../models/allModels');
 
 //Get boards page, and check for session user
 router.get('/', requireLogin, function(req, res) {
@@ -55,10 +52,6 @@ router.post('/newboard', function(req, res) {
 	newBoard.save(function(err) {
 		if(err) {
 			console.log('Something bad happened');
-			
-			// if(err.code === 11000)
-			// 	error = 'That email is already taken, try another';
-			// res.render('login.ejs'), { error: error};
 		} else {
             res.json(newBoard);
 		}
@@ -75,6 +68,7 @@ router.delete('/:bid', function(req, res) {
             res.json(board);
 	}); 
 });
+
 
 //To check if user is logged in
 function requireLogin (req, res, next) {

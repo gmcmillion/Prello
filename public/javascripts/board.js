@@ -326,7 +326,7 @@ function main() {
         var child = col + 1;
 
         //Delete list from html
-        $('#list li:nth-child('+child+')').remove();
+        $('#list li:nth-child('+child+')').eq(col).remove();
         
         //Delete list from data structure
         listCards.splice(col, 1);

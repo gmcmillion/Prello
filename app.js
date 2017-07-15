@@ -67,7 +67,6 @@ app.get('/logout', function(req, res) {
 	
 	//Redirect to homepage
 	res.redirect('/users');
-	//res.send({redirect: '/'});
 });
 
 // uncomment after placing your favicon in /public
@@ -101,6 +100,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 
 module.exports = app;
