@@ -9,28 +9,24 @@ function openModal(c, r) {
     $('#card-name').html(listCards[c].cards[r].name);
     $('#author').html(listCards[c].cards[r].author);
 
-    var temp3 = $('<div/>');     //temp div to hold label colors
+    var labsDiv = $('<div/>');     //div to hold label colors
     for (var i = 0; i < listCards[c].cards[r].label.length; i++)
     {
-        var p = $('</p>').attr('class', 'modal-label-color');
-        p.css('background-color', listCards[c].cards[r].label[i]);
-
-        temp3.append(p);     //Append p element to temp div
+        var p = $('</p>').attr('class', 'modal-label-color')
+            .css('background-color', listCards[c].cards[r].label[i]);
+        labsDiv.append(p);     //Append p element to div
     }
-    $('#label-colors').html(temp3); //Put temp div in the inner html of '#label-colors' 
+    $('#label-colors').html(labsDiv); //Put temp div in the inner html of '#label-colors' 
     
     //Build Table w/ headers
     var table = $('<table/>').attr('id', 'comment-table');
     var tr1 = $('<tr/>').attr('id', 'table-header');
     var th1 = $('<th/>').text('Comment');
     var th2 = $('<th/>').text('Author');
-    var th3 = $('<th/>').text('Date & Time');
-
-    tr1.append(th1);
-    tr1.append(th2);
-    tr1.append(th3);
-
+    var th3 = $('<th/>').text('Date & Time'); 
+    tr1.append(th1).append(th2).append(th3);
     table.append(tr1);
+
     //Populate modal comments
     for (var i = 0; i < listCards[c].cards[r].comment.length; i++)
     {    
@@ -44,9 +40,7 @@ function openModal(c, r) {
         td2.append(listCards[c].cards[r].comment[i].commauthor);
         td3.append(listCards[c].cards[r].comment[i].commdate);
 
-        tr2.append(td1);
-        tr2.append(td2);
-        tr2.append(td3);
+        tr2.append(td1).append(td2).append(td3);
         
         table.append(tr2);
     }
@@ -134,10 +128,8 @@ function populate() {
         
         //Add card button
         var newBtn = $('<button/>').attr('type', 'button').attr('class', 'addNewCardbtn').text('Add a card...');
-        
         var newDiv4 = $('<div/>').attr('class', 'carddropdown'); 
         newDiv4.append(newBtn);  
-        
         newDiv2.append(newDiv4);
     }
 }
@@ -397,7 +389,7 @@ function main() {
                 _id: cardid
             }
         }).done(function(response) {
-            console.log(response);
+            //console.log(response);
         });
     }
     
@@ -550,7 +542,6 @@ function main() {
         })   
         .done(function(response) {
             var len = listCards[col].cards[row].comment.length;  //Get length of comment array
-            console.log(response);
             //Store in local memory
             listCards[col].cards[row].comment[len] = response;   
 
@@ -598,5 +589,4 @@ function main() {
     });
 }
 
-//Will call function main when HTML & CSS are done loading
 $(document).ready(main);

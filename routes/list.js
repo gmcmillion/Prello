@@ -5,7 +5,15 @@ var models = require('../models/allModels');
 
 //Get board page and store boardid in ejs file
 router.get('/:bid', requireLogin, checkPermission, function(req, res) {
-	res.render('board.ejs', {id: req.params.bid});
+
+	models.Board.findById(req.params.bid, function(err, board) {
+		if(err)
+			console.log(err);
+		else {
+			console.log(board.name);
+			res.render('board.ejs', {id: req.params.bid, name: board.name});
+		}
+	});
 });
 
 //Return all lists for current bid

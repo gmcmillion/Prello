@@ -1,6 +1,6 @@
 <%- include('board-header', {href: '/stylesheets/board.css' });%>
 <div id="board-header">
-    <p id="boardName">Board 1</p>
+    <p id="boardName"><%- name %></p>
     
     <button type="button" id="show-menu-btn">Show Menu</button>
     <div id="mySidenav" class="sidenav">
@@ -20,8 +20,6 @@
         <div id="add-list-dropdown" class="list-dropdown-content">
             <form id="list-submit-btn-form">
                 <input type="text" id="newListInput" autocomplete="off" placeholder="Add a list...">
-                <!--<button type="submit" id="list-submit-btn">Submit</button> -->
-                <!-- <input type="submit" id="list-submit-btn"></input> -->
                 <input type="submit"></input>
             </form>
         </div>
@@ -94,5 +92,7 @@
     </form>
 </div>
         
-<script> var id = '<%- id %>'; </script>   
+<script> 
+    var id = '<%- id %>';
+</script>   
 <%- include('board-footer', {script: '/javascripts/board.js' });%>
