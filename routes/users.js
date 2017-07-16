@@ -7,6 +7,7 @@ router.get('/', function(req, res) {
 	res.render('login.ejs');
 });
 
+/*
 //GET users listings
 router.get('/users', function(req, res, next) {
 	models.User.find(function (err, user){
@@ -15,6 +16,7 @@ router.get('/users', function(req, res, next) {
     	res.json(user);
   	});
 });
+*/
 
 //To register a new user
 router.post('/reg', function(req, res) {	
