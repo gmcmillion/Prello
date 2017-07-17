@@ -4,8 +4,18 @@
     </head>
     <body>
         <h1>Reset Password?</h1>
-        <form id= method="" action="/users/resetpass2">
-            <input type="submit" id="register-btn"  value="RESET"></button>
+        <form id="form" method="post" action=<%- url %>>
+            <button type="submit" id="reset-btn">RESET</button>
         </form>
+        <!--
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="../javascripts/resetpass.js"></script>
+        -->
+
+        <script> 
+            var id = '<%- id %>';
+            var email = '<%- email %>';
+            var url = '<%- url %>'
+        </script>  
     </body>
 </html>

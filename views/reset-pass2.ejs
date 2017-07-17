@@ -4,9 +4,9 @@
     </head>
     <body>
         <h1>Reset Password</h1>
-        <form id="forgot-pass-form" method="post" action="/users/checkemail">
+        <form id="forgot-pass-form" method="post" action=<%- url %>>
             <h2>Enter your new password </h2>
-                <p>Password </p>
+                <p>New Password </p>
                 <input type="password" id="password" name="password" autocomplete="off" placeholder="e.g., *********" required>
             
                 <p>Confirm Password </p>
@@ -15,5 +15,8 @@
                 <input type="submit" id="register-btn"  value="Submit"></button>
         </form>
 
+        <script> 
+            var url = '<%- url %>'
+        </script>  
     </body>
 </html>
