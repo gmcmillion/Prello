@@ -18,6 +18,34 @@ router.get('/users', function(req, res, next) {
 });
 */
 
+router.get('/resetpass', function(req, res) {
+	res.render('forgotpass.ejs');
+});	
+
+router.get('/resetpass2', function(req, res) {
+	res.render('reset-pass2.ejs');
+});	
+
+
+//Check if email exists
+router.post('/checkemail', function(req, res) {	
+	console.log(req.body.email);
+
+	models.User.findOne({email: req.body.email}, function(err, user) {
+		if(!user) {
+			console.log('User does not exist!');
+			//res.render('forgotpass.ejs', {error: 'Invalid username'});
+			//res.redirect('/users');
+		} else {
+			console.log('FOUND!');
+
+			//Redirect to next page
+			res.render('reset-pass1.ejs');
+		}
+	});
+});
+
+
 //To register a new user
 router.post('/reg', function(req, res) {	
 	//Create user object
