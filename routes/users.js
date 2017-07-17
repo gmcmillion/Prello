@@ -47,24 +47,18 @@ router.post('/newpass/:uid/:email', function(req, res) {
 	console.log('FINAL');
 	console.log(req.body);
 	
-	if(req.body.password !== req.body.confirmpassword) {
-		console.log('password mismatch');
-		res.redirect('/users');
-	}
-	else {
-		var hashedpass = passwordHash.generate('req.body.password');
+	var hashedpass = passwordHash.generate('req.body.password');
 
-		models.User.findOneAndUpdate({"_id": mongoose.Types.ObjectId(req.params.uid)}, 
-		{ $set: {password: hashedpass} },
-		function(err, board) {		
-			if(err)
-				console.log(err);
-			else {
-				console.log('RESET');
-				res.redirect('/users');
-			}	
-		});
-	}
+	models.User.findOneAndUpdate({"_id": mongoose.Types.ObjectId(req.params.uid)}, 
+	{ $set: {password: hashedpass} },
+	function(err, board) {		
+		if(err)
+			console.log(err);
+		else {
+			console.log('RESET');
+			res.redirect('/users');
+		}	
+	});
 
 });
 
